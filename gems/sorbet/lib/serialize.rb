@@ -55,6 +55,8 @@ class Sorbet::Private::Serialize
       superclass_str = ''
     end
     superclass_str = !superclass_str || superclass_str.empty? ? '' : " < #{superclass_str}"
+    # TODO: this is new
+    superclass_str = "" if class_name.include?("Net::IMAP")
     ret << (klass.is_a?(Class) ? "class #{class_name}#{superclass_str}\n" : "module #{class_name}\n")
 
     # We don't use .included_modules since that also has all the aweful things
