@@ -9,8 +9,8 @@ require 'tmpdir'
 
 class Sorbet; end
 module Sorbet::Private; end
-module Sorbet::Private::HiddenMethodFinder; end
-module Sorbet::Private::HiddenMethodFinder::Test; end
+module Sorbet::Private::Gitlab; end
+module Sorbet::Private::Gitlab::Test; end
 
 def with_clean_rbenv
   old_path = ENV["PATH"]
@@ -23,17 +23,22 @@ def with_clean_rbenv
   end
 end
 
-class Sorbet::Private::HiddenMethodFinder::Test::Simple < MiniTest::Spec
-  it 'works on a simple example' do
+class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
+  it 'works on gitlab' do
 
     Dir.mktmpdir do |dir|
       FileUtils.cp_r(__dir__ + '/gitlab/', dir)
       FileUtils.cp_r(__dir__ + '/sorbet/', dir)
       olddir = __dir__
-      Dir.chdir dir
+      Dir.chdir(dir + '/gitlab/')
 
       with_clean_rbenv do
-        IO.popen(olddir + '/../../bin/srb-rbi', &:read)
+        # IO.popen(olddir + '/../../bin/srb-rbi') do
+        # end
+        system('bundle install')
+        system('gem install ' + olddir + '/../../../gems/sorbet-static/sorbet-static-0.0.0.gem')
+        system('bundle exec ' + olddir + '/../../bin/srb-rbi')
+        system('srb tc')
       end
 
       assert_equal(true, $?.success?)
