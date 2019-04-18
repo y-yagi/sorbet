@@ -12,6 +12,17 @@ module Sorbet::Private; end
 module Sorbet::Private::HiddenMethodFinder; end
 module Sorbet::Private::HiddenMethodFinder::Test; end
 
+def with_clean_rbenv
+  old_path = ENV["PATH"]
+  ENV["PATH"] = ENV["PATH"].split(":").reject { |p| p.index("#{ENV["RBENV_ROOT"]}/versions/") == 0 }.join(":")
+  begin
+    ENV["RBENV_VERSION"] = "2.5.3"
+    yield
+  ensure
+    ENV["PATH"] = old_path
+  end
+end
+
 class Sorbet::Private::HiddenMethodFinder::Test::Simple < MiniTest::Spec
   it 'works on a simple example' do
 
@@ -21,9 +32,9 @@ class Sorbet::Private::HiddenMethodFinder::Test::Simple < MiniTest::Spec
       olddir = __dir__
       Dir.chdir dir
 
-      IO.popen(
-        olddir + '/../../bin/srb-rbi'
-      ) {|io| io.read}
+      with_clean_rbenv do
+        IO.popen(olddir + '/../../bin/srb-rbi', &:read)
+      end
 
       assert_equal(true, $?.success?)
       # Some day these can be snapshot tests, but this isn't stable enough for
