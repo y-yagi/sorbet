@@ -40,13 +40,13 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         system('rbenv version')
         system('echo $PATH')
         system('which ruby')
-        system('gem install bundler')
+        system('rbenv exec gem install bundler')
         system('BUNDLE_GEMFILE=./Gemfile rbenv exec bundle install')
-        system('rbenv ruby -v')
+        system('rbenv exec ruby -v')
         system('printf "gem \'sorbet\'" >> Gemfile')
         # system('gem install ' + olddir + '/../../../gems/sorbet-static/sorbet-static-0.0.0.gem')
         ENV['SRB_YES'] = '1'
-        system('echo "y" | rbenv bundle exec ' + olddir + '/../../bin/srb-rbi')
+        system('echo "y" | rbenv exec bundle exec ' + olddir + '/../../bin/srb-rbi')
         system('srb tc')
       end
 

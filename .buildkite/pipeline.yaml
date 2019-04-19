@@ -12,36 +12,36 @@ steps:
     artifact_paths: _out_/**/*
     agents:
       os: mac
-  - label: "Test: sorbet-static on Linux"
-    command: .buildkite/test-static-sanitized.sh
-    artifact_paths: _out_/**/*
-    agents:
-      os: linux
-  - label: "Website"
-    command: .buildkite/build-website.sh
-    artifact_paths: _out_/**/*
-    agents:
-      os: mac
-  - label: "Test: sorbet-runtime"
-    command: .buildkite/test-and-build-ruby-runtime.sh
-    artifact_paths: _out_/**/*
-    agents:
-      os: mac
+  # - label: "Test: sorbet-static on Linux"
+  #   command: .buildkite/test-static-sanitized.sh
+  #   artifact_paths: _out_/**/*
+  #   agents:
+  #     os: linux
+  # - label: "Website"
+  #   command: .buildkite/build-website.sh
+  #   artifact_paths: _out_/**/*
+  #   agents:
+  #     os: mac
+  # - label: "Test: sorbet-runtime"
+  #   command: .buildkite/test-and-build-ruby-runtime.sh
+  #   artifact_paths: _out_/**/*
+  #   agents:
+  #     os: mac
   - label: "Release build: static on Mac"
     artifact_paths: _out_/**/*
     command: .buildkite/release-static.sh
     agents:
       os: mac
-  - label: "Release build: static on WebAsm"
-    command: .buildkite/build-emscripten.sh
-    artifact_paths: _out_/**/*
-    agents:
-      os: mac
-  - label: "Release build: static on Linux"
-    artifact_paths: _out_/**/*
-    command: .buildkite/release-static.sh
-    agents:
-      os: linux
+  # - label: "Release build: static on WebAsm"
+  #   command: .buildkite/build-emscripten.sh
+  #   artifact_paths: _out_/**/*
+  #   agents:
+  #     os: mac
+  # - label: "Release build: static on Linux"
+  #   artifact_paths: _out_/**/*
+  #   command: .buildkite/release-static.sh
+  #   agents:
+  #     os: linux
   - wait: ~
   - label: "All tests and builds succeeded"
     command: .buildkite/all-succeeded.sh
