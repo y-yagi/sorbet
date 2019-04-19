@@ -41,6 +41,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         system('echo $PATH')
         system('which ruby')
         system('rbenv exec gem install bundler')
+        system('rbenv rehash')
         system('BUNDLE_GEMFILE=./Gemfile rbenv exec bundle install')
         system('rbenv exec ruby -v')
         system('printf "gem \'sorbet\'" >> Gemfile')
