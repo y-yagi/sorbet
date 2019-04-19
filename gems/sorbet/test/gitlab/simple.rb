@@ -37,6 +37,9 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         # end
         system('echo "N" | rbenv install 2.5.3')
         ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
+        system('rbenv version')
+        system('echo $PATH')
+        system('which ruby')
         system('gem install bundler')
         system('BUNDLE_GEMFILE=./Gemfile rbenv exec bundle install')
         system('rbenv ruby -v')
