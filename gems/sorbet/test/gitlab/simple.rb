@@ -38,10 +38,11 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         system('bundle install')
         system('ls')
         system('cat Gemfile')
+        system('pwd')
         system('printf "gem \'sorbet\'" >> Gemfile')
         # system('gem install ' + olddir + '/../../../gems/sorbet-static/sorbet-static-0.0.0.gem')
         ENV['SRB_YES'] = '1'
-        system('cat "y" | bundle exec ' + olddir + '/../../bin/srb-rbi')
+        system('echo "y" | bundle exec ' + olddir + '/../../bin/srb-rbi')
         system('srb tc')
       end
 
