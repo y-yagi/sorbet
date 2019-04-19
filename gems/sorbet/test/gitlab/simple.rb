@@ -36,12 +36,12 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         # IO.popen(olddir + '/../../bin/srb-rbi') do
         # end
         system('rbenv install 2.5.3')
-        system('BUNDLE_GEMFILE=./Gemfile bundle install')
-        system('ruby -v')
+        system('BUNDLE_GEMFILE=./Gemfile rbenv exec bundle install')
+        system('rbenv ruby -v')
         system('printf "gem \'sorbet\'" >> Gemfile')
         # system('gem install ' + olddir + '/../../../gems/sorbet-static/sorbet-static-0.0.0.gem')
         ENV['SRB_YES'] = '1'
-        system('echo "y" | bundle exec ' + olddir + '/../../bin/srb-rbi')
+        system('echo "y" | rbenv bundle exec ' + olddir + '/../../bin/srb-rbi')
         system('srb tc')
       end
 
