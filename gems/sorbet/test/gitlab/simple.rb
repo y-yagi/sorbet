@@ -36,7 +36,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         # IO.popen(olddir + '/../../bin/srb-rbi') do
         # end
         system('echo "N" | rbenv install 2.5.3')
-        ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
+        # ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
         system('rbenv version')
         system('echo $PATH')
         system('which ruby')
