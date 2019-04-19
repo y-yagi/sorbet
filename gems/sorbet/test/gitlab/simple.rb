@@ -35,7 +35,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
       with_clean_rbenv do
         # IO.popen(olddir + '/../../bin/srb-rbi') do
         # end
-        system('bundle install')
+        system('rbenv exec bundle install')
         system('ls')
         system('cat Gemfile')
         system('pwd')
