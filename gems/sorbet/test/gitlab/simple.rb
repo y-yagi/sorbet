@@ -42,7 +42,6 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         # system('rbenv exec gem sources')
         # system('rbenv exec gem install rails')
         system('curl google.com')
-        system('ping google.com')
         system("BUNDLE_GEMFILE=./Gemfile rbenv exec ruby -S bundle install --full-index --verbose")
         system('bundle install')
         system('rbenv exec ruby -v')
