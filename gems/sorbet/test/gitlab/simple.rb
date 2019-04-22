@@ -13,10 +13,12 @@ module Sorbet::Private::Gitlab; end
 module Sorbet::Private::Gitlab::Test; end
 
 def with_clean_rbenv
+  yield
+  return
   old_path = ENV["PATH"]
   ENV["PATH"] = ENV["PATH"].split(":").reject { |p| p.index("#{ENV["RBENV_ROOT"]}/versions/") == 0 }.join(":")
   begin
-    ENV["RBENV_VERSION"] = "2.5.3"
+    # ENV["RBENV_VERSION"] = "2.5.3"
     yield
   ensure
     ENV["PATH"] = old_path
@@ -35,8 +37,8 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
       with_clean_rbenv do
         # IO.popen(olddir + '/../../bin/srb-rbi') do
         # end
-        system('echo "N" | rbenv install 2.5.3')
-        ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
+        # system('echo "N" | rbenv install 2.5.3')
+        # ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
         system('unset GEM_HOME && rbenv exec ruby -S gem install bundler')
         system('gem env')
         # system('rbenv exec gem sources')
