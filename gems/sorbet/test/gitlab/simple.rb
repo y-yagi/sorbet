@@ -43,7 +43,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         system('gem env')
         # system('rbenv exec gem sources')
         # system('rbenv exec gem install rails')
-        system("BUNDLE_GEMFILE=./Gemfile rbenv exec ruby -S bundle install --full-index")
+        system("BUNDLE_GEMFILE=./Gemfile rbenv exec ruby -S bundle install --full-index --verbose")
         system('bundle install')
         system('rbenv exec ruby -v')
         system('printf "gem \'sorbet\'" >> Gemfile')
