@@ -1,10 +1,6 @@
 begin
-  ::RubyTyper.<U keep_for_ide>(::TestAttr)
+  ::Sorbet::Private::Static.<U keep_for_ide>(::TestAttr)
   class ::TestAttr<<C <U TestAttr>>> < (::<todo sym>)
-    <emptyTree>
-
-    <emptyTree>
-
     <emptyTree>
 
     <emptyTree>
@@ -26,15 +22,15 @@ begin
     def <U initialize><<U initialize>>(<blk>)
       begin
         <U @v1> = begin
-          ::RubyTyper.<U keep_for_typechecking>(::Integer)
+          ::Sorbet::Private::Static.<U keep_for_typechecking>(::Integer)
           T.<U let>(0, Integer)
         end
         <U @v2> = begin
-          ::RubyTyper.<U keep_for_typechecking>(::String)
+          ::Sorbet::Private::Static.<U keep_for_typechecking>(::String)
           T.<U let>("", String)
         end
         <U @v6> = begin
-          ::RubyTyper.<U keep_for_typechecking>(::String)
+          ::Sorbet::Private::Static.<U keep_for_typechecking>(::String)
           T.<U let>("", String)
         end
       end
@@ -68,14 +64,6 @@ begin
       <U @v5> = <U v5>
     end
 
-    def <U v6><<U v6>>(<blk>)
-      <U @v6>
-    end
-
-    def <U v6=><<U v6=>>(v6, <blk>)
-      <U @v6> = <U v6>
-    end
-
     def self.<U <static-init>><<U <static-init>>>(<blk>)
       begin
         <U <self>>.<U sig>() do ||
@@ -95,12 +83,6 @@ begin
         end
         <U <self>>.<U sig>() do ||
           <U <self>>.<U returns>(::String)
-        end
-        ::Sorbet.<U sig>() do ||
-          <U <self>>.<U returns>(::String)
-        end
-        ::Sorbet.<U sig>() do ||
-          <U <self>>.<U params>({:"v6" => ::String}).<U returns>(::String)
         end
         <emptyTree>
       end

@@ -1,5 +1,6 @@
 #include "GlobalState.h"
 
+#include "common/Timer.h"
 #include "core/Error.h"
 #include "core/Names.h"
 #include "core/Names_gen.h"
@@ -142,11 +143,15 @@ void GlobalState::initEmpty() {
     ENFORCE(id == Symbols::Struct());
     id = synthesizeClass(core::Names::Constants::File());
     ENFORCE(id == Symbols::File());
-    id = synthesizeClass(core::Names::Constants::RubyTyper(), 0, true);
-    ENFORCE(id == Symbols::RubyTyper());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::StubModule());
+    id = synthesizeClass(core::Names::Constants::Sorbet());
+    ENFORCE(id == Symbols::Sorbet());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet(), core::Names::Constants::Private());
+    ENFORCE(id == Symbols::Sorbet_Private());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private(), core::Names::Constants::Static());
+    ENFORCE(id == Symbols::Sorbet_Private_Static());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::StubModule());
     ENFORCE(id == Symbols::StubModule());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::StubAncestor());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::StubAncestor());
     ENFORCE(id == Symbols::StubAncestor());
     id = enterClassSymbol(Loc::none(), Symbols::T(), core::Names::Constants::Enumerable());
     ENFORCE(id == Symbols::T_Enumerable());
@@ -164,7 +169,7 @@ void GlobalState::initEmpty() {
     ENFORCE(id == Symbols::Sinatra());
     id = enterClassSymbol(Loc::none(), Symbols::Sinatra(), core::Names::Constants::Base());
     ENFORCE(id == Symbols::SinatraBase());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::Void());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::Void());
     ENFORCE(id == Symbols::void_());
     id = synthesizeClass(core::Names::Constants::TypeAlias(), 0);
     ENFORCE(id == Symbols::typeAliasTemp());
@@ -176,36 +181,35 @@ void GlobalState::initEmpty() {
     ENFORCE(id == Symbols::Chalk_Tools_Accessible());
     id = enterClassSymbol(Loc::none(), Symbols::T(), core::Names::Constants::Generic());
     ENFORCE(id == Symbols::T_Generic());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::Tuple());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::Tuple());
     ENFORCE(id == Symbols::Tuple());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::Shape());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::Shape());
     ENFORCE(id == Symbols::Shape());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::Subclasses());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::Subclasses());
     ENFORCE(id == Symbols::Subclasses());
-    id = synthesizeClass(core::Names::Constants::Sorbet());
-    ENFORCE(id == Symbols::Sorbet());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::ImplicitModuleSuperclass());
-    ENFORCE(id == Symbols::RubyTyper_ImplicitModuleSuperClass());
-    id = enterClassSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::Constants::ReturnTypeInference());
-    ENFORCE(id == Symbols::RubyTyper_ReturnTypeInference());
-    id = enterMethodSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::guessedTypeTypeParameterHolder());
-    ENFORCE(id == Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(),
+                          core::Names::Constants::ImplicitModuleSuperclass());
+    ENFORCE(id == Symbols::Sorbet_Private_Static_ImplicitModuleSuperClass());
+    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::Constants::ReturnTypeInference());
+    ENFORCE(id == Symbols::Sorbet_Private_Static_ReturnTypeInference());
+    id =
+        enterMethodSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::guessedTypeTypeParameterHolder());
+    ENFORCE(id == Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder());
     id = enterTypeArgument(
-        Loc::none(), Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder(),
+        Loc::none(), Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder(),
         freshNameUnique(core::UniqueNameKind::TypeVarName, core::Names::Constants::InferredReturnType(), 1),
         core::Variance::ContraVariant);
     id.data(*this)->resultType = make_type<core::TypeVar>(id);
-    ENFORCE(id == Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder_tparam_contravariant());
+    ENFORCE(
+        id ==
+        Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder_tparam_contravariant());
     id = enterTypeArgument(
-        Loc::none(), Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder(),
+        Loc::none(), Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder(),
         freshNameUnique(core::UniqueNameKind::TypeVarName, core::Names::Constants::InferredArgumentType(), 1),
         core::Variance::CoVariant);
     id.data(*this)->resultType = make_type<core::TypeVar>(id);
-    ENFORCE(id == Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder_tparam_covariant());
-    id = enterClassSymbol(Loc::none(), Symbols::Sorbet(), core::Names::Constants::Private());
-    ENFORCE(id == Symbols::Sorbet_Private());
-    id = enterClassSymbol(Loc::none(), Symbols::Sorbet_Private(), core::Names::Constants::Builder());
-    ENFORCE(id == Symbols::Sorbet_Private_Builder());
+    ENFORCE(id ==
+            Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder_tparam_covariant());
     id = enterClassSymbol(Loc::none(), Symbols::T(), core::Names::Constants::Sig());
     ENFORCE(id == Symbols::T_Sig());
 
@@ -213,17 +217,20 @@ void GlobalState::initEmpty() {
     id = enterFieldSymbol(Loc::none(), Symbols::Magic(), core::Names::Constants::UndeclaredFieldStub());
     ENFORCE(id == Symbols::Magic_undeclaredFieldStub());
     id = enterMethodArgumentSymbol(
-        Loc::none(), Symbols::RubyTyper_ReturnTypeInference_guessed_type_type_parameter_holder(), Names::blkArg());
+        Loc::none(), Symbols::Sorbet_Private_Static_ReturnTypeInference_guessed_type_type_parameter_holder(),
+        Names::blkArg());
     id.data(*this)->setBlockArgument();
 
-    // RubyTyper#badAliasMethodStub(*arg0 : T.untyped) => T.untyped
-    id = enterMethodSymbol(Loc::none(), Symbols::RubyTyper(), core::Names::badAliasMethodStub());
-    ENFORCE(id == Symbols::RubyTyper_badAliasMethodStub());
+    // Sorbet::Private::Static#badAliasMethodStub(*arg0 : T.untyped) => T.untyped
+    id = enterMethodSymbol(Loc::none(), Symbols::Sorbet_Private_Static(), core::Names::badAliasMethodStub());
+    ENFORCE(id == Symbols::Sorbet_Private_Static_badAliasMethodStub());
     id.data(*this)->resultType = Types::untyped(*this, id);
-    id = enterMethodArgumentSymbol(Loc::none(), Symbols::RubyTyper_badAliasMethodStub(), core::Names::arg0());
+    id = enterMethodArgumentSymbol(Loc::none(), Symbols::Sorbet_Private_Static_badAliasMethodStub(),
+                                   core::Names::arg0());
     id.data(*this)->setRepeated();
     id.data(*this)->resultType = Types::untyped(*this, id);
-    id = enterMethodArgumentSymbol(Loc::none(), Symbols::RubyTyper_badAliasMethodStub(), core::Names::blkArg());
+    id = enterMethodArgumentSymbol(Loc::none(), Symbols::Sorbet_Private_Static_badAliasMethodStub(),
+                                   core::Names::blkArg());
     id.data(*this)->setBlockArgument();
     id.data(*this)->resultType = Types::untyped(*this, id);
 
@@ -944,6 +951,8 @@ void GlobalState::sanityCheck() const {
         // it's very slow to check this and it didn't find bugs
         return;
     }
+
+    Timer timeit(tracer(), "GlobalState::sanityCheck");
     ENFORCE(!names.empty(), "empty name table size");
     ENFORCE(!strings.empty(), "empty string table size");
     ENFORCE(!namesByHash.empty(), "empty name hash table size");
@@ -1013,6 +1022,7 @@ bool GlobalState::unfreezeSymbolTable() {
 }
 
 unique_ptr<GlobalState> GlobalState::deepCopy(bool keepId) const {
+    Timer timeit(tracer(), "GlobalState::deepCopy");
     this->sanityCheck();
     auto result = make_unique<GlobalState>(this->errorQueue);
     result->silenceErrors = this->silenceErrors;
@@ -1251,5 +1261,7 @@ SymbolRef GlobalState::staticInitForFile(Loc loc) {
     }
     return sym;
 }
-
+spdlog::logger &GlobalState::tracer() const {
+    return errorQueue->tracer;
+}
 } // namespace sorbet::core

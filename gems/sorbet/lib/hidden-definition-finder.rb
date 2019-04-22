@@ -272,7 +272,7 @@ class Sorbet::Private::HiddenMethodFinder
     else
       source_children = source_entry.fetch("children", [])
       source_mixins = source_entry.fetch("mixins", [])
-      is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'RubyTyper::StubModule'
+      is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'Sorbet::Private::Static::StubModule'
     end
     rbi_children = rbi_entry.fetch("children", [])
     rbi_mixins = rbi_entry.fetch("mixins", [])
@@ -286,7 +286,7 @@ class Sorbet::Private::HiddenMethodFinder
       fqn = real_name(my_klass)
       if fqn
         klass_str = String.new
-        klass_str << (my_klass.is_a?(Class) ? "class #{fqn}\n" : "module #{fqn}\n")
+        klass_str << (Sorbet::Private::RealStdlib.real_is_a?(my_klass, Class) ? "class #{fqn}\n" : "module #{fqn}\n")
         klass_str << includes.join("\n")
         klass_str << "\n" unless klass_str.end_with?("\n")
         klass_str << methods.join("\n")
@@ -314,7 +314,7 @@ class Sorbet::Private::HiddenMethodFinder
     return if rbi_entry["kind"] != "STATIC_FIELD"
     return if source_entry == rbi_entry
     if source_entry
-      is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'RubyTyper::StubModule'
+      is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'Sorbet::Private::Static::StubModule'
       if !is_stub
         return
       end
@@ -340,7 +340,7 @@ class Sorbet::Private::HiddenMethodFinder
       name = rbi_entry["name"]["name"]
       source_entry = source_by_name[name]
       if source_entry
-        is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'RubyTyper::StubModule'
+        is_stub = source_entry['superClass'] && source_symbols[source_entry['superClass']] == 'Sorbet::Private::Static::StubModule'
         next unless is_stub
       end
       next if Sorbet::Private::ConstantLookupCache::DEPRECATED_CONSTANTS.include?("#{klass.name}::#{name}")

@@ -58,6 +58,7 @@ class Sorbet::Private::Serialize
     # TODO: this is new
     superclass_str = "" if class_name.include?("Net::IMAP")
     ret << (klass.is_a?(Class) ? "class #{class_name}#{superclass_str}\n" : "module #{class_name}\n")
+    ret << " extend T::Sig\n"
 
     # We don't use .included_modules since that also has all the aweful things
     # that are mixed into Object. This way we at least have a delimiter before
@@ -108,8 +109,8 @@ class Sorbet::Private::Serialize
         ret << "# Failed to load #{class_name}::#{const_sym}\n"
         next
       end
-      # next if !value.is_a?(T::Types::TypeVariable)
-      next if value.is_a?(Module)
+      # next if !Sorbet::Private::RealStdlib.real_is_a?(value, T::Types::TypeVariable)
+      next if Sorbet::Private::RealStdlib.real_is_a?(value, Module)
       next if !comparable?(value)
       [const_sym, value]
     end
@@ -122,7 +123,7 @@ class Sorbet::Private::Serialize
         ret << "# Failed to load #{class_name}::#{const_sym}\n"
         next
       end
-      next if value.is_a?(Module)
+      next if Sorbet::Private::RealStdlib.real_is_a?(value, Module)
       next if !comparable?(value)
       [const_sym, value]
     end
@@ -185,9 +186,9 @@ class Sorbet::Private::Serialize
   end
 
   def comparable?(value)
-    return false if value.is_a?(BigDecimal) && value.nan?
-    return false if value.is_a?(Float) && value.nan?
-    return false if value.is_a?(Complex)
+    return false if Sorbet::Private::RealStdlib.real_is_a?(value, BigDecimal) && value.nan?
+    return false if Sorbet::Private::RealStdlib.real_is_a?(value, Float) && value.nan?
+    return false if Sorbet::Private::RealStdlib.real_is_a?(value, Complex)
     true
   end
 
@@ -215,9 +216,9 @@ class Sorbet::Private::Serialize
   end
 
   def constant(const, value)
-    #if value.is_a?(T::Types::TypeTemplate)
+    #if Sorbet::Private::RealStdlib.real_is_a?(value, T::Types::TypeTemplate)
       #"  #{const} = type_template"
-    #elsif value.is_a?(T::Types::TypeMember)
+    #elsif Sorbet::Private::RealStdlib.real_is_a?(value, T::Types::TypeMember)
       #"  #{const} = type_member"
     #else
       #"  #{const} = ::T.let(nil, ::T.untyped)"
@@ -256,7 +257,7 @@ class Sorbet::Private::Serialize
   def serialize_sig(parameters)
     ret = String.new
     if !parameters.empty?
-      ret << "  Sorbet.sig do\n"
+      ret << "  sig do\n"
       ret << "    params(\n"
       parameters.each do |(_kind, name)|
         ret << "      #{name}: ::T.untyped,\n"
@@ -265,7 +266,7 @@ class Sorbet::Private::Serialize
       ret << "    .returns(::T.untyped)\n"
       ret << "  end\n"
     else
-      ret << "  Sorbet.sig {returns(::T.untyped)}\n"
+      ret << "  sig {returns(::T.untyped)}\n"
     end
     ret
   end
