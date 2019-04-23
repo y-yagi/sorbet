@@ -409,13 +409,11 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         // Note that this assumes that .blank? is a rails-compatible monkey-patch.
         // In all other cases this flow analysis might produce incorrect assumptions.
         auto &originalType = send->recv.type;
-        auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
-        auto knowledgeTypeWithoutFalse =
-            core::Types::approximateSubtract(ctx, knowledgeTypeWithoutNil, core::Types::falseClass());
+        auto knowledgeTypeWithoutFalsy = core::Types::approximateSubtract(ctx, originalType, core::Types::falsyTypes());
 
-        if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
+        if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalsy, originalType)) {
             auto &whoKnows = getKnowledge(local);
-            whoKnows.falsy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
+            whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
             whoKnows.sanityCheck();
         }
     } else if (send->fun == core::Names::present_p()) {
