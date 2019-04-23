@@ -402,12 +402,28 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         whoKnows.truthy.mutate().yesTypeTests.emplace_back(send->recv.variable, core::Types::nilClass());
         whoKnows.falsy.mutate().noTypeTests.emplace_back(send->recv.variable, core::Types::nilClass());
         whoKnows.sanityCheck();
+    } else if (send->fun == core::Names::blank_p()) {
+        if (!knowledgeFilter.isNeeded(local)) {
+            return;
+        }
+        // Note that this assumes that .blank? is a rails-compatible monkey-patch.
+        // In all other cases this flow analysis might produce incorrect assumptions.
+        auto &originalType = send->recv.type;
+        auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
+        auto knowledgeTypeWithoutFalse =
+            core::Types::approximateSubtract(ctx, knowledgeTypeWithoutNil, core::Types::falseClass());
+
+        if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
+            auto &whoKnows = getKnowledge(local);
+            whoKnows.falsy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
+            whoKnows.sanityCheck();
+        }
     } else if (send->fun == core::Names::present_p()) {
         if (!knowledgeFilter.isNeeded(local)) {
             return;
         }
-        // Note that this assumes that .present? is a rails compatible monkey patch on both NilClass
-        // and Object. In all other cases this flow analysis might produce incorrect assumptions.
+        // Note that this assumes that .present? is a rails-compatible monkey-patch.
+        // In all other cases this flow analysis might produce incorrect assumptions.
         auto &originalType = send->recv.type;
         auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
         auto knowledgeTypeWithoutFalse =
