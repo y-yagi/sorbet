@@ -46,7 +46,7 @@ class A
     nil
   end
 
-  def unreachable()
+  def unreachable_nil()
     if !nil.blank?
       "foo" # error: This code is unreachable
     else
@@ -54,7 +54,7 @@ class A
     end
   end
 
-  def unreachable()
+  def unreachable_false()
     if !false.blank?
       "foo" # error: This code is unreachable
     else
