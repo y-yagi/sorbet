@@ -39,7 +39,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         # end
         # system('echo "N" | rbenv install 2.5.3')
         # ENV['PATH'] = "#{ENV['RBENV_ROOT']}/versions/2.5.3/bin:#{ENV['PATH']}"
-        system('unset GEM_HOME && rbenv exec ruby -S gem install bundler')
+        system('unset GEM_HOME && rbenv exec ruby -S gem install bundler -v 1.3')
         system('gem env')
         # system('rbenv exec gem sources')
         # system('rbenv exec gem install rails')
