@@ -411,18 +411,18 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         auto &originalType = send->recv.type;
         auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
         auto knowledgeTypeWithoutFalse =
-            core::Types::approximateSubtract(ctx, knowledgeTypeWithoutNil, core::Types::falseClass());
+            core::Types::approximateSubtract(ctx, originalType, core::Types::falseClass());
 
         if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
             auto &whoKnows = getKnowledge(local);
-            whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
-            whoKnows.truthy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
+            whoKnows.falsy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
+            whoKnows.truthy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
             whoKnows.sanityCheck();
         }
         if (!core::Types::equiv(ctx, knowledgeTypeWithoutNil, originalType)) {
             auto &whoKnows = getKnowledge(local);
-            whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutNil);
-            whoKnows.truthy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutNil);
+            whoKnows.falsy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutNil);
+            whoKnows.truthy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutNil);
             whoKnows.sanityCheck();
         }
     } else if (send->fun == core::Names::present_p()) {
@@ -434,7 +434,7 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         auto &originalType = send->recv.type;
         auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
         auto knowledgeTypeWithoutFalse =
-            core::Types::approximateSubtract(ctx, knowledgeTypeWithoutNil, core::Types::falseClass());
+            core::Types::approximateSubtract(ctx, originalType, core::Types::falseClass());
 
         if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
             auto &whoKnows = getKnowledge(local);
