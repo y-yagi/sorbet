@@ -68,6 +68,7 @@ gem build sorbet.gemspec
 if [[ "mac" == "$platform" ]]; then
   # echo "N" | rbenv install 2.5.3
   export RBENV_VERSION=2.5.3
+  rbenv exec gem install bundler
   rbenv exec ruby -v
   rbenv exec gem install ../../gems/sorbet-static/sorbet-static-*-universal-darwin-18.gem
   rbenv exec gem install sorbet-*.gem
