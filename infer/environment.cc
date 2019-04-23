@@ -409,9 +409,17 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         // Note that this assumes that .blank? is a rails-compatible monkey-patch.
         // In all other cases this flow analysis might produce incorrect assumptions.
         auto &originalType = send->recv.type;
-        auto knowledgeTypeWithoutFalsy = core::Types::approximateSubtract(ctx, originalType, core::Types::falsyTypes());
+        auto knowledgeTypeWithoutNil = core::Types::approximateSubtract(ctx, originalType, core::Types::nilClass());
+        auto knowledgeTypeWithoutFalse =
+            core::Types::approximateSubtract(ctx, knowledgeTypeWithoutNil, core::Types::falseClass());
 
-        if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalsy, originalType)) {
+        if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
+            auto &whoKnows = getKnowledge(local);
+            whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
+            whoKnows.truthy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
+            whoKnows.sanityCheck();
+        }
+        if (!core::Types::equiv(ctx, knowledgeTypeWithoutNil, originalType)) {
             auto &whoKnows = getKnowledge(local);
             whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
             whoKnows.truthy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
@@ -431,6 +439,11 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalse, originalType)) {
             auto &whoKnows = getKnowledge(local);
             whoKnows.truthy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalse);
+            whoKnows.sanityCheck();
+        }
+        if (!core::Types::equiv(ctx, knowledgeTypeWithoutNil, originalType)) {
+            auto &whoKnows = getKnowledge(local);
+            whoKnows.truthy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutNil);
             whoKnows.sanityCheck();
         }
     }
