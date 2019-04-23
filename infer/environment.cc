@@ -414,6 +414,7 @@ void Environment::updateKnowledge(core::Context ctx, core::LocalVariable local, 
         if (!core::Types::equiv(ctx, knowledgeTypeWithoutFalsy, originalType)) {
             auto &whoKnows = getKnowledge(local);
             whoKnows.falsy.mutate().yesTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
+            whoKnows.truthy.mutate().noTypeTests.emplace_back(send->recv.variable, knowledgeTypeWithoutFalsy);
             whoKnows.sanityCheck();
         }
     } else if (send->fun == core::Names::present_p()) {

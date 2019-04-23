@@ -1,4 +1,5 @@
 # typed: true
+
 class FalseClass
   extend T::Sig
 
@@ -47,6 +48,12 @@ class A
 
   def unreachable()
     if !nil.blank?
+      "foo" # error: This code is unreachable
+    end
+  end
+
+  def unreachable()
+    if !false.blank?
       "foo" # error: This code is unreachable
     end
   end

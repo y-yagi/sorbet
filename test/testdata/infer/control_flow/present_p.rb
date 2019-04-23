@@ -1,5 +1,14 @@
 # typed: true
 
+class FalseClass
+  extend T::Sig
+
+  sig {returns(FalseClass)}
+  def present?
+    false
+  end
+end
+
 class NilClass
   extend T::Sig
 
