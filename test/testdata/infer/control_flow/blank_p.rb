@@ -49,12 +49,16 @@ class A
   def unreachable()
     if !nil.blank?
       "foo" # error: This code is unreachable
+    else
+      "bar"
     end
   end
 
   def unreachable()
     if !false.blank?
       "foo" # error: This code is unreachable
+    else
+      "bar"
     end
   end
 end
