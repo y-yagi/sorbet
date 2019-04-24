@@ -1,0 +1,20 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/hamlit-2.8.10/ext/hamlit
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-18cc87.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/hamlit-2.8.10/ext/hamlit
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/hamlit-2.8.10/ext/hamlit
+make "DESTDIR="
+compiling hamlit.c
+hamlit.c:65:10: warning: implicit conversion loses integer precision: 'size_t' (aka 'unsigned long') to 'unsigned int' [-Wshorten-64-to-32]
+  size = hesc_escape_html(&buf, RSTRING_PTR(str), RSTRING_LEN(str));
+       ~ ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 warning generated.
+compiling hescape.c
+linking shared-object hamlit/hamlit.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/hamlit-2.8.10/ext/hamlit
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 hamlit.bundle ./.gem.20190424-81250-112irfo/hamlit

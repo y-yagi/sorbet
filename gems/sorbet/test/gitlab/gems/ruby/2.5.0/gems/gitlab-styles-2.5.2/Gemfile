@@ -1,0 +1,10 @@
+source 'https://rubygems.org'
+
+# Specify your gem's dependencies in gitlab-rubocop.gemspec
+gemspec
+
+group :test do
+  # Pin these dependencies, otherwise a new rule could break the CI pipelines
+  gem 'rubocop', '0.54.0'
+  gem 'rubocop-rspec', '1.20.1'
+end

@@ -1,0 +1,88 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/charlock_holmes-0.7.6/ext/charlock_holmes
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-uio9y8.rb extconf.rb
+checking for -licui18n... no
+checking for -licui18n... yes
+checking for unicode/ucnv.h... yes
+checking for -lz... yes
+checking for -licuuc... yes
+checking for -licudata... yes
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/charlock_holmes-0.7.6/ext/charlock_holmes
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/charlock_holmes-0.7.6/ext/charlock_holmes
+make "DESTDIR="
+compiling converter.c
+converter.c:23:12: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+        src_len = RSTRING_LEN(rb_txt);
+                ~ ^~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:975:6: note: expanded from macro 'RSTRING_LEN'
+     RSTRING_EMBED_LEN(str) : \
+     ^~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:971:6: note: expanded from macro 'RSTRING_EMBED_LEN'
+     (long)((RBASIC(str)->flags >> RSTRING_EMBED_LEN_SHIFT) & \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+converter.c:23:12: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+        src_len = RSTRING_LEN(rb_txt);
+                ~ ^~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:976:28: note: expanded from macro 'RSTRING_LEN'
+     RSTRING(str)->as.heap.len)
+     ~~~~~~~~~~~~~~~~~~~~~~^~~
+2 warnings generated.
+compiling encoding_detector.c
+encoding_detector.c:183:71: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+                ucsdet_setDeclaredEncoding(detector->csd, RSTRING_PTR(rb_enc_hint), RSTRING_LEN(rb_enc_hint), &status);
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:975:6: note: expanded from macro 'RSTRING_LEN'
+     RSTRING_EMBED_LEN(str) : \
+     ^~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:971:6: note: expanded from macro 'RSTRING_EMBED_LEN'
+     (long)((RBASIC(str)->flags >> RSTRING_EMBED_LEN_SHIFT) & \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+encoding_detector.c:183:71: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+                ucsdet_setDeclaredEncoding(detector->csd, RSTRING_PTR(rb_enc_hint), RSTRING_LEN(rb_enc_hint), &status);
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:976:28: note: expanded from macro 'RSTRING_LEN'
+     RSTRING(str)->as.heap.len)
+     ~~~~~~~~~~~~~~~~~~~~~~^~~
+encoding_detector.c:232:71: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+                ucsdet_setDeclaredEncoding(detector->csd, RSTRING_PTR(rb_enc_hint), RSTRING_LEN(rb_enc_hint), &status);
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:975:6: note: expanded from macro 'RSTRING_LEN'
+     RSTRING_EMBED_LEN(str) : \
+     ^~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:971:6: note: expanded from macro 'RSTRING_EMBED_LEN'
+     (long)((RBASIC(str)->flags >> RSTRING_EMBED_LEN_SHIFT) & \
+     ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+encoding_detector.c:232:71: warning: implicit conversion loses integer precision: 'long' to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+                ucsdet_setDeclaredEncoding(detector->csd, RSTRING_PTR(rb_enc_hint), RSTRING_LEN(rb_enc_hint), &status);
+                ~~~~~~~~~~~~~~~~~~~~~~~~~~                                          ^~~~~~~~~~~~~~~~~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:976:28: note: expanded from macro 'RSTRING_LEN'
+     RSTRING(str)->as.heap.len)
+     ~~~~~~~~~~~~~~~~~~~~~~^~~
+4 warnings generated.
+compiling ext.c
+compiling transliterator.cpp
+In file included from transliterator.cpp:1:
+In file included from ./common.h:9:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby.h:33:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:2040:
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:19: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                  ^~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:36: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                                   ^~~~~~~~~
+transliterator.cpp:101:70: warning: implicit conversion loses integer precision: 'size_t' (aka 'unsigned long') to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+  trans = icu::Transliterator::createInstance(icu::UnicodeString(id, id_len), UTRANS_FORWARD, p_error, status);
+                                              ~~~                    ^~~~~~
+transliterator.cpp:106:39: warning: implicit conversion loses integer precision: 'size_t' (aka 'unsigned long') to 'int32_t' (aka 'int') [-Wshorten-64-to-32]
+  u_txt = new icu::UnicodeString(txt, txt_len);
+              ~~~                     ^~~~~~~
+4 warnings generated.
+linking shared-object charlock_holmes/charlock_holmes.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/charlock_holmes-0.7.6/ext/charlock_holmes
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 charlock_holmes.bundle ./.gem.20190424-81250-dcyfzz/charlock_holmes

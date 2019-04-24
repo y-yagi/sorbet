@@ -1,0 +1,16 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-6m9g94.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR="
+compiling ruby_http_parser.c
+compiling ryah_http_parser.c
+linking shared-object ruby_http_parser.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/http_parser.rb-0.6.0/ext/ruby_http_parser
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 ruby_http_parser.bundle ./.gem.20190424-81250-o6v6vb

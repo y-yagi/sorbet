@@ -1,0 +1,19 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rblineprof-0.3.7/ext
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-hvll6z.rb extconf.rb
+checking for rb_os_allocated_objects()... no
+checking for rb_gc_stat()... yes
+checking for rb_profile_frames()... yes
+checking for rb_tracepoint_new()... yes
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rblineprof-0.3.7/ext
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rblineprof-0.3.7/ext
+make "DESTDIR="
+compiling rblineprof.c
+linking shared-object rblineprof.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rblineprof-0.3.7/ext
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 rblineprof.bundle ./.gem.20190424-81250-4mt17f

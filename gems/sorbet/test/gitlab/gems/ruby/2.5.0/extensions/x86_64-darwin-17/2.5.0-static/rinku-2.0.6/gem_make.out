@@ -1,0 +1,19 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rinku-2.0.6/ext/rinku
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-163ppjr.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rinku-2.0.6/ext/rinku
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rinku-2.0.6/ext/rinku
+make "DESTDIR="
+compiling autolink.c
+compiling buffer.c
+compiling rinku.c
+compiling rinku_rb.c
+compiling utf8.c
+linking shared-object rinku.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rinku-2.0.6/ext/rinku
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 rinku.bundle ./.gem.20190424-81250-zwfpoc

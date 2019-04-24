@@ -1,0 +1,61 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/concurrent-ruby-ext-1.1.5/ext/concurrent-ruby-ext
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-b2utfe.rb extconf.rb
+checking for libkern/OSAtomic.h... yes
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/concurrent-ruby-ext-1.1.5/ext/concurrent-ruby-ext
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/concurrent-ruby-ext-1.1.5/ext/concurrent-ruby-ext
+make "DESTDIR="
+compiling atomic_boolean.c
+atomic_boolean.c:12:10: warning: 'rb_data_object_alloc' is deprecated: by rb_data_object_wrap [-Wdeprecated-declarations]
+  return rb_data_object_alloc(klass, (void *) Qfalse, atomic_boolean_mark, NULL);
+         ^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:1383:1: note: 'rb_data_object_alloc' has been explicitly marked deprecated here
+DEPRECATED_BY(rb_data_object_wrap, static inline VALUE rb_data_object_alloc(VALUE,void*,RUBY_DATA_FUNC,RUBY_DATA_FUNC));
+^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17/ruby/config.h:127:44: note: expanded from macro 'DEPRECATED_BY'
+#define DEPRECATED_BY(n,x) __attribute__ ((__deprecated__("by "#n))) x
+                                           ^
+1 warning generated.
+compiling atomic_fixnum.c
+atomic_fixnum.c:12:10: warning: 'rb_data_object_alloc' is deprecated: by rb_data_object_wrap [-Wdeprecated-declarations]
+  return rb_data_object_alloc(klass, (void *) Qnil, atomic_fixnum_mark, NULL);
+         ^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:1383:1: note: 'rb_data_object_alloc' has been explicitly marked deprecated here
+DEPRECATED_BY(rb_data_object_wrap, static inline VALUE rb_data_object_alloc(VALUE,void*,RUBY_DATA_FUNC,RUBY_DATA_FUNC));
+^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17/ruby/config.h:127:44: note: expanded from macro 'DEPRECATED_BY'
+#define DEPRECATED_BY(n,x) __attribute__ ((__deprecated__("by "#n))) x
+                                           ^
+1 warning generated.
+compiling atomic_reference.c
+atomic_reference.c:47:10: warning: 'rb_data_object_alloc' is deprecated: by rb_data_object_wrap [-Wdeprecated-declarations]
+  return rb_data_object_alloc(klass, (void *) Qnil, ir_mark, NULL);
+         ^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:1383:1: note: 'rb_data_object_alloc' has been explicitly marked deprecated here
+DEPRECATED_BY(rb_data_object_wrap, static inline VALUE rb_data_object_alloc(VALUE,void*,RUBY_DATA_FUNC,RUBY_DATA_FUNC));
+^
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17/ruby/config.h:127:44: note: expanded from macro 'DEPRECATED_BY'
+#define DEPRECATED_BY(n,x) __attribute__ ((__deprecated__("by "#n))) x
+                                           ^
+atomic_reference.c:82:7: warning: 'OSAtomicCompareAndSwap64' is deprecated: first deprecated in macOS 10.12 - Use atomic_compare_exchange_strong_explicit(memory_order_relaxed) from <stdatomic.h> instead [-Wdeprecated-declarations]
+  if (OSAtomicCompareAndSwap64(expect_value, new_value, &DATA_PTR(self))) {
+      ^
+/usr/include/libkern/OSAtomicDeprecated.h:628:9: note: 'OSAtomicCompareAndSwap64' has been explicitly marked deprecated here
+bool    OSAtomicCompareAndSwap64( int64_t __oldValue, int64_t __newValue,
+        ^
+atomic_reference.c:82:57: warning: incompatible pointer types passing 'void **' to parameter of type 'volatile OSAtomic_int64_aligned64_t *' (aka 'volatile long long *') [-Wincompatible-pointer-types]
+  if (OSAtomicCompareAndSwap64(expect_value, new_value, &DATA_PTR(self))) {
+                                                        ^~~~~~~~~~~~~~~
+/usr/include/libkern/OSAtomicDeprecated.h:629:40: note: passing argument to parameter '__theValue' here
+                volatile OSAtomic_int64_aligned64_t *__theValue );
+                                                     ^
+3 warnings generated.
+compiling rb_concurrent.c
+linking shared-object concurrent/concurrent_ruby_ext.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/concurrent-ruby-ext-1.1.5/ext/concurrent-ruby-ext
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 concurrent_ruby_ext.bundle ./.gem.20190424-81250-1j2cx36/concurrent

@@ -1,0 +1,23 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/thrift-0.11.0.0/ext
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-1cc3adf.rb extconf.rb --with-cppflags=-D_FORTIFY_SOURCE=0 -Wno-shift-negative-value\\\\\\\\
+checking for strlcpy() in string.h... yes
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/thrift-0.11.0.0/ext
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/thrift-0.11.0.0/ext
+make "DESTDIR="
+compiling binary_protocol_accelerated.c
+compiling bytes.c
+compiling compact_protocol.c
+compiling memory_buffer.c
+compiling protocol.c
+compiling strlcpy.c
+compiling struct.c
+compiling thrift_native.c
+linking shared-object thrift_native.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/thrift-0.11.0.0/ext
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 thrift_native.bundle ./.gem.20190424-81250-x1b7if

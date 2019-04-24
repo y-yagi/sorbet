@@ -30,6 +30,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
 
     Dir.mktmpdir do |dir|
       FileUtils.cp_r(__dir__ + '/gitlab/', dir)
+      FileUtils.cp_r(__dir__ + '/gems/', dir)
       FileUtils.cp_r(__dir__ + '/sorbet/', dir)
       olddir = __dir__
       Dir.chdir(dir + '/gitlab/')
@@ -43,7 +44,7 @@ class Sorbet::Private::Gitlab::Test::Simple < MiniTest::Spec
         system('gem env')
         # system('rbenv exec gem sources')
         # system('rbenv exec gem install rails')
-        system("BUNDLE_GEMFILE=./Gemfile DEBUG=1 rbenv exec ruby -S bundle install --full-index --verbose --force")
+        system("BUNDLE_GEMFILE=./Gemfile DEBUG=1 rbenv exec ruby -S bundle install --path ../gems")
         system("rbenv exec ruby -S gem install rails")
         system('rbenv exec ruby -v')
         system('printf "gem \'sorbet\'" >> Gemfile')

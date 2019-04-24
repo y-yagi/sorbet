@@ -1,0 +1,15 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/character_set-1.2.0/ext/character_set
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-1in04js.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/character_set-1.2.0/ext/character_set
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/character_set-1.2.0/ext/character_set
+make "DESTDIR="
+compiling character_set.c
+linking shared-object character_set/character_set.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/character_set-1.2.0/ext/character_set
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 character_set.bundle ./.gem.20190424-81250-1gd50wm/character_set

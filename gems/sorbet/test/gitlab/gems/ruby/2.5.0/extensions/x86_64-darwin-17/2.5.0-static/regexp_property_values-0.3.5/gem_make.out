@@ -1,0 +1,15 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/regexp_property_values-0.3.5/ext/regexp_property_values
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-w1wn0q.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/regexp_property_values-0.3.5/ext/regexp_property_values
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/regexp_property_values-0.3.5/ext/regexp_property_values
+make "DESTDIR="
+compiling regexp_property_values.c
+linking shared-object regexp_property_values/regexp_property_values.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/regexp_property_values-0.3.5/ext/regexp_property_values
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 regexp_property_values.bundle ./.gem.20190424-81250-1nu0j71/regexp_property_values

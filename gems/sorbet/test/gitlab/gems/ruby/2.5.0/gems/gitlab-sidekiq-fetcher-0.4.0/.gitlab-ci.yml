@@ -1,0 +1,53 @@
+image: "ruby:2.5"
+
+before_script:
+  - ruby -v
+  - which ruby
+  - gem install bundler --no-ri --no-rdoc
+  - bundle install --jobs $(nproc)  "${FLAGS[@]}"
+
+variables:
+  REDIS_URL: "redis://redis"
+
+rspec:
+  stage: test
+  coverage: '/LOC \((\d+\.\d+%)\) covered.$/'
+  script:
+    - bundle exec rspec
+  services:
+    - redis:alpine
+  artifacts:
+    expire_in: 31d
+    when: always
+    paths:
+      - coverage/
+
+.integration:
+  stage: test
+  script:
+    - cd test
+    - bundle exec ruby reliability_test.rb
+  services:
+    - redis:alpine
+
+integration_semi:
+  extends: .integration
+  variables:
+    JOB_FETCHER: semi
+
+integration_reliable:
+  extends: .integration
+  variables:
+    JOB_FETCHER: reliable
+
+
+integration_basic:
+  extends: .integration
+  allow_failure: yes
+  variables:
+    JOB_FETCHER: basic
+
+
+# rubocop:
+#   script:
+#     - bundle exec rubocop

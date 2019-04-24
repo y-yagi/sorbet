@@ -1,0 +1,15 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/version_sorter-2.2.4/ext/version_sorter
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-17sp5u5.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/version_sorter-2.2.4/ext/version_sorter
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/version_sorter-2.2.4/ext/version_sorter
+make "DESTDIR="
+compiling version_sorter.c
+linking shared-object version_sorter.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/version_sorter-2.2.4/ext/version_sorter
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 version_sorter.bundle ./.gem.20190424-81250-16sbqrl

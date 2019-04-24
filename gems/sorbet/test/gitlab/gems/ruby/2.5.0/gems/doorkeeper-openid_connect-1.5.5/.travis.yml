@@ -1,0 +1,34 @@
+language: ruby
+cache: bundler
+sudo: false
+
+before_install:
+  - gem update --system
+  # Bundler 2.0 is not compatible with Rails 4.2
+  # https://docs.travis-ci.com/user/languages/ruby/#bundler-20
+  - "find /home/travis/.rvm/rubies -wholename '*default/bundler-*.gemspec' -delete"
+  - rvm @global do gem uninstall bundler -a -x -I || true
+  - gem install bundler -v '< 2'
+
+before_script:
+  - bundle update
+  - bundle exec rake migrate
+
+script:
+  - bundle exec rake spec
+
+env:
+  - rails=4.2.0
+  - rails=5.0.0
+  - rails=5.2.0
+
+rvm:
+  - 2.3
+  - 2.4
+  - 2.5
+  - 2.6
+
+matrix:
+  exclude:
+    - env: rails=4.2.0
+      rvm: 2.6

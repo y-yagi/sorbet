@@ -1,0 +1,495 @@
+The system is: Darwin - 18.2.0 - x86_64
+Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+Compiler: /Library/Developer/CommandLineTools/usr/bin/cc 
+Build flags: -fPIC
+Id flags:  
+
+The output was:
+0
+
+
+Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.out"
+
+The C compiler identification is AppleClang, found in "/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/3.13.4/CompilerIdC/a.out"
+
+Determining if the C compiler works passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0f8d4/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0f8d4.dir/build.make CMakeFiles/cmTC_0f8d4.dir/build
+Building C object CMakeFiles/cmTC_0f8d4.dir/testCCompiler.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_0f8d4.dir/testCCompiler.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/testCCompiler.c
+Linking C executable cmTC_0f8d4
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0f8d4.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0f8d4.dir/testCCompiler.c.o  -o cmTC_0f8d4 
+
+
+Detecting C compiler ABI info compiled with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b6d46/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b6d46.dir/build.make CMakeFiles/cmTC_b6d46.dir/build
+Building C object CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.13.4/share/cmake/Modules/CMakeCCompilerABI.c
+Linking C executable cmTC_b6d46
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b6d46.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o  -o cmTC_b6d46 
+Apple LLVM version 10.0.1 (clang-1001.0.46.4)
+Target: x86_64-apple-darwin18.2.0
+Thread model: posix
+InstalledDir: /Library/Developer/CommandLineTools/usr/bin
+ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -o cmTC_b6d46 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/lib/darwin/libclang_rt.osx.a
+@(#)PROGRAM:ld  PROJECT:ld64-450.3
+BUILD 18:45:16 Apr  4 2019
+configured to support archs: armv6 armv7 armv7s arm64 arm64e arm64_32 i386 x86_64 x86_64h armv6m armv7k armv7m armv7em
+Library search paths:
+	/usr/lib
+	/usr/local/lib
+Framework search paths:
+	/Library/Frameworks/
+	/System/Library/Frameworks/
+
+
+Parsed C implicit link information from above output:
+  link line regex: [^( *|.*[/\])(ld|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\]+-)?ld|collect2)[^/\]*( |$)]
+  ignore line: [Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp]
+  ignore line: []
+  ignore line: [Run Build Command:"/usr/bin/make" "cmTC_b6d46/fast"]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b6d46.dir/build.make CMakeFiles/cmTC_b6d46.dir/build]
+  ignore line: [Building C object CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o   -c /usr/local/Cellar/cmake/3.13.4/share/cmake/Modules/CMakeCCompilerABI.c]
+  ignore line: [Linking C executable cmTC_b6d46]
+  ignore line: [/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b6d46.dir/link.txt --verbose=1]
+  ignore line: [/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names  -v -Wl,-v CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o  -o cmTC_b6d46 ]
+  ignore line: [Apple LLVM version 10.0.1 (clang-1001.0.46.4)]
+  ignore line: [Target: x86_64-apple-darwin18.2.0]
+  ignore line: [Thread model: posix]
+  ignore line: [InstalledDir: /Library/Developer/CommandLineTools/usr/bin]
+  link line: [ "/Library/Developer/CommandLineTools/usr/bin/ld" -demangle -lto_library /Library/Developer/CommandLineTools/usr/lib/libLTO.dylib -dynamic -arch x86_64 -macosx_version_min 10.14.0 -o cmTC_b6d46 -search_paths_first -headerpad_max_install_names -v CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o -lSystem /Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/lib/darwin/libclang_rt.osx.a]
+    arg [/Library/Developer/CommandLineTools/usr/bin/ld] ==> ignore
+    arg [-demangle] ==> ignore
+    arg [-lto_library] ==> ignore, skip following value
+    arg [/Library/Developer/CommandLineTools/usr/lib/libLTO.dylib] ==> skip value of -lto_library
+    arg [-dynamic] ==> ignore
+    arg [-arch] ==> ignore
+    arg [x86_64] ==> ignore
+    arg [-macosx_version_min] ==> ignore
+    arg [10.14.0] ==> ignore
+    arg [-o] ==> ignore
+    arg [cmTC_b6d46] ==> ignore
+    arg [-search_paths_first] ==> ignore
+    arg [-headerpad_max_install_names] ==> ignore
+    arg [-v] ==> ignore
+    arg [CMakeFiles/cmTC_b6d46.dir/CMakeCCompilerABI.c.o] ==> ignore
+    arg [-lSystem] ==> lib [System]
+    arg [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/lib/darwin/libclang_rt.osx.a] ==> lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/lib/darwin/libclang_rt.osx.a]
+  Library search paths: [;/usr/lib;/usr/local/lib]
+  Framework search paths: [;/Library/Frameworks/;/System/Library/Frameworks/]
+  remove lib [System]
+  remove lib [/Library/Developer/CommandLineTools/usr/lib/clang/10.0.1/lib/darwin/libclang_rt.osx.a]
+  collapse library dir [/usr/lib] ==> [/usr/lib]
+  collapse library dir [/usr/local/lib] ==> [/usr/local/lib]
+  collapse framework dir [/Library/Frameworks/] ==> [/Library/Frameworks]
+  collapse framework dir [/System/Library/Frameworks/] ==> [/System/Library/Frameworks]
+  implicit libs: []
+  implicit dirs: [/usr/lib;/usr/local/lib]
+  implicit fwks: [/Library/Frameworks;/System/Library/Frameworks]
+
+
+
+
+Detecting C [-std=c11] compiler features compiled with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_99c33/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_99c33.dir/build.make CMakeFiles/cmTC_99c33.dir/build
+Building C object CMakeFiles/cmTC_99c33.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -std=c11 -o CMakeFiles/cmTC_99c33.dir/feature_tests.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_99c33
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_99c33.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_99c33.dir/feature_tests.c.o  -o cmTC_99c33 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:1c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c99] compiler features compiled with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_67f64/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_67f64.dir/build.make CMakeFiles/cmTC_67f64.dir/build
+Building C object CMakeFiles/cmTC_67f64.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -std=c99 -o CMakeFiles/cmTC_67f64.dir/feature_tests.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_67f64
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_67f64.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_67f64.dir/feature_tests.c.o  -o cmTC_67f64 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:1c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:1c_variadic_macros
+
+
+Detecting C [-std=c90] compiler features compiled with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f9e9e/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f9e9e.dir/build.make CMakeFiles/cmTC_f9e9e.dir/build
+Building C object CMakeFiles/cmTC_f9e9e.dir/feature_tests.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -std=c90 -o CMakeFiles/cmTC_f9e9e.dir/feature_tests.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/feature_tests.c
+Linking C executable cmTC_f9e9e
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f9e9e.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f9e9e.dir/feature_tests.c.o  -o cmTC_f9e9e 
+
+
+    Feature record: C_FEATURE:1c_function_prototypes
+    Feature record: C_FEATURE:0c_restrict
+    Feature record: C_FEATURE:0c_static_assert
+    Feature record: C_FEATURE:0c_variadic_macros
+Determining if the include file pthread.h exists passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_6866c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_6866c.dir/build.make CMakeFiles/cmTC_6866c.dir/build
+Building C object CMakeFiles/cmTC_6866c.dir/CheckIncludeFile.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_6866c.dir/CheckIncludeFile.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckIncludeFile.c
+Linking C executable cmTC_6866c
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_6866c.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_6866c.dir/CheckIncludeFile.c.o  -o cmTC_6866c 
+
+
+Determining if the pthread_create exist passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_329fb/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_329fb.dir/build.make CMakeFiles/cmTC_329fb.dir/build
+Building C object CMakeFiles/cmTC_329fb.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC    -o CMakeFiles/cmTC_329fb.dir/CheckSymbolExists.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_329fb
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_329fb.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_329fb.dir/CheckSymbolExists.c.o  -o cmTC_329fb 
+
+File /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <pthread.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef pthread_create
+  return ((int*)(&pthread_create))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Performing C SOURCE FILE Test HAVE_STRUCT_STAT_ST_MTIMESPEC succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f7627/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f7627.dir/build.make CMakeFiles/cmTC_f7627.dir/build
+Building C object CMakeFiles/cmTC_f7627.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC -DHAVE_STRUCT_STAT_ST_MTIMESPEC   -o CMakeFiles/cmTC_f7627.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_f7627
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7627.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC -DHAVE_STRUCT_STAT_ST_MTIMESPEC -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f7627.dir/src.c.o  -o cmTC_f7627 
+
+Source file was:
+
+#include <sys/types.h>
+#include <sys/stat.h>
+
+int main()
+{
+   (void)sizeof(((struct stat *)0)->st_mtimespec);
+   return 0;
+}
+
+Performing C SOURCE FILE Test HAVE_STRUCT_STAT_NSEC succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d1ccd/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d1ccd.dir/build.make CMakeFiles/cmTC_d1ccd.dir/build
+Building C object CMakeFiles/cmTC_d1ccd.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -fPIC -DHAVE_STRUCT_STAT_NSEC   -o CMakeFiles/cmTC_d1ccd.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_d1ccd
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d1ccd.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -fPIC -DHAVE_STRUCT_STAT_NSEC -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d1ccd.dir/src.c.o  -o cmTC_d1ccd 
+
+Source file was:
+
+#include <sys/stat.h>
+
+int main()
+{
+   (void)sizeof(((struct stat *)0)->st_mtimespec.tv_nsec);
+   return 0;
+}
+
+Performing C SOURCE FILE Test IS_WALL_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_2894c/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_2894c.dir/build.make CMakeFiles/cmTC_2894c.dir/build
+Building C object CMakeFiles/cmTC_2894c.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -DIS_WALL_SUPPORTED   -Wall -o CMakeFiles/cmTC_2894c.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_2894c
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_2894c.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -DIS_WALL_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_2894c.dir/src.c.o  -o cmTC_2894c 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WEXTRA_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_ad527/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_ad527.dir/build.make CMakeFiles/cmTC_ad527.dir/build
+Building C object CMakeFiles/cmTC_ad527.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -DIS_WEXTRA_SUPPORTED   -Wextra -o CMakeFiles/cmTC_ad527.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_ad527
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_ad527.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -DIS_WEXTRA_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_ad527.dir/src.c.o  -o cmTC_ad527 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WDOCUMENTATION_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_0db70/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_0db70.dir/build.make CMakeFiles/cmTC_0db70.dir/build
+Building C object CMakeFiles/cmTC_0db70.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -DIS_WDOCUMENTATION_SUPPORTED   -Wdocumentation -o CMakeFiles/cmTC_0db70.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_0db70
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_0db70.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -DIS_WDOCUMENTATION_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_0db70.dir/src.c.o  -o cmTC_0db70 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5d8e0/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5d8e0.dir/build.make CMakeFiles/cmTC_5d8e0.dir/build
+Building C object CMakeFiles/cmTC_5d8e0.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -DIS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED   -Wno-missing-field-initializers -o CMakeFiles/cmTC_5d8e0.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5d8e0
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5d8e0.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -DIS_WNO_MISSING_FIELD_INITIALIZERS_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5d8e0.dir/src.c.o  -o cmTC_5d8e0 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WSTRICT_ALIASING_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_f7d8f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_f7d8f.dir/build.make CMakeFiles/cmTC_f7d8f.dir/build
+Building C object CMakeFiles/cmTC_f7d8f.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -DIS_WSTRICT_ALIASING_SUPPORTED   -Wstrict-aliasing -o CMakeFiles/cmTC_f7d8f.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_f7d8f
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_f7d8f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -DIS_WSTRICT_ALIASING_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_f7d8f.dir/src.c.o  -o cmTC_f7d8f 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WSTRICT_PROTOTYPES_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_b14b5/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_b14b5.dir/build.make CMakeFiles/cmTC_b14b5.dir/build
+Building C object CMakeFiles/cmTC_b14b5.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -DIS_WSTRICT_PROTOTYPES_SUPPORTED   -Wstrict-prototypes -o CMakeFiles/cmTC_b14b5.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_b14b5
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_b14b5.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -DIS_WSTRICT_PROTOTYPES_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_b14b5.dir/src.c.o  -o cmTC_b14b5 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WDECLARATION_AFTER_STATEMENT_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_00fe2/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_00fe2.dir/build.make CMakeFiles/cmTC_00fe2.dir/build
+Building C object CMakeFiles/cmTC_00fe2.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -DIS_WDECLARATION_AFTER_STATEMENT_SUPPORTED   -Wdeclaration-after-statement -o CMakeFiles/cmTC_00fe2.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_00fe2
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_00fe2.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -DIS_WDECLARATION_AFTER_STATEMENT_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_00fe2.dir/src.c.o  -o cmTC_00fe2 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WSHIFT_COUNT_OVERFLOW_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_49209/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_49209.dir/build.make CMakeFiles/cmTC_49209.dir/build
+Building C object CMakeFiles/cmTC_49209.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -DIS_WSHIFT_COUNT_OVERFLOW_SUPPORTED   -Wshift-count-overflow -o CMakeFiles/cmTC_49209.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_49209
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_49209.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -DIS_WSHIFT_COUNT_OVERFLOW_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_49209.dir/src.c.o  -o cmTC_49209 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WUNUSED_CONST_VARIABLE_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_1f5fe/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_1f5fe.dir/build.make CMakeFiles/cmTC_1f5fe.dir/build
+Building C object CMakeFiles/cmTC_1f5fe.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -DIS_WUNUSED_CONST_VARIABLE_SUPPORTED   -Wunused-const-variable -o CMakeFiles/cmTC_1f5fe.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_1f5fe
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_1f5fe.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -DIS_WUNUSED_CONST_VARIABLE_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_1f5fe.dir/src.c.o  -o cmTC_1f5fe 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WUNUSED_FUNCTION_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_8f1e4/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_8f1e4.dir/build.make CMakeFiles/cmTC_8f1e4.dir/build
+Building C object CMakeFiles/cmTC_8f1e4.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -DIS_WUNUSED_FUNCTION_SUPPORTED   -Wunused-function -o CMakeFiles/cmTC_8f1e4.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_8f1e4
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_8f1e4.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -DIS_WUNUSED_FUNCTION_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_8f1e4.dir/src.c.o  -o cmTC_8f1e4 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WFORMAT_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_7788f/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_7788f.dir/build.make CMakeFiles/cmTC_7788f.dir/build
+Building C object CMakeFiles/cmTC_7788f.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -DIS_WFORMAT_SUPPORTED   -Wformat -o CMakeFiles/cmTC_7788f.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_7788f
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_7788f.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -DIS_WFORMAT_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_7788f.dir/src.c.o  -o cmTC_7788f 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WFORMAT_SECURITY_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5ec51/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5ec51.dir/build.make CMakeFiles/cmTC_5ec51.dir/build
+Building C object CMakeFiles/cmTC_5ec51.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -DIS_WFORMAT_SECURITY_SUPPORTED   -Wformat-security -o CMakeFiles/cmTC_5ec51.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5ec51
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5ec51.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -DIS_WFORMAT_SECURITY_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5ec51.dir/src.c.o  -o cmTC_5ec51 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WINT_CONVERSION_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_d231a/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_d231a.dir/build.make CMakeFiles/cmTC_d231a.dir/build
+Building C object CMakeFiles/cmTC_d231a.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -DIS_WINT_CONVERSION_SUPPORTED   -Wint-conversion -o CMakeFiles/cmTC_d231a.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_d231a
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_d231a.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -DIS_WINT_CONVERSION_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_d231a.dir/src.c.o  -o cmTC_d231a 
+
+Source file was:
+int main(void) { return 0; }
+Performing C SOURCE FILE Test IS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED succeeded with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_5402b/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_5402b.dir/build.make CMakeFiles/cmTC_5402b.dir/build
+Building C object CMakeFiles/cmTC_5402b.dir/src.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -DIS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED   -Wno-documentation-deprecated-sync -o CMakeFiles/cmTC_5402b.dir/src.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/src.c
+Linking C executable cmTC_5402b
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_5402b.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -DIS_WNO_DOCUMENTATION_DEPRECATED_SYNC_SUPPORTED -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_5402b.dir/src.c.o  -o cmTC_5402b 
+
+Source file was:
+int main(void) { return 0; }
+Determining if the regcomp_l exist passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_28a61/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_28a61.dir/build.make CMakeFiles/cmTC_28a61.dir/build
+Building C object CMakeFiles/cmTC_28a61.dir/CheckSymbolExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync    -o CMakeFiles/cmTC_28a61.dir/CheckSymbolExists.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c
+Linking C executable cmTC_28a61
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_28a61.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_28a61.dir/CheckSymbolExists.c.o  -o cmTC_28a61 
+
+File /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckSymbolExists.c:
+/* */
+#include <regex.h>
+#include <xlocale.h>
+
+int main(int argc, char** argv)
+{
+  (void)argv;
+#ifndef regcomp_l
+  return ((int*)(&regcomp_l))[argc];
+#else
+  (void)argc;
+  return 0;
+#endif
+}
+
+Determining if the function futimens exists passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_70b56/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_70b56.dir/build.make CMakeFiles/cmTC_70b56.dir/build
+Building C object CMakeFiles/cmTC_70b56.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync -DCHECK_FUNCTION_EXISTS=futimens   -o CMakeFiles/cmTC_70b56.dir/CheckFunctionExists.c.o   -c /usr/local/Cellar/cmake/3.13.4/share/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_70b56
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_70b56.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync -DCHECK_FUNCTION_EXISTS=futimens -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_70b56.dir/CheckFunctionExists.c.o  -o cmTC_70b56 
+
+
+Determining if the prototype qsort_r exists for HAVE_QSORT_R_BSD passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e79ac/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e79ac.dir/build.make CMakeFiles/cmTC_e79ac.dir/build
+Building C object CMakeFiles/cmTC_e79ac.dir/CheckPrototypeDefinition.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync    -o CMakeFiles/cmTC_e79ac.dir/CheckPrototypeDefinition.c.o   -c /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c
+/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c:14:20: warning: unused parameter 'base' [-Wunused-parameter]
+void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                   ^
+/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c:14:33: warning: unused parameter 'nmemb' [-Wunused-parameter]
+void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                ^
+/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c:14:47: warning: unused parameter 'size' [-Wunused-parameter]
+void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                              ^
+/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c:14:59: warning: unused parameter 'thunk' [-Wunused-parameter]
+void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                                          ^
+/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/CheckPrototypeDefinition.c:14:72: warning: unused parameter 'compar' [-Wunused-parameter]
+void qsort_r(void *base, size_t nmemb, size_t size, void *thunk, int (*compar)(void *, const void *, const void *)) {
+                                                                       ^
+5 warnings generated.
+Linking C executable cmTC_e79ac
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e79ac.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync  -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e79ac.dir/CheckPrototypeDefinition.c.o  -o cmTC_e79ac 
+
+
+Determining if the function SSLCreateContext exists in the /System/Library/Frameworks/Security.framework passed with the following output:
+Change Dir: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp
+
+Run Build Command:"/usr/bin/make" "cmTC_e887d/fast"
+/Library/Developer/CommandLineTools/usr/bin/make -f CMakeFiles/cmTC_e887d.dir/build.make CMakeFiles/cmTC_e887d.dir/build
+Building C object CMakeFiles/cmTC_e887d.dir/CheckFunctionExists.c.o
+/Library/Developer/CommandLineTools/usr/bin/cc   -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync -DCHECK_FUNCTION_EXISTS=SSLCreateContext   -o CMakeFiles/cmTC_e887d.dir/CheckFunctionExists.c.o   -c /usr/local/Cellar/cmake/3.13.4/share/cmake/Modules/CheckFunctionExists.c
+Linking C executable cmTC_e887d
+/usr/local/Cellar/cmake/3.13.4/bin/cmake -E cmake_link_script CMakeFiles/cmTC_e887d.dir/link.txt --verbose=1
+/Library/Developer/CommandLineTools/usr/bin/cc -D_GNU_SOURCE -fPIC -Wall -Wextra -Wdocumentation -Wno-missing-field-initializers -Wstrict-aliasing -Wstrict-prototypes -Wdeclaration-after-statement -Wshift-count-overflow -Wunused-const-variable -Wunused-function -Wformat -Wformat-security -Wint-conversion -Wno-documentation-deprecated-sync -DCHECK_FUNCTION_EXISTS=SSLCreateContext -Wl,-search_paths_first -Wl,-headerpad_max_install_names   CMakeFiles/cmTC_e887d.dir/CheckFunctionExists.c.o  -o cmTC_e887d  -L/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/Security/SecureTransport.h -Wl,-rpath,/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/Security/SecureTransport.h -framework Security 
+ld: warning: directory not found for option '-L/Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/rugged-0.28.1/vendor/libgit2/build/CMakeFiles/CMakeTmp/Security/SecureTransport.h'
+
+

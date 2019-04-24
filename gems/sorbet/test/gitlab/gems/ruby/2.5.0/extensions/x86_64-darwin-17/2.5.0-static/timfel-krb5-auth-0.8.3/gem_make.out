@@ -1,0 +1,432 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/timfel-krb5-auth-0.8.3/ext
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-1i8mfp4.rb extconf.rb
+checking for main() in -lc... yes
+checking for krb5_init_context() in -lkrb5... yes
+checking for krb5.h... yes
+checking for error_message() in -lcom_err... yes
+checking for com_err.h... yes
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/timfel-krb5-auth-0.8.3/ext
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/timfel-krb5-auth-0.8.3/ext
+make "DESTDIR="
+compiling ruby_krb5_auth.c
+ruby_krb5_auth.c:72:3: warning: 'krb5_free_cred_contents' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_free_cred_contents(kerb->ctx, &kerb->creds);
+  ^
+/usr/include/krb5/krb5.h:1755:31: note: 'krb5_free_cred_contents' has been explicitly marked deprecated here
+        (krb5_context, krb5_creds *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:74:5: warning: 'krb5_free_principal' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_free_principal(kerb->ctx, kerb->princ);
+    ^
+/usr/include/krb5/krb5.h:1741:34: note: 'krb5_free_principal' has been explicitly marked deprecated here
+        (krb5_context, krb5_principal ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:76:5: warning: 'krb5_free_context' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_free_context(kerb->ctx);
+    ^
+/usr/include/krb5/krb5.h:1437:17: note: 'krb5_free_context' has been explicitly marked deprecated here
+        (krb5_context) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                       ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:103:12: warning: 'krb5_init_context' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_init_context(&kerb->ctx);
+           ^
+/usr/include/krb5/krb5.h:1433:19: note: 'krb5_init_context' has been explicitly marked deprecated here
+        (krb5_context *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                         ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:132:12: warning: 'krb5_get_default_realm' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_get_default_realm(kerb->ctx, &realm);
+           ^
+/usr/include/krb5/krb5.h:1789:14: note: 'krb5_get_default_realm' has been explicitly marked deprecated here
+                 char ** ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                           ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:168:12: warning: 'krb5_cc_default' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_default(kerb->ctx, &cc);
+           ^
+/usr/include/krb5/krb5.h:1718:18: note: 'krb5_cc_default' has been explicitly marked deprecated here
+                krb5_ccache *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                               ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:174:12: warning: 'krb5_cc_get_principal' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_get_principal(kerb->ctx, cc, &kerb->princ);
+           ^
+/usr/include/krb5/krb5.h:1295:37: note: 'krb5_cc_get_principal' has been explicitly marked deprecated here
+                       krb5_principal *principal) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                  ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:176:5: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_cc_close(kerb->ctx, cc);
+    ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:181:3: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_cc_close(kerb->ctx, cc);
+  ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:183:12: warning: 'krb5_unparse_name' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_unparse_name(kerb->ctx, kerb->princ, &princ_name);
+           ^
+/usr/include/krb5/krb5.h:1544:13: note: 'krb5_unparse_name' has been explicitly marked deprecated here
+                char ** ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                          ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:221:12: warning: 'krb5_parse_name' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_parse_name(kerb->ctx, user, &kerb->princ);
+           ^
+/usr/include/krb5/krb5.h:1532:22: note: 'krb5_parse_name' has been explicitly marked deprecated here
+                krb5_principal * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                   ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:226:12: warning: 'krb5_get_init_creds_password' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_get_init_creds_password(kerb->ctx, &kerb->creds, kerb->princ,
+           ^
+/usr/include/krb5/krb5.h:2310:44: note: 'krb5_get_init_creds_password' has been explicitly marked deprecated here
+                krb5_get_init_creds_opt *k5_gic_options) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                         ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:271:14: warning: 'krb5_kt_resolve' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_kt_resolve(kerb->ctx, keytab_name, &keytab);
+             ^
+/usr/include/krb5/krb5.h:1681:19: note: 'krb5_kt_resolve' has been explicitly marked deprecated here
+                krb5_keytab * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:280:14: warning: 'krb5_parse_name' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_parse_name(kerb->ctx, princ, &kerb->princ);
+             ^
+/usr/include/krb5/krb5.h:1532:22: note: 'krb5_parse_name' has been explicitly marked deprecated here
+                krb5_principal * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                   ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:285:14: warning: 'krb5_sname_to_principal' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_sname_to_principal(kerb->ctx, NULL, NULL, KRB5_NT_SRV_HST,
+             ^
+/usr/include/krb5/krb5.h:1801:24: note: 'krb5_sname_to_principal' has been explicitly marked deprecated here
+                   krb5_principal *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:292:12: warning: 'krb5_get_init_creds_keytab' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_get_init_creds_keytab(kerb->ctx, &kerb->creds, kerb->princ,
+           ^
+/usr/include/krb5/krb5.h:2320:44: note: 'krb5_get_init_creds_keytab' has been explicitly marked deprecated here
+                krb5_get_init_creds_opt *k5_gic_options) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                         ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:299:5: warning: 'krb5_kt_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_kt_close(kerb->ctx, keytab);
+    ^
+/usr/include/krb5/krb5.h:1409:57: note: 'krb5_kt_close' has been explicitly marked deprecated here
+krb5_kt_close(krb5_context context, krb5_keytab keytab) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:305:5: warning: 'krb5_kt_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_kt_close(kerb->ctx, keytab);
+    ^
+/usr/include/krb5/krb5.h:1409:57: note: 'krb5_kt_close' has been explicitly marked deprecated here
+krb5_kt_close(krb5_context context, krb5_keytab keytab) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:345:12: warning: 'krb5_get_init_creds_password' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_get_init_creds_password(
+           ^
+/usr/include/krb5/krb5.h:2310:44: note: 'krb5_get_init_creds_password' has been explicitly marked deprecated here
+                krb5_get_init_creds_opt *k5_gic_options) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                         ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:353:5: warning: passing 'const char [16]' to parameter of type 'char *' discards qualifiers [-Wincompatible-pointer-types-discards-qualifiers]
+    "kadmin/changepw",
+    ^~~~~~~~~~~~~~~~~
+/usr/include/krb5/krb5.h:2309:9: note: passing argument to parameter 'in_tkt_service' here
+                char *in_tkt_service,
+                      ^
+ruby_krb5_auth.c:362:12: warning: 'krb5_change_password' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_change_password(
+           ^
+/usr/include/krb5/krb5.h:1806:30: note: 'krb5_change_password' has been explicitly marked deprecated here
+                        krb5_data *result_string) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                  ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:420:12: warning: 'krb5_set_password' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_set_password(
+           ^
+/usr/include/krb5/krb5.h:1810:79: note: 'krb5_set_password' has been explicitly marked deprecated here
+                        int *result_code, krb5_data *result_code_string, krb5_data *result_string) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                                                                   ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:475:14: warning: 'krb5_cc_default' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_default(kerb->ctx, &cc);
+             ^
+/usr/include/krb5/krb5.h:1718:18: note: 'krb5_cc_default' has been explicitly marked deprecated here
+                krb5_ccache *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                               ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:478:14: warning: 'krb5_cc_resolve' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_resolve(kerb->ctx, cache_name, &cc);
+             ^
+/usr/include/krb5/krb5.h:1711:19: note: 'krb5_cc_resolve' has been explicitly marked deprecated here
+                krb5_ccache * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:485:12: warning: 'krb5_cc_initialize' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_initialize(kerb->ctx, cc, kerb->princ);
+           ^
+/usr/include/krb5/krb5.h:1276:32: note: 'krb5_cc_initialize' has been explicitly marked deprecated here
+                   krb5_principal principal) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                             ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:490:12: warning: 'krb5_cc_store_cred' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_store_cred(kerb->ctx, cc, &kerb->creds);
+           ^
+/usr/include/krb5/krb5.h:1286:26: note: 'krb5_cc_store_cred' has been explicitly marked deprecated here
+                    krb5_creds *creds) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                       ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:495:3: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_cc_close(kerb->ctx, cc);
+  ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:500:3: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_cc_close(kerb->ctx, cc);
+  ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:542:14: warning: 'krb5_cc_default' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_default(kerb->ctx, &cc);
+             ^
+/usr/include/krb5/krb5.h:1718:18: note: 'krb5_cc_default' has been explicitly marked deprecated here
+                krb5_ccache *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                               ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:545:14: warning: 'krb5_cc_resolve' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_resolve(kerb->ctx, cache_name, &cc);
+             ^
+/usr/include/krb5/krb5.h:1711:19: note: 'krb5_cc_resolve' has been explicitly marked deprecated here
+                krb5_ccache * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:552:12: warning: 'krb5_cc_start_seq_get' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_start_seq_get(kerb->ctx, cc, &cur);
+           ^
+/usr/include/krb5/krb5.h:1299:34: note: 'krb5_cc_start_seq_get' has been explicitly marked deprecated here
+                       krb5_cc_cursor *cursor) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                               ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:558:21: warning: 'krb5_cc_next_cred' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  while (!(krbret = krb5_cc_next_cred(kerb->ctx, cc, &cur, &creds))) {
+                    ^
+/usr/include/krb5/krb5.h:1303:49: note: 'krb5_cc_next_cred' has been explicitly marked deprecated here
+                   krb5_cc_cursor *cursor, krb5_creds *creds) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                              ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:559:14: warning: 'krb5_unparse_name' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_unparse_name(kerb->ctx, creds.client, &name);
+             ^
+/usr/include/krb5/krb5.h:1544:13: note: 'krb5_unparse_name' has been explicitly marked deprecated here
+                char ** ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                          ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:561:7: warning: 'krb5_free_cred_contents' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+      krb5_free_cred_contents(kerb->ctx, &creds);
+      ^
+/usr/include/krb5/krb5.h:1755:31: note: 'krb5_free_cred_contents' has been explicitly marked deprecated here
+        (krb5_context, krb5_creds *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:564:14: warning: 'krb5_unparse_name' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_unparse_name(kerb->ctx, creds.server, &sname);
+             ^
+/usr/include/krb5/krb5.h:1544:13: note: 'krb5_unparse_name' has been explicitly marked deprecated here
+                char ** ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                          ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:567:7: warning: 'krb5_free_cred_contents' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+      krb5_free_cred_contents(kerb->ctx, &creds);
+      ^
+/usr/include/krb5/krb5.h:1755:31: note: 'krb5_free_cred_contents' has been explicitly marked deprecated here
+        (krb5_context, krb5_creds *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:570:14: warning: 'krb5_decode_ticket' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_decode_ticket(&creds.ticket, &tkt);
+             ^
+/usr/include/krb5/krb5.h:2365:22: note: 'krb5_decode_ticket' has been explicitly marked deprecated here
+                krb5_ticket **rep) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                   ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:574:7: warning: 'krb5_free_cred_contents' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+      krb5_free_cred_contents(kerb->ctx, &creds);
+      ^
+/usr/include/krb5/krb5.h:1755:31: note: 'krb5_free_cred_contents' has been explicitly marked deprecated here
+        (krb5_context, krb5_creds *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:587:5: warning: 'krb5_free_ticket' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_free_ticket(kerb->ctx, tkt);
+    ^
+/usr/include/krb5/krb5.h:1749:33: note: 'krb5_free_ticket' has been explicitly marked deprecated here
+        (krb5_context, krb5_ticket * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                       ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:590:5: warning: 'krb5_free_cred_contents' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krb5_free_cred_contents(kerb->ctx, &creds);
+    ^
+/usr/include/krb5/krb5.h:1755:31: note: 'krb5_free_cred_contents' has been explicitly marked deprecated here
+        (krb5_context, krb5_creds *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                     ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:601:12: warning: 'krb5_cc_end_seq_get' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_end_seq_get(kerb->ctx, cc, &cur);
+           ^
+/usr/include/krb5/krb5.h:1307:32: note: 'krb5_cc_end_seq_get' has been explicitly marked deprecated here
+                     krb5_cc_cursor *cursor) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                             ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:603:3: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_cc_close(kerb->ctx, cc);
+  ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:608:3: warning: 'krb5_cc_close' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krb5_cc_close(kerb->ctx, cc);
+  ^
+/usr/include/krb5/krb5.h:1282:57: note: 'krb5_cc_close' has been explicitly marked deprecated here
+krb5_cc_close (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                        ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:641:14: warning: 'krb5_cc_default' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_default(kerb->ctx, &cc);
+             ^
+/usr/include/krb5/krb5.h:1718:18: note: 'krb5_cc_default' has been explicitly marked deprecated here
+                krb5_ccache *) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                               ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:644:14: warning: 'krb5_cc_resolve' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+    krbret = krb5_cc_resolve(kerb->ctx, cache_name, &cc);
+             ^
+/usr/include/krb5/krb5.h:1711:19: note: 'krb5_cc_resolve' has been explicitly marked deprecated here
+                krb5_ccache * ) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+ruby_krb5_auth.c:652:12: warning: 'krb5_cc_destroy' is deprecated: use GSS.framework [-Wdeprecated-declarations]
+  krbret = krb5_cc_destroy(kerb->ctx, cc);
+           ^
+/usr/include/krb5/krb5.h:1279:59: note: 'krb5_cc_destroy' has been explicitly marked deprecated here
+krb5_cc_destroy (krb5_context context, krb5_ccache cache) KERBEROS_APPLE_DEPRECATED("use GSS.framework");
+                                                          ^
+/usr/include/krb5/krb5.h:73:53: note: expanded from macro 'KERBEROS_APPLE_DEPRECATED'
+#define KERBEROS_APPLE_DEPRECATED(x) __attribute__((deprecated(x)))
+                                                    ^
+46 warnings generated.
+linking shared-object krb5_auth.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/timfel-krb5-auth-0.8.3/ext
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 krb5_auth.bundle ./.gem.20190424-81250-i54vh5

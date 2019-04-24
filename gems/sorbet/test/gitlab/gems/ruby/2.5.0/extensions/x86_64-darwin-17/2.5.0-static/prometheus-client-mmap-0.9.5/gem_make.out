@@ -1,0 +1,24 @@
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/prometheus-client-mmap-0.9.5/ext/fast_mmaped_file
+/Users/neil/.rbenv/versions/2.5.3/bin/ruby -r ./siteconf20190424-81250-rl4m0n.rb extconf.rb
+creating Makefile
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/prometheus-client-mmap-0.9.5/ext/fast_mmaped_file
+make "DESTDIR=" clean
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/prometheus-client-mmap-0.9.5/ext/fast_mmaped_file
+make "DESTDIR="
+compiling fast_mmaped_file.c
+compiling file_format.c
+compiling file_parsing.c
+compiling file_reading.c
+compiling hashmap.c
+compiling jsmn.c
+compiling mmap.c
+compiling rendering.c
+compiling utils.c
+compiling value_access.c
+linking shared-object fast_mmaped_file.bundle
+
+current directory: /Users/neil/ci-test-sorbet/gems/sorbet/test/gitlab/gems/ruby/2.5.0/gems/prometheus-client-mmap-0.9.5/ext/fast_mmaped_file
+make "DESTDIR=" install
+/usr/local/bin/ginstall -c -m 0755 fast_mmaped_file.bundle ./.gem.20190424-81250-qmvuq1

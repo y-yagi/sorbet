@@ -1,0 +1,190 @@
+have_library: checking for -lstdc++... -------------------- yes
+
+"clang -o conftest -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops conftest.c  -L. -L/Users/neil/.rbenv/versions/2.5.3/lib -L/usr/local/lib -L. -L/Users/neil/.rbenv/versions/2.5.3/lib  -fstack-protector -L/usr/local/lib     -lruby.2.5.3-static -framework Foundation  -lpthread -lgmp -ldl -lobjc "
+conftest.c:3:14: warning: unused parameter 'argc' [-Wunused-parameter]
+int main(int argc, char **argv)
+             ^
+conftest.c:3:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+2 warnings generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: int main(int argc, char **argv)
+4: {
+5:   return 0;
+6: }
+/* end */
+
+"clang -o conftest -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops conftest.c  -L. -L/Users/neil/.rbenv/versions/2.5.3/lib -L/usr/local/lib -L. -L/Users/neil/.rbenv/versions/2.5.3/lib  -fstack-protector -L/usr/local/lib     -lruby.2.5.3-static -framework Foundation -lstdc++  -lpthread -lgmp -ldl -lobjc "
+conftest.c:5:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+1 warning generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int main(int argc, char **argv)
+ 6: {
+ 7:   if (argc > 1000000) {
+ 8:     printf("%p", &t);
+ 9:   }
+10: 
+11:   return 0;
+12: }
+13: 
+14: int t(void) { ; return 0; }
+/* end */
+
+--------------------
+
+have_header: checking for stdint.h... -------------------- yes
+
+"clang -E -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops  conftest.c -o conftest.i"
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <stdint.h>
+/* end */
+
+--------------------
+
+have_func: checking for rb_str_sublen()... -------------------- yes
+
+"clang -o conftest -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops conftest.c  -L. -L/Users/neil/.rbenv/versions/2.5.3/lib -L/usr/local/lib -L. -L/Users/neil/.rbenv/versions/2.5.3/lib  -fstack-protector -L/usr/local/lib    -lstdc++  -lruby.2.5.3-static -framework Foundation -lstdc++  -lpthread -lgmp -ldl -lobjc "
+conftest.c:5:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+1 warning generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int main(int argc, char **argv)
+ 6: {
+ 7:   if (argc > 1000000) {
+ 8:     printf("%p", &t);
+ 9:   }
+10: 
+11:   return 0;
+12: }
+13: int t(void) { void ((*volatile p)()); p = (void ((*)()))rb_str_sublen; return !p; }
+/* end */
+
+--------------------
+
+have_library: checking for -lre2... -------------------- yes
+
+"clang -o conftest -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops conftest.c  -L. -L/Users/neil/.rbenv/versions/2.5.3/lib -L/usr/local/lib -L. -L/Users/neil/.rbenv/versions/2.5.3/lib  -fstack-protector -L/usr/local/lib    -lstdc++  -lruby.2.5.3-static -framework Foundation -lre2 -lstdc++  -lpthread -lgmp -ldl -lobjc "
+conftest.c:5:27: warning: unused parameter 'argv' [-Wunused-parameter]
+int main(int argc, char **argv)
+                          ^
+1 warning generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: /*top*/
+ 4: extern int t(void);
+ 5: int main(int argc, char **argv)
+ 6: {
+ 7:   if (argc > 1000000) {
+ 8:     printf("%p", &t);
+ 9:   }
+10: 
+11:   return 0;
+12: }
+13: 
+14: int t(void) { ; return 0; }
+/* end */
+
+--------------------
+
+checking for re2 requires C++11 compiler... -------------------- yes
+
+"clang -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops  -x c++ -c conftest.c"
+In file included from conftest.c:3:
+/usr/local/include/re2/re2.h:933:5: error: no matching function for call to 'call_once'
+    std::call_once(once_, &LazyRE2::Init, this);
+    ^~~~~~~~~~~~~~
+/Library/Developer/CommandLineTools/usr/include/c++/v1/mutex:675:1: note: candidate function template not viable: requires 2 arguments, but 3 were provided
+call_once(once_flag& __flag, _Callable& __func)
+^
+/Library/Developer/CommandLineTools/usr/include/c++/v1/mutex:687:1: note: candidate function template not viable: requires 2 arguments, but 3 were provided
+call_once(once_flag& __flag, const _Callable& __func)
+^
+1 error generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <re2/re2.h>
+4: int main() { return 0; }
+/* end */
+
+"clang -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops  -x c++ -std=c++11 -c conftest.c"
+In file included from conftest.c:1:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby.h:33:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:2040:
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:19: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                  ^~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:36: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                                   ^~~~~~~~~
+2 warnings generated.
+checked program was:
+/* begin */
+1: #include "ruby.h"
+2: 
+3: #include <re2/re2.h>
+4: int main() { return 0; }
+/* end */
+
+--------------------
+
+checking for RE2::Match() with endpos argument... -------------------- yes
+
+"clang -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/x86_64-darwin17 -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/backward -I/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0 -I. -I/usr/local/include -I/Users/neil/.rbenv/versions/2.5.3/include  -D_XOPEN_SOURCE -D_DARWIN_C_SOURCE -D_DARWIN_UNLIMITED_SELECT -D_REENTRANT   -std=c++11 -O3 -ggdb3 -Wall -Wextra -Wno-unused-parameter -Wno-parentheses -Wno-long-long -Wno-missing-field-initializers -Wno-tautological-compare -Wno-parentheses-equality -Wno-constant-logical-operand -Wno-self-assign -Wunused-variable -Wimplicit-int -Wpointer-arith -Wwrite-strings -Wdeclaration-after-statement -Wshorten-64-to-32 -Wimplicit-function-declaration -Wdivision-by-zero -Wdeprecated-declarations -Wextra-tokens  -pipe -Wall -Wextra -funroll-loops  -x c++ -std=c++11 -c conftest.c"
+In file included from conftest.c:1:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby.h:33:
+In file included from /Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/ruby.h:2040:
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:19: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                  ^~~~~~~~~
+/Users/neil/.rbenv/versions/2.5.3/include/ruby-2.5.0/ruby/intern.h:47:36: warning: 'register' storage class specifier is deprecated and incompatible with C++17 [-Wdeprecated-register]
+void rb_mem_clear(register VALUE*, register long);
+                                   ^~~~~~~~~
+conftest.c:8:48: warning: variable 'match' is uninitialized when used here [-Wuninitialized]
+  pattern.Match("test", 0, 0, RE2::UNANCHORED, match, 0);
+                                               ^~~~~
+conftest.c:7:26: note: initialize the variable 'match' to silence this warning
+  re2::StringPiece *match;
+                         ^
+                          = nullptr
+3 warnings generated.
+checked program was:
+/* begin */
+ 1: #include "ruby.h"
+ 2: 
+ 3: #include <re2/re2.h>
+ 4: 
+ 5: int main() {
+ 6:   RE2 pattern("test");
+ 7:   re2::StringPiece *match;
+ 8:   pattern.Match("test", 0, 0, RE2::UNANCHORED, match, 0);
+ 9: 
+10:   return 0;
+11: }
+/* end */
+
+--------------------
+
