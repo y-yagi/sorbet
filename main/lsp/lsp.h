@@ -159,9 +159,11 @@ class LSPLoop {
     };
     /** Conservatively rerun entire pipeline without caching any trees */
     TypecheckRun runSlowPath(const std::vector<std::shared_ptr<core::File>> &changedFiles);
-    /** Apply conservative heuristics to see if we can run a fast path, if not, bail out and run slowPath */
+    /** Apply conservative heuristics to see if we can run a fast path. If not, bail out and run slow path unless
+     * `fastPathOnly` is `true`. */
     TypecheckRun tryFastPath(std::unique_ptr<core::GlobalState> gs,
-                             std::vector<std::shared_ptr<core::File>> &changedFiles, bool allFiles = false);
+                             std::vector<std::shared_ptr<core::File>> &changedFiles, bool allFiles = false,
+                             bool fastPathOnly = false);
 
     std::unique_ptr<core::GlobalState> pushDiagnostics(TypecheckRun filesTypechecked);
 
@@ -212,8 +214,9 @@ class LSPLoop {
                                                                const TextDocumentPositionParams &params);
     /**
      * Merges all consecutive file updates into a single update.
+     * Returns the number of pending requests merged.
      */
-    static void mergeFileChanges(std::deque<std::unique_ptr<LSPMessage>> &pendingRequests);
+    static int mergeFileChanges(std::deque<std::unique_ptr<LSPMessage>> &pendingRequests);
     /**
      * Performs pre-processing on the incoming LSP request and appends it to the queue.
      * Merges changes to the same document + Watchman filesystem updates, and processes pause/ignore requests.
@@ -227,8 +230,8 @@ class LSPLoop {
                              const CancelParams &cancellationRequest);
     static std::deque<std::unique_ptr<LSPMessage>>::iterator
     findFirstPositionAfterLSPInitialization(std::deque<std::unique_ptr<LSPMessage>> &pendingRequests);
-    std::unique_ptr<core::GlobalState> processRequestInternal(std::unique_ptr<core::GlobalState> gs,
-                                                              const LSPMessage &msg);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    processRequestInternal(std::unique_ptr<core::GlobalState> gs, const LSPMessage &msg, bool fastPathOnly = false);
 
     void preprocessSorbetWorkspaceEdit(const DidChangeTextDocumentParams &changeParams,
                                        UnorderedMap<std::string, std::string> &updates);
@@ -238,19 +241,24 @@ class LSPLoop {
                                        UnorderedMap<std::string, std::string> &updates);
     void preprocessSorbetWorkspaceEdit(const WatchmanQueryResponse &queryResponse,
                                        UnorderedMap<std::string, std::string> &updates);
-    std::unique_ptr<core::GlobalState> handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs,
-                                                                 const DidChangeTextDocumentParams &changeParams);
-    std::unique_ptr<core::GlobalState> handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs,
-                                                                 const DidOpenTextDocumentParams &openParams);
-    std::unique_ptr<core::GlobalState> handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs,
-                                                                 const DidCloseTextDocumentParams &closeParams);
-    std::unique_ptr<core::GlobalState> handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs,
-                                                                 const WatchmanQueryResponse &queryResponse);
-    std::unique_ptr<core::GlobalState>
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs, const DidChangeTextDocumentParams &changeParams,
+                              bool fastPathOnly = false);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs, const DidOpenTextDocumentParams &openParams,
+                              bool fastPathOnly = false);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs, const DidCloseTextDocumentParams &closeParams,
+                              bool fastPathOnly = false);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs, const WatchmanQueryResponse &queryResponse,
+                              bool fastPathOnly = false);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
     handleSorbetWorkspaceEdits(std::unique_ptr<core::GlobalState> gs,
-                               std::vector<std::unique_ptr<SorbetWorkspaceEdit>> &edits);
-    std::unique_ptr<core::GlobalState> commitSorbetWorkspaceEdits(std::unique_ptr<core::GlobalState> gs,
-                                                                  UnorderedMap<std::string, std::string> &updates);
+                               std::vector<std::unique_ptr<SorbetWorkspaceEdit>> &edits, bool fastPathOnly = false);
+    std::pair<std::unique_ptr<core::GlobalState>, bool>
+    commitSorbetWorkspaceEdits(std::unique_ptr<core::GlobalState> gs, UnorderedMap<std::string, std::string> &updates,
+                               bool fastPathOnly = false);
 
     /** Returns `true` if 5 minutes have elapsed since LSP last sent counters to statsd. */
     bool shouldSendCountersToStatsd(std::chrono::time_point<std::chrono::steady_clock> currentTime);

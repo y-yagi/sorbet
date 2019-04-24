@@ -58,7 +58,7 @@ public:
     FlowId startTracer;
 
     /** Request counter. */
-    int counter;
+    int counter = 0;
 
     /** If `true`, then this LSPMessage contains a canceled LSP request. */
     bool canceled = false;
@@ -67,6 +67,11 @@ public:
      * Returns an ID if the message has one. Otherwise, returns nullopt.
      */
     std::optional<MessageId> id() const;
+
+    /**
+     * If `true`, this message can be delayed in favor of processing newer requests sooner (like file updates).
+     */
+    bool isDelayable() const;
 
     /**
      * Returns true if this is a request message.

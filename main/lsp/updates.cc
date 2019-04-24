@@ -158,6 +158,7 @@ void tryApplyDefLocSaver(const core::GlobalState &gs, vector<ast::ParsedFile> &i
 LSPLoop::TypecheckRun LSPLoop::runSlowPath(const vector<shared_ptr<core::File>> &changedFiles) {
     ShowOperation slowPathOp(*this, "SlowPath", "Sorbet: Typechecking...");
     Timer timeit(logger, "slow_path");
+    logger->info("Running that slow path fam");
     ENFORCE(initialGS->errorQueue->isEmpty());
     prodCategoryCounterInc("lsp.updates", "slowpath");
     logger->debug("Taking slow path");
@@ -191,7 +192,8 @@ LSPLoop::TypecheckRun LSPLoop::runSlowPath(const vector<shared_ptr<core::File>> 
 }
 
 LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
-                                           vector<shared_ptr<core::File>> &changedFiles, bool allFiles) {
+                                           vector<shared_ptr<core::File>> &changedFiles, bool allFiles,
+                                           bool fastPathOnly) {
     if (disableFastPath) {
         logger->debug("Taking sad path because happy path is disabled.");
         return runSlowPath(changedFiles);
@@ -205,8 +207,34 @@ LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
     bool good = true;
     auto hashes = computeStateHashes(changedFiles);
     ENFORCE(changedFiles.size() == hashes.size());
-    vector<core::FileRef> subset;
+
     int i = -1;
+    // Check if the fast path is possible *without* mutating any state. We avoid mutating state here because we need to
+    // early abort if `fastPathOnly` is set, and support calling `tryFastPath` again later with `fastPathOnly` unset.
+    for (auto &f : changedFiles) {
+        ++i;
+        if (!f) {
+            continue;
+        }
+        auto oldFref = initialGS->findFileByPath(f->path());
+        if (!oldFref.exists()) {
+            logger->debug("Taking sad path because {} is a new file", changedFiles[i]->path());
+            good = false;
+        } else if (hashes[i] != core::GlobalState::HASH_STATE_INVALID && hashes[i] != globalStateHashes[oldFref.id()]) {
+            logger->debug("Taking sad path because {} has changed definitions", changedFiles[i]->path());
+            good = false;
+        }
+
+        if (!good && fastPathOnly) {
+            // Cannot run fast path, and caller doesn't want slow path. Abort early.
+            return TypecheckRun{{}, {}, {}, move(finalGs)};
+        }
+    }
+
+    // Mutate files.
+    // TODO: Disentangle fast and slow paths here. Make decision first.
+    vector<core::FileRef> subset;
+    i = -1;
     {
         core::UnfreezeFileTable fileTableAccess(*initialGS);
         for (auto &f : changedFiles) {
@@ -214,25 +242,13 @@ LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
             if (!f) {
                 continue;
             }
-            auto wasFiles = initialGS->filesUsed();
             auto fref = updateFile(f);
-            if (wasFiles != initialGS->filesUsed()) {
-                logger->debug("Taking sad path because {} is a new file", changedFiles[i]->path());
-                good = false;
-                if (globalStateHashes.size() <= fref.id()) {
-                    globalStateHashes.resize(fref.id() + 1);
-                    globalStateHashes[fref.id()] = hashes[i];
-                }
-            } else {
-                if (hashes[i] != core::GlobalState::HASH_STATE_INVALID && hashes[i] != globalStateHashes[fref.id()]) {
-                    logger->debug("Taking sad path because {} has changed definitions", changedFiles[i]->path());
-                    good = false;
-                    globalStateHashes[fref.id()] = hashes[i];
-                }
-                if (good) {
-                    finalGs = core::GlobalState::replaceFile(move(finalGs), fref, changedFiles[i]);
-                }
-
+            if (globalStateHashes.size() <= fref.id()) {
+                globalStateHashes.resize(fref.id() + 1);
+            }
+            globalStateHashes[fref.id()] = hashes[i];
+            if (good) {
+                finalGs = core::GlobalState::replaceFile(move(finalGs), fref, changedFiles[i]);
                 subset.emplace_back(fref);
             }
         }
@@ -268,6 +284,7 @@ LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
         finalGs->lspTypecheckCount++;
         return TypecheckRun{move(out.first), move(subset), move(out.second), move(finalGs)};
     } else {
+        ENFORCE(!fastPathOnly);
         return runSlowPath(changedFiles);
     }
 }

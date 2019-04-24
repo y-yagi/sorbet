@@ -10,6 +10,20 @@ using namespace std;
 
 namespace sorbet::realmain::lsp {
 
+// If we are about to hit a slow path, wait this long for the next update to come in.
+constexpr long DEBOUNCE_TIME_MS = 2000;
+// Wait a maximum of the given time for updates to come rolling in.
+constexpr long MAX_DEBOUNCE_TIME_MS = DEBOUNCE_TIME_MS * 10;
+
+bool containsNonDelayableMessages(const deque<unique_ptr<LSPMessage>> &queue) {
+    for (auto &msg : queue) {
+        if (!msg->isDelayable()) {
+            return true;
+        }
+    }
+    return false;
+}
+
 /**
  * Attempts to read an LSP message from the file descriptor. Returns a nullptr if it fails.
  *
@@ -135,6 +149,11 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
                     {
                         absl::MutexLock lck(&mtx); // guards guardedState.
                         if (msg) {
+                            if (msg->isResponse()) {
+                                logger->info("Response");
+                            } else {
+                                logger->info(convertLSPMethodToString(msg->method()));
+                            }
                             enqueueRequest(logger, guardedState, move(msg), true);
                         }
                         // Check if it's time to exit.
@@ -151,16 +170,65 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
 
     mainThreadId = this_thread::get_id();
     unique_ptr<core::GlobalState> gs;
+    unique_ptr<LSPMessage> msgToMerge;
+    chrono::time_point<chrono::steady_clock> mergeStartTime = chrono::steady_clock::now();
     while (true) {
         unique_ptr<LSPMessage> msg;
+        bool shouldDebounce = true;
         {
             absl::MutexLock lck(&mtx);
             Timer timeit(logger, "idle");
-            mtx.Await(absl::Condition(
-                +[](LSPLoop::QueueState *guardedState) -> bool {
-                    return guardedState->terminate || (!guardedState->paused && !guardedState->pendingRequests.empty());
-                },
-                &guardedState));
+            if (msgToMerge) {
+                // User typed something that would hit the slow path. Wait and see if more updates to come in.
+                Timer timeit(logger, "debounce");
+                while (chrono::steady_clock::now() - mergeStartTime < chrono::milliseconds(MAX_DEBOUNCE_TIME_MS)) {
+                    mtx.AwaitWithTimeout(absl::Condition(
+                                             +[](LSPLoop::QueueState *guardedState) -> bool {
+                                                 return guardedState->terminate ||
+                                                        (!guardedState->paused &&
+                                                         containsNonDelayableMessages(guardedState->pendingRequests));
+                                             },
+                                             &guardedState),
+                                         absl::Milliseconds(DEBOUNCE_TIME_MS));
+
+                    // Try to merge message with new messages.
+                    auto counter = msgToMerge->counter;
+                    guardedState.pendingRequests.push_front(move(msgToMerge));
+                    const auto mergeCount = LSPLoop::mergeFileChanges(guardedState.pendingRequests);
+
+                    // Maintain invariant: msgToMerge contains message at end of loop.
+                    msgToMerge = move(guardedState.pendingRequests.front());
+                    ENFORCE(counter == msgToMerge->counter);
+                    guardedState.pendingRequests.pop_front();
+
+                    if (mergeCount == 0 || containsNonDelayableMessages(guardedState.pendingRequests)) {
+                        // Nothing was merged this time. No need to
+                        // wait for more updates.
+                        if (guardedState.pendingRequests.size() == 0) {
+                            logger->info("No new messages; going to typecheck.");
+                        } else {
+                            logger->info("Unmergeable messages found; going to typecheck.");
+                        }
+                        break;
+                    }
+                }
+                // Loop invariant: At end of loop, we still own the message.
+                ENFORCE(msgToMerge);
+
+                if (chrono::steady_clock::now() - mergeStartTime >= chrono::milliseconds(MAX_DEBOUNCE_TIME_MS)) {
+                    logger->info("Max timeout hit -- going to typecheck");
+                }
+                guardedState.pendingRequests.push_front(move(msgToMerge));
+                // Don't run the debounce procedure again.
+                shouldDebounce = false;
+            } else {
+                mtx.Await(absl::Condition(
+                    +[](LSPLoop::QueueState *guardedState) -> bool {
+                        return guardedState->terminate ||
+                               (!guardedState->paused && !guardedState->pendingRequests.empty());
+                    },
+                    &guardedState));
+            }
             ENFORCE(!guardedState.paused);
             if (guardedState.terminate) {
                 if (guardedState.errorCode != 0) {
@@ -175,9 +243,16 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
             guardedState.pendingRequests.pop_front();
         }
         prodCounterInc("lsp.messages.received");
-        gs = processRequest(move(gs), *msg);
-        auto currentTime = chrono::steady_clock::now();
-        if (shouldSendCountersToStatsd(currentTime)) {
+
+        mergeStartTime = chrono::steady_clock::now();
+        auto pair = processRequestInternal(move(gs), *msg, shouldDebounce);
+        gs = move(pair.first);
+        if (!pair.second) {
+            // processRequestInternal did not process the request because it would hit the slow path.
+            msgToMerge = move(msg);
+        }
+
+        if (shouldSendCountersToStatsd(mergeStartTime)) {
             {
                 // Merge counters from worker threads.
                 absl::MutexLock counterLck(&mtx);
@@ -185,7 +260,7 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
                     counterConsume(move(guardedState.counters));
                 }
             }
-            sendCountersToStatsd(currentTime);
+            sendCountersToStatsd(mergeStartTime);
         }
     }
 
@@ -272,7 +347,7 @@ unique_ptr<LSPMessage> performMerge(const UnorderedSet<string> &updatedFiles,
     return nullptr;
 }
 
-void LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
+int LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
     int requestsMergedCounter = 0;
     const int originalSize = pendingRequests.size();
     auto counts = make_unique<SorbetWorkspaceEditCounts>(0, 0, 0, 0);
@@ -294,8 +369,10 @@ void LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
             it = pendingRequests.erase(it);
         }
 
-        // Enqueue a merge update if we've encountered a message we couldn't merge, or we are at the end of the queue.
-        if (!preMerged || it == pendingRequests.end()) {
+        // Enqueue a merge update if we've encountered a message we couldn't merge and can't delay, or we are at the end
+        // of the queue.
+        if ((!preMerged && (!current->isDelayable() || (it + 1) == pendingRequests.end())) ||
+            it == pendingRequests.end()) {
             auto mergedMessage = performMerge(updatedFiles, consecutiveWorkspaceEdits, counts);
             if (mergedMessage != nullptr) {
                 // If we merge n requests into 1 request, then we've only decreased the queue size by n - 1.
@@ -323,6 +400,7 @@ void LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
         }
     }
     ENFORCE(pendingRequests.size() + requestsMergedCounter == originalSize);
+    return requestsMergedCounter;
 }
 
 void LSPLoop::enqueueRequest(const shared_ptr<spd::logger> &logger, LSPLoop::QueueState &state,
