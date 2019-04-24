@@ -99,6 +99,7 @@ void timingAddAsync(std::string_view measure, unsigned long start, unsigned long
 struct FlowId {
     std::string name;
     int id;
+    unsigned long startUs;
 };
 FlowId timingAddFlowStart(std::string_view measure, unsigned long start);
 void timingAddFlowEnd(FlowId flowId, unsigned long end);

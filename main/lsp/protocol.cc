@@ -10,6 +10,11 @@ using namespace std;
 
 namespace sorbet::realmain::lsp {
 
+// If we are about to hit a slow path, wait up to 1 second for additional updates to come in.
+constexpr int DEBOUNCE_TIME_US = 1000000;
+// Wait a maximum of 10 seconds for updates to come rolling in.
+constexpr int MAX_DEBOUNCE_TIME_US = DEBOUNCE_TIME_US * 10;
+
 /**
  * Attempts to read an LSP message from the file descriptor. Returns a nullptr if it fails.
  *
@@ -86,6 +91,12 @@ public:
     }
 };
 
+bool msgWithinDebouncePeriod(const LSPMessage &msg) {
+    auto currentTime = chrono::steady_clock::now();
+    auto currentTimeUs = chrono::duration_cast<chrono::microseconds>(currentTime.time_since_epoch()).count();
+    return currentTimeUs - msg.timestamp() < DEBOUNCE_TIME_US;
+}
+
 unique_ptr<core::GlobalState> LSPLoop::runLSP() {
     // Naming convention: thread that executes this function is called coordinator thread
     LSPLoop::QueueState guardedState{{}, false, false, 0};
@@ -132,6 +143,9 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
             try {
                 while (true) {
                     auto msg = getNewRequest(logger, inputFd, buffer);
+                    if (msg->isNotification() && msg->method() == LSPMethod::TextDocumentDidChange) {
+                        logger->debug("TEXT DOCUMENT DID CHANGE");
+                    }
                     {
                         absl::MutexLock lck(&mtx); // guards guardedState.
                         if (msg) {
@@ -153,6 +167,7 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
     unique_ptr<core::GlobalState> gs;
     while (true) {
         unique_ptr<LSPMessage> msg;
+        bool emptyQueue = false;
         {
             absl::MutexLock lck(&mtx);
             Timer timeit(logger, "idle");
@@ -173,15 +188,75 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
             }
             msg = move(guardedState.pendingRequests.front());
             guardedState.pendingRequests.pop_front();
+            emptyQueue = guardedState.pendingRequests.empty();
         }
         prodCounterInc("lsp.messages.received");
         auto startTracer = msg->startTracer;
-        gs = processRequest(move(gs), *msg);
+
+        // TODO: Support disabling debouncing in tests.
+        // TODO: Enable timing requests here...?
+
+        // If pendingRequests is non-empty, then it must contain requests that could not merge with `msg`.
+        // Thus, there is no reason to debounce.
+        // If it *is* empty, then the user might still be typing.
+        bool shouldDebounce = emptyQueue && msgWithinDebouncePeriod(*msg);
+        auto pair = processRequestInternal(move(gs), *msg, shouldDebounce);
+
         auto currentTime = chrono::steady_clock::now();
-        if (startTracer) {
-            auto processingFinish = chrono::duration_cast<chrono::microseconds>(currentTime.time_since_epoch()).count();
-            timingAddFlowEnd(startTracer.value(), processingFinish);
+        unsigned long currentTimeUs =
+            chrono::duration_cast<chrono::microseconds>(currentTime.time_since_epoch()).count();
+        gs = move(pair.first);
+        if (!pair.second) {
+            ShowOperation debounce(*this, "debounce", "Sorbet: Waiting for more characters before typechecking...");
+            // Message wasn't processed because it would hit slow path. Wait for more requests to merge in
+            // before repeating outer loop.
+            const unsigned long elapsedTime = currentTimeUs - msg->timestamp();
+            unsigned long timeToSleep = 0;
+            unsigned long cumulativeTimeSlept = 0;
+            if (elapsedTime < DEBOUNCE_TIME_US) {
+                timeToSleep = DEBOUNCE_TIME_US - elapsedTime;
+            }
+            while (cumulativeTimeSlept < MAX_DEBOUNCE_TIME_US) {
+                timespec sleepDuration = {
+                    static_cast<long>(timeToSleep / 1000000),          // us => s
+                    static_cast<long>((timeToSleep % 1000000) * 1000), // us => ns
+                };
+                timespec rem;
+                nanosleep(&sleepDuration, &rem);
+                // Try to merge message with new messages.
+                {
+                    absl::MutexLock lck(&mtx);
+                    guardedState.pendingRequests.push_front(move(msg));
+
+                    int updatesMerged = LSPLoop::mergeFileChanges(guardedState.pendingRequests);
+
+                    msg = move(guardedState.pendingRequests.front());
+                    guardedState.pendingRequests.pop_front();
+
+                    if (updatesMerged == 0) {
+                        // Nothing was merged this time. Break out of loop.
+                        break;
+                    }
+                }
+                // We successfully merged something within the waiting period.
+                // TODO: Can we take the merged message's arrival time into account
+                cumulativeTimeSlept += timeToSleep;
+                timeToSleep = DEBOUNCE_TIME_US;
+            }
+            // Loop invariant: At end of loop, we still own the message.
+            ENFORCE(msg);
+
+            // Re-add message to front of queue.
+            // Next turn of loop should process change.
+            {
+                absl::MutexLock lck(&mtx);
+                guardedState.pendingRequests.push_front(move(msg));
+            }
+        } else if (startTracer) {
+            // Processed path.
+            timingAddFlowEnd(startTracer.value(), currentTimeUs);
         }
+
         if (shouldSendCountersToStatsd(currentTime)) {
             {
                 // Merge counters from worker threads.
@@ -277,7 +352,7 @@ unique_ptr<LSPMessage> performMerge(const UnorderedSet<string> &updatedFiles,
     return nullptr;
 }
 
-void LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
+int LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
     int requestsMergedCounter = 0;
     const int originalSize = pendingRequests.size();
     auto counts = make_unique<SorbetWorkspaceEditCounts>(0, 0, 0, 0);
@@ -328,6 +403,7 @@ void LSPLoop::mergeFileChanges(deque<unique_ptr<LSPMessage>> &pendingRequests) {
         }
     }
     ENFORCE(pendingRequests.size() + requestsMergedCounter == originalSize);
+    return requestsMergedCounter;
 }
 
 void LSPLoop::enqueueRequest(const shared_ptr<spd::logger> &logger, LSPLoop::QueueState &state,

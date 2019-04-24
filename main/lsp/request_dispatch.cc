@@ -12,7 +12,7 @@ unique_ptr<core::GlobalState> LSPLoop::processRequest(unique_ptr<core::GlobalSta
 
 unique_ptr<core::GlobalState> LSPLoop::processRequest(unique_ptr<core::GlobalState> gs, const LSPMessage &msg) {
     Timer timeit(logger, "process_request");
-    return processRequestInternal(move(gs), msg);
+    return processRequestInternal(move(gs), msg).first;
 }
 
 unique_ptr<core::GlobalState> LSPLoop::processRequests(unique_ptr<core::GlobalState> gs,
@@ -29,34 +29,38 @@ unique_ptr<core::GlobalState> LSPLoop::processRequests(unique_ptr<core::GlobalSt
     return gs;
 }
 
-unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::GlobalState> gs, const LSPMessage &msg) {
+pair<unique_ptr<core::GlobalState>, bool> LSPLoop::processRequestInternal(unique_ptr<core::GlobalState> gs,
+                                                                          const LSPMessage &msg, bool fastPathOnly) {
     if (handleReplies(msg)) {
-        return gs;
+        return make_pair(move(gs), true);
     }
 
     const LSPMethod method = msg.method();
 
     if (!ensureInitialized(method, msg, gs)) {
-        return gs;
+        return make_pair(move(gs), true);
     }
     if (msg.isNotification()) {
         Timer timeit(logger, fmt::format("notification {}", convertLSPMethodToString(method)));
         auto &params = msg.asNotification().params;
         if (method == LSPMethod::TextDocumentDidChange) {
             prodCategoryCounterInc("lsp.messages.processed", "textDocument.didChange");
-            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidChangeTextDocumentParams>>(params));
+            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidChangeTextDocumentParams>>(params),
+                                             fastPathOnly);
         }
         if (method == LSPMethod::TextDocumentDidOpen) {
             prodCategoryCounterInc("lsp.messages.processed", "textDocument.didOpen");
-            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidOpenTextDocumentParams>>(params));
+            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidOpenTextDocumentParams>>(params),
+                                             fastPathOnly);
         }
         if (method == LSPMethod::TextDocumentDidClose) {
             prodCategoryCounterInc("lsp.messages.processed", "textDocument.didClose");
-            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidCloseTextDocumentParams>>(params));
+            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<DidCloseTextDocumentParams>>(params),
+                                             fastPathOnly);
         }
         if (method == LSPMethod::SorbetWatchmanFileChange) {
             prodCategoryCounterInc("lsp.messages.processed", "sorbet/watchmanFileChange");
-            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<WatchmanQueryResponse>>(params));
+            return handleSorbetWorkspaceEdit(move(gs), *get<unique_ptr<WatchmanQueryResponse>>(params), fastPathOnly);
         }
         if (method == LSPMethod::SorbetWorkspaceEdit) {
             // Note: We increment `lsp.messages.processed` when the original requests were merged into this one.
@@ -76,11 +80,11 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
                 for (auto &edit : edits) {
                     if (edit->type != SorbetWorkspaceEditType::FileSystem) {
                         logger->error("Serving request before got an Initialize & Initialized handshake from IDE");
-                        return gs;
+                        return make_pair(move(gs), true);
                     }
                 }
             }
-            return handleSorbetWorkspaceEdits(move(gs), edits);
+            return handleSorbetWorkspaceEdits(move(gs), edits, fastPathOnly);
         }
         if (method == LSPMethod::Initialized) {
             prodCategoryCounterInc("lsp.messages.processed", "initialized");
@@ -99,13 +103,13 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
             }
 
             // process deferred watchman updates
-            newGs = commitSorbetWorkspaceEdits(move(newGs), deferredFileEdits);
+            newGs = commitSorbetWorkspaceEdits(move(newGs), deferredFileEdits).first;
             deferredFileEdits.clear();
-            return newGs;
+            return make_pair(move(newGs), true);
         }
         if (method == LSPMethod::Exit) {
             prodCategoryCounterInc("lsp.messages.processed", "exit");
-            return gs;
+            return make_pair(move(gs), true);
         }
         if (method == LSPMethod::SorbetError) {
             auto &errorInfo = get<unique_ptr<SorbetErrorParams>>(params);
@@ -115,7 +119,7 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
             } else {
                 logger->error(errorInfo->message);
             }
-            return gs;
+            return make_pair(move(gs), true);
         }
     } else if (msg.isRequest()) {
         Timer timeit(logger, fmt::format("request {}", convertLSPMethodToString(method)));
@@ -128,7 +132,7 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
             prodCounterInc("lsp.messages.canceled");
             response.error = make_unique<ResponseError>((int)LSPErrorCodes::RequestCancelled, "Request was canceled");
             sendResponse(response);
-            return gs;
+            return make_pair(move(gs), true);
         }
 
         auto &rawParams = requestMessage.params;
@@ -179,30 +183,29 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
             sendResponse(response);
         } else if (method == LSPMethod::TextDocumentDocumentSymbol) {
             auto &params = get<unique_ptr<DocumentSymbolParams>>(rawParams);
-            return handleTextDocumentDocumentSymbol(move(gs), id, *params);
+            return make_pair(handleTextDocumentDocumentSymbol(move(gs), id, *params), true);
         } else if (method == LSPMethod::WorkspaceSymbol) {
             auto &params = get<unique_ptr<WorkspaceSymbolParams>>(rawParams);
-            return handleWorkspaceSymbols(move(gs), id, *params);
+            return make_pair(handleWorkspaceSymbols(move(gs), id, *params), true);
         } else if (method == LSPMethod::TextDocumentDefinition) {
             auto &params = get<unique_ptr<TextDocumentPositionParams>>(rawParams);
-            return handleTextDocumentDefinition(move(gs), id, *params);
+            return make_pair(handleTextDocumentDefinition(move(gs), id, *params), true);
         } else if (method == LSPMethod::TextDocumentHover) {
             auto &params = get<unique_ptr<TextDocumentPositionParams>>(rawParams);
-            return handleTextDocumentHover(move(gs), id, *params);
+            return make_pair(handleTextDocumentHover(move(gs), id, *params), true);
         } else if (method == LSPMethod::TextDocumentCompletion) {
             auto &params = get<unique_ptr<CompletionParams>>(rawParams);
-            return handleTextDocumentCompletion(move(gs), id, *params);
+            return make_pair(handleTextDocumentCompletion(move(gs), id, *params), true);
         } else if (method == LSPMethod::TextDocumentSignatureHelp) {
             auto &params = get<unique_ptr<TextDocumentPositionParams>>(rawParams);
-            return handleTextSignatureHelp(move(gs), id, *params);
+            return make_pair(handleTextSignatureHelp(move(gs), id, *params), true);
         } else if (method == LSPMethod::TextDocumentReferences) {
             auto &params = get<unique_ptr<ReferenceParams>>(rawParams);
-            return handleTextDocumentReferences(move(gs), id, *params);
+            return make_pair(handleTextDocumentReferences(move(gs), id, *params), true);
         } else if (method == LSPMethod::Shutdown) {
             prodCategoryCounterInc("lsp.messages.processed", "shutdown");
             response.result = JSONNullObject();
             sendResponse(response);
-            return gs;
         } else if (method == LSPMethod::SorbetError) {
             auto &params = get<unique_ptr<SorbetErrorParams>>(rawParams);
             response.error = make_unique<ResponseError>(params->code, params->message);
@@ -219,6 +222,6 @@ unique_ptr<core::GlobalState> LSPLoop::processRequestInternal(unique_ptr<core::G
     } else {
         logger->debug("Unable to process request {}; LSP message is not a request.", convertLSPMethodToString(method));
     }
-    return gs;
+    return make_pair(move(gs), true);
 }
 } // namespace sorbet::realmain::lsp

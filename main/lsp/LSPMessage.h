@@ -64,6 +64,12 @@ public:
     bool canceled = false;
 
     /**
+     * Returns the timestamp in microseconds from when this message was enqueued. Throws an exception if `startTracer`
+     * is not present.
+     */
+    unsigned long timestamp() const;
+
+    /**
      * Returns an ID if the message has one. Otherwise, returns nullopt.
      */
     std::optional<MessageId> id() const;

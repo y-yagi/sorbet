@@ -188,7 +188,7 @@ FlowId timingAddFlowStart(string_view measure, unsigned long start) {
     int id = getGlobalTimingId();
     CounterImpl::Timing tim{id, (string)measure, start, nullopt, getThreadId(), CounterImpl::Timing::FlowStart};
     counterState.timingAdd(tim);
-    FlowId ret{(string)measure, id};
+    FlowId ret{(string)measure, id, start};
     return ret;
 }
 

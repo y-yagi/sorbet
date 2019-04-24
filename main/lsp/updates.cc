@@ -191,7 +191,8 @@ LSPLoop::TypecheckRun LSPLoop::runSlowPath(const vector<shared_ptr<core::File>> 
 }
 
 LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
-                                           vector<shared_ptr<core::File>> &changedFiles, bool allFiles) {
+                                           vector<shared_ptr<core::File>> &changedFiles, bool allFiles,
+                                           bool fastPathOnly) {
     if (disableFastPath) {
         logger->debug("Taking sad path because happy path is disabled.");
         return runSlowPath(changedFiles);
@@ -267,6 +268,9 @@ LSPLoop::TypecheckRun LSPLoop::tryFastPath(unique_ptr<core::GlobalState> gs,
         auto out = initialGS->errorQueue->drainWithQueryResponses();
         finalGs->lspTypecheckCount++;
         return TypecheckRun{move(out.first), move(subset), move(out.second), move(finalGs)};
+    } else if (fastPathOnly) {
+        // Cannot run fast path, and caller doesn't want slow path.
+        return TypecheckRun{{}, {}, {}, move(gs)};
     } else {
         return runSlowPath(changedFiles);
     }

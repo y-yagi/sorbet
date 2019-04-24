@@ -113,6 +113,13 @@ LSPMessage::LSPMessage(rapidjson::Document &d) : msg(fromJSONValue(d)) {}
 
 LSPMessage::LSPMessage(const std::string &json) : msg(fromJSON(json)) {}
 
+unsigned long LSPMessage::timestamp() const {
+    if (!startTracer) {
+        Exception::raise("Cannot get timestamp of LSPMessage: startTracer is not defined.");
+    }
+    return (*startTracer).startUs;
+}
+
 optional<MessageId> LSPMessage::id() const {
     if (isRequest()) {
         return asRequest().id;
