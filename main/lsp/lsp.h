@@ -163,7 +163,7 @@ class LSPLoop {
      * `fastPathOnly` is `true`. */
     TypecheckRun tryFastPath(std::unique_ptr<core::GlobalState> gs,
                              std::vector<std::shared_ptr<core::File>> &changedFiles, bool allFiles = false,
-                             bool fastPathOnly = true);
+                             bool fastPathOnly = false);
 
     std::unique_ptr<core::GlobalState> pushDiagnostics(TypecheckRun filesTypechecked);
 
