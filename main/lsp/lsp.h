@@ -234,13 +234,13 @@ class LSPLoop {
     processRequestInternal(std::unique_ptr<core::GlobalState> gs, const LSPMessage &msg, bool fastPathOnly = false);
 
     void preprocessSorbetWorkspaceEdit(const DidChangeTextDocumentParams &changeParams,
-                                       UnorderedMap<std::string, std::string> &updates, bool fastPathOnly = false);
+                                       UnorderedMap<std::string, std::string> &updates);
     void preprocessSorbetWorkspaceEdit(const DidOpenTextDocumentParams &openParams,
-                                       UnorderedMap<std::string, std::string> &updates, bool fastPathOnly = false);
+                                       UnorderedMap<std::string, std::string> &updates);
     void preprocessSorbetWorkspaceEdit(const DidCloseTextDocumentParams &closeParams,
-                                       UnorderedMap<std::string, std::string> &updates, bool fastPathOnly = false);
+                                       UnorderedMap<std::string, std::string> &updates);
     void preprocessSorbetWorkspaceEdit(const WatchmanQueryResponse &queryResponse,
-                                       UnorderedMap<std::string, std::string> &updates, bool fastPathOnly = false);
+                                       UnorderedMap<std::string, std::string> &updates);
     std::pair<std::unique_ptr<core::GlobalState>, bool>
     handleSorbetWorkspaceEdit(std::unique_ptr<core::GlobalState> gs, const DidChangeTextDocumentParams &changeParams,
                               bool fastPathOnly = false);

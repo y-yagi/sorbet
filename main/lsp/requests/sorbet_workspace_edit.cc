@@ -114,7 +114,9 @@ pair<unique_ptr<core::GlobalState>, bool> LSPLoop::commitSorbetWorkspaceEdits(un
             files.push_back(
                 make_shared<core::File>(string(update.first), move(update.second), core::File::Type::Normal));
         }
-        return pushDiagnostics(tryFastPath(move(gs), files, false, fastPathOnly));
+        auto run = tryFastPath(move(gs), files, false, fastPathOnly);
+        // Fast path only ran if it actually typechecked files.
+        return make_pair(move(run.gs), run.filesTypechecked.size() > 0);
     } else {
         return make_pair(move(gs), true);
     }
@@ -125,7 +127,7 @@ LSPLoop::handleSorbetWorkspaceEdit(unique_ptr<core::GlobalState> gs, const DidCh
                                    bool fastPathOnly) {
     UnorderedMap<string, string> updates;
     preprocessSorbetWorkspaceEdit(changeParams, updates);
-    return commitSorbetWorkspaceEdits(move(gs), updates);
+    return commitSorbetWorkspaceEdits(move(gs), updates, fastPathOnly);
 }
 
 pair<unique_ptr<core::GlobalState>, bool>
@@ -133,7 +135,7 @@ LSPLoop::handleSorbetWorkspaceEdit(unique_ptr<core::GlobalState> gs, const DidOp
                                    bool fastPathOnly) {
     UnorderedMap<string, string> updates;
     preprocessSorbetWorkspaceEdit(openParams, updates);
-    return commitSorbetWorkspaceEdits(move(gs), updates);
+    return commitSorbetWorkspaceEdits(move(gs), updates, fastPathOnly);
 }
 
 pair<unique_ptr<core::GlobalState>, bool>
@@ -141,7 +143,7 @@ LSPLoop::handleSorbetWorkspaceEdit(unique_ptr<core::GlobalState> gs, const DidCl
                                    bool fastPathOnly) {
     UnorderedMap<string, string> updates;
     preprocessSorbetWorkspaceEdit(closeParams, updates);
-    return commitSorbetWorkspaceEdits(move(gs), updates);
+    return commitSorbetWorkspaceEdits(move(gs), updates, fastPathOnly);
 }
 
 pair<unique_ptr<core::GlobalState>, bool> LSPLoop::handleSorbetWorkspaceEdit(unique_ptr<core::GlobalState> gs,
@@ -149,7 +151,7 @@ pair<unique_ptr<core::GlobalState>, bool> LSPLoop::handleSorbetWorkspaceEdit(uni
                                                                              bool fastPathOnly) {
     UnorderedMap<string, string> updates;
     preprocessSorbetWorkspaceEdit(queryResponse, updates);
-    return commitSorbetWorkspaceEdits(move(gs), updates);
+    return commitSorbetWorkspaceEdits(move(gs), updates, fastPathOnly);
 }
 
 pair<unique_ptr<core::GlobalState>, bool>
