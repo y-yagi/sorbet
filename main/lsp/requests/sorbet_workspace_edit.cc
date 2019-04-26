@@ -180,22 +180,7 @@ LSPLoop::handleSorbetWorkspaceEdits(unique_ptr<core::GlobalState> gs, vector<uni
         }
     }
 
-    if (updates.size() > 0) {
-        vector<shared_ptr<core::File>> files;
-        files.reserve(updates.size());
-        for (auto &update : updates) {
-            files.push_back(
-                make_shared<core::File>(string(update.first), move(update.second), core::File::Type::Normal));
-        }
-        auto run = tryFastPath(move(gs), files, false, fastPathOnly);
-        if (!fastPathOnly || run.filesTypechecked.size() > 0) {
-            return make_pair(pushDiagnostics(move(run)), true);
-        } else {
-            return make_pair(move(gs), false);
-        }
-    } else {
-        return make_pair(move(gs), true);
-    }
+    return commitSorbetWorkspaceEdits(move(gs), updates);
 }
 
 } // namespace sorbet::realmain::lsp
