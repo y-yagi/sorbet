@@ -7,6 +7,7 @@
 #include "ast/substitute/substitute.h"
 #include "ast/treemap/treemap.h"
 #include "cfg/CFG.h"
+#include "cfg/proto/proto.h"
 #include "cfg/builder/builder.h"
 #include "common/Timer.h"
 #include "common/concurrency/ConcurrentQueue.h"
@@ -47,6 +48,10 @@ public:
         cfg = infer::Inference::run(ctx.withOwner(cfg->symbol), move(cfg));
         if (print.CFG) {
             fmt::print("{}\n\n", cfg->toString(ctx));
+        }
+        if (print.CFGProto) {
+            auto proto = cfg::Proto::toProto(ctx.state, *cfg);
+            core::Proto::toJSON(proto, std::cout);
         }
         return m;
     }

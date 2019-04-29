@@ -33,6 +33,7 @@ struct Printers {
     bool ResolveTreeRaw = false;
     bool MissingConstants = false;
     bool CFG = false;
+    bool CFGProto = false;
     bool TypedSource = false;
     bool Autogen = false;
     bool AutogenMsgPack = false;

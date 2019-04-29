@@ -1,0 +1,8 @@
+syntax = "proto3";
+
+package com.stripe.rubytyper;
+import "proto/Symbol.proto";
+
+message CFG {
+    Symbol symbol = 1;
+}
