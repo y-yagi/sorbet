@@ -7,12 +7,14 @@ import "proto/Symbol.proto";
 
 message TypedVariable {
     string variable = 1;
-    // TODO: type
+    // TODO: types
+    string tmp_type = 2;
 }
 
 message Binding {
     TypedVariable bind = 1;
-    // TODO: instruction
+    // TODO: instructions
+    string tmp_instruction = 2;
 }
 
 message Block {
