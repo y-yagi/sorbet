@@ -176,6 +176,7 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
             if (msgToMerge) {
                 // User typed something that would hit the slow path. Wait and see if more updates come in.
                 Timer timeit(logger, "debounce");
+                ShowOperation op(*this, "debounce", "Sorbet: Waiting for typing to stop before typechecking...");
                 while (chrono::steady_clock::now() - mergeStartTime < chrono::milliseconds(MAX_DEBOUNCE_TIME_MS)) {
                     mtx.AwaitWithTimeout(absl::Condition(
                                              +[](LSPLoop::QueueState *guardedState) -> bool {
@@ -199,20 +200,11 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
                     if (mergeCount == 0 || containsNonDelayableMessages(guardedState.pendingRequests)) {
                         // Nothing was merged this time. No need to
                         // wait for more updates.
-                        if (guardedState.pendingRequests.size() == 0) {
-                            logger->info("No new messages; going to typecheck.");
-                        } else {
-                            logger->info("Unmergeable messages found; going to typecheck.");
-                        }
                         break;
                     }
                 }
                 // Loop invariant: At end of loop, we still own the message.
                 ENFORCE(msgToMerge);
-
-                if (chrono::steady_clock::now() - mergeStartTime >= chrono::milliseconds(MAX_DEBOUNCE_TIME_MS)) {
-                    logger->info("Max timeout hit -- going to typecheck");
-                }
                 guardedState.pendingRequests.push_front(move(msgToMerge));
                 // Don't run the debounce procedure again.
                 shouldDebounce = false;
