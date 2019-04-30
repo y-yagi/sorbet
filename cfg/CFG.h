@@ -28,7 +28,7 @@ public:
     BasicBlock *thenb;
     BasicBlock *elseb;
     core::Loc loc;
-    bool isCondSet() const {
+    bool isCondSet() {
         return cond.variable._name.id() >= 0;
     }
     BlockExit() : cond(), thenb(nullptr), elseb(nullptr){};

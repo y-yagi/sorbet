@@ -49,7 +49,7 @@ com::stripe::rubytyper::Binding Proto::toProto(core::Context ctx, const Binding 
 
 com::stripe::rubytyper::BlockExit Proto::toProto(core::Context ctx, const BlockExit &ex) {
     com::stripe::rubytyper::BlockExit proto;
-    if (ex.isCondSet()) {
+    if (ex.cond.variable.exists()) {
         *proto.mutable_cond() = toProto(ctx, ex.cond);
     }
     if (ex.thenb) {
