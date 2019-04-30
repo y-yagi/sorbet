@@ -51,6 +51,7 @@ public:
         }
         if (print.CFGProto) {
             auto proto = cfg::Proto::toProto(ctx, *cfg);
+            // TODO: export actual proto
             core::Proto::toJSON(proto, std::cout);
         }
         return m;

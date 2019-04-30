@@ -6,6 +6,12 @@ import "proto/Symbol.proto";
 
 // TODO: Add locations everywhere
 
+message OwnedSymbol {
+    // From outer to inner
+    repeated Symbol owners = 1;
+    Symbol symbol = 2;
+}
+
 message TypedVariable {
     Name variable = 1;
     // TODO: types
@@ -31,8 +37,7 @@ message Block {
 }
 
 message CFG {
-    Symbol symbol = 1;
+    OwnedSymbol symbol = 1;
     repeated Block blocks = 2;
-    // TODO: where exactly are we? (class::method)
     // TODO: argument/return types
 }
