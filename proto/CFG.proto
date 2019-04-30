@@ -3,11 +3,27 @@ syntax = "proto3";
 package com.stripe.rubytyper;
 import "proto/Symbol.proto";
 
-message BasicBlock {
+// TODO: Add locations everywhere
+
+message TypedVariable {
+    string variable = 1;
+    // TODO: type
+}
+
+message Binding {
+    TypedVariable bind = 1;
+    // TODO: instruction
+}
+
+message Block {
     int32 id = 1;
+    repeated Binding bindings = 2;
+    // TODO: exit
 }
 
 message CFG {
     Symbol symbol = 1;
-    repeated BasicBlock basic_blocks = 2;
+    repeated Block blocks = 2;
+    // TODO: where exactly are we? (class::method)
+    // TODO: argument/return types
 }
