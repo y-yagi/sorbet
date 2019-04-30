@@ -1,12 +1,13 @@
 syntax = "proto3";
 
 package com.stripe.rubytyper;
+import "proto/Name.proto";
 import "proto/Symbol.proto";
 
 // TODO: Add locations everywhere
 
 message TypedVariable {
-    string variable = 1;
+    Name variable = 1;
     // TODO: types
     string tmp_type = 2;
 }

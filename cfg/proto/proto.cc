@@ -9,12 +9,8 @@ namespace sorbet::cfg {
 
 com::stripe::rubytyper::TypedVariable Proto::toProto(core::Context ctx, const cfg::VariableUseSite &vus) {
     com::stripe::rubytyper::TypedVariable proto;
-    // TODO: Is `shortName` really what we want?
-    auto const &nameRef = vus.variable._name;
-    if (nameRef.exists()) {
-        auto const &name = nameRef.data(ctx.state);
-        auto const &shortName = name->shortName(ctx.state);
-        proto.set_variable(std::string(shortName));
+    if (vus.variable._name.exists()) {
+        *proto.mutable_variable() = core::Proto::toProto(ctx.state, vus.variable._name);
     }
     if (vus.type) {
         proto.set_tmp_type(vus.type->show(ctx.state));
