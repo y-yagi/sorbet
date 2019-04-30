@@ -10,6 +10,7 @@ namespace sorbet::cfg {
     public:
         Proto() = delete;
 
+        static com::stripe::rubytyper::BasicBlock toProto(const core::GlobalState &gs, const cfg::BasicBlock &bb);
         static com::stripe::rubytyper::CFG toProto(const core::GlobalState &gs, const cfg::CFG &cfg);
     };
 } // namespace sorbet::core
