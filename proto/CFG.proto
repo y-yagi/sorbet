@@ -17,10 +17,16 @@ message Binding {
     string tmp_instruction = 2;
 }
 
+message BlockExit {
+    TypedVariable cond = 1;
+    int32 then_block = 2;
+    int32 else_block = 3;
+}
+
 message Block {
     int32 id = 1;
     repeated Binding bindings = 2;
-    // TODO: exit
+    BlockExit exit = 3;
 }
 
 message CFG {
