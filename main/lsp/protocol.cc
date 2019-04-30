@@ -149,11 +149,6 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
                     {
                         absl::MutexLock lck(&mtx); // guards guardedState.
                         if (msg) {
-                            if (msg->isResponse()) {
-                                logger->info("Response");
-                            } else {
-                                logger->info(convertLSPMethodToString(msg->method()));
-                            }
                             enqueueRequest(logger, guardedState, move(msg), true);
                         }
                         // Check if it's time to exit.
@@ -179,7 +174,7 @@ unique_ptr<core::GlobalState> LSPLoop::runLSP() {
             absl::MutexLock lck(&mtx);
             Timer timeit(logger, "idle");
             if (msgToMerge) {
-                // User typed something that would hit the slow path. Wait and see if more updates to come in.
+                // User typed something that would hit the slow path. Wait and see if more updates come in.
                 Timer timeit(logger, "debounce");
                 while (chrono::steady_clock::now() - mergeStartTime < chrono::milliseconds(MAX_DEBOUNCE_TIME_MS)) {
                     mtx.AwaitWithTimeout(absl::Condition(
