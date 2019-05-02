@@ -1,0 +1,61 @@
+syntax = "proto3";
+
+package com.stripe.rubytyper;
+import "proto/Symbol.proto";
+
+message Type {
+    message Class {
+        Symbol symbol = 1;
+    }
+    message And {
+        Type left = 1;
+        Type right = 2;
+    }
+    message Or {
+        Type left = 1;
+        Type right = 2;
+    }
+    message Applied {
+        Symbol symbol = 1;
+        repeated Type args = 2;
+    }
+    message Shape {
+        Type underlying = 1;
+        repeated Type keys = 2;
+        repeated Type values = 3;
+    }
+    message Literal {
+        enum Kind {
+            UNKNOWN = 0;
+            INTEGER = 1;
+            STRING = 2;
+            SYMBOL = 3;
+            TRUE = 4;
+            FALSE = 5;
+            FLOAT = 6;
+        }
+        Kind kind = 1;
+        oneof type {
+            int64 integer = 10;
+            string string = 11;
+            string symbol = 12;
+            bool bool = 13;
+            float float = 14;
+        }
+    }
+    message Tuple {
+        Type underlying = 1;
+        repeated Type elems = 2;
+    }
+
+    oneof type {
+        bool unknown = 1;
+        Class class = 2;
+        And and = 3;
+        Or or = 4;
+        Applied applied = 5;
+        Shape shape = 6;
+        Literal literal = 7;
+        Tuple tuple = 8;
+    }
+}
