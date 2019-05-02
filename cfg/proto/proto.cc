@@ -65,7 +65,6 @@ com::stripe::rubytyper::CFG Proto::toProto(core::Context ctx, const CFG &cfg) {
     com::stripe::rubytyper::CFG proto;
 
     *proto.mutable_symbol() = core::Proto::toProto(ctx, cfg.symbol);
-    proto.set_full_path(cfg.symbol.show(ctx.state));
 
     core::SymbolData sym = cfg.symbol.data(ctx.state);
     core::TypePtr ty = sym->resultType;

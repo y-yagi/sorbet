@@ -40,6 +40,7 @@ message Symbol {
     int32 id = 1;
 
     Name name = 2;
+    string resolved_name = 17;
     Kind kind = 3;
 
 //    // TYPE_ARGUMENT or TYPE_MEMBER
@@ -67,4 +68,6 @@ message Symbol {
 //    repeated Loc locs = 15;
 
     int32 aliasTo = 16;
+
+    // NEXT -> 18
 }

@@ -87,6 +87,8 @@ com::stripe::rubytyper::Symbol Proto::toProto(const GlobalState &gs, SymbolRef s
         *symbolProto.add_children() = toProto(gs, pair.second);
     }
 
+    symbolProto.set_resolved_name(sym.show(gs));
+
     return symbolProto;
 }
 

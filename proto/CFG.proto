@@ -32,7 +32,6 @@ message Block {
 
 message CFG {
     Symbol symbol = 1;
-    string full_path = 2; // eg: Foo::Bar#mymethod or Foo::Bar.mystatic
     string tmp_return_type = 3;
     message Argument {
         string name = 1;
