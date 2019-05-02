@@ -40,5 +40,4 @@ message CFG {
     repeated Argument arguments = 4;
 
     repeated Block blocks = 5;
-    // TODO: number of loops?
 }
