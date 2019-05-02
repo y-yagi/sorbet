@@ -29,7 +29,7 @@ com::stripe::rubytyper::Name Proto::toProto(const GlobalState &gs, NameRef name)
     return protoName;
 }
 
-com::stripe::rubytyper::Symbol Proto::toProto(const GlobalState &gs, SymbolRef sym) {
+com::stripe::rubytyper::Symbol Proto::toProtoNoChildren(const GlobalState &gs, SymbolRef sym) {
     com::stripe::rubytyper::Symbol symbolProto;
     const auto data = sym.data(gs);
 
@@ -74,6 +74,14 @@ com::stripe::rubytyper::Symbol Proto::toProto(const GlobalState &gs, SymbolRef s
         }
     }
 
+    symbolProto.set_resolved_name(sym.show(gs));
+
+    return symbolProto;
+}
+
+com::stripe::rubytyper::Symbol Proto::toProto(const GlobalState &gs, SymbolRef sym) {
+    com::stripe::rubytyper::Symbol symbolProto = toProtoNoChildren(gs, sym);
+    const auto data = sym.data(gs);
     for (auto pair : data->membersStableOrderSlow(gs)) {
         if (pair.first == Names::singleton() || pair.first == Names::attached() ||
             pair.first == Names::classMethods()) {
@@ -86,9 +94,6 @@ com::stripe::rubytyper::Symbol Proto::toProto(const GlobalState &gs, SymbolRef s
 
         *symbolProto.add_children() = toProto(gs, pair.second);
     }
-
-    symbolProto.set_resolved_name(sym.show(gs));
-
     return symbolProto;
 }
 
@@ -130,7 +135,7 @@ com::stripe::rubytyper::Type Proto::toProto(const GlobalState &gs, TypePtr typ) 
         typ.get(),
         [&](ClassType *t) {
             proto.set_kind(com::stripe::rubytyper::Type::CLASS);
-            *proto.mutable_class_() = toProto(gs, t->symbol);
+            *proto.mutable_class_() = toProtoNoChildren(gs, t->symbol);
         },
         [&](AndType *t) {
             proto.set_kind(com::stripe::rubytyper::Type::AND);
@@ -144,7 +149,7 @@ com::stripe::rubytyper::Type Proto::toProto(const GlobalState &gs, TypePtr typ) 
         },
         [&](AppliedType *t) {
             proto.set_kind(com::stripe::rubytyper::Type::APPLIED);
-            *proto.mutable_applied()->mutable_symbol() = toProto(gs, t->klass);
+            *proto.mutable_applied()->mutable_symbol() = toProtoNoChildren(gs, t->klass);
             for (auto a: t->targs) {
                 *proto.mutable_applied()->add_type_args() = toProto(gs, a);
             }

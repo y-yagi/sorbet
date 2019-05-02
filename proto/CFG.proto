@@ -3,13 +3,13 @@ syntax = "proto3";
 package com.stripe.rubytyper;
 import "proto/Name.proto";
 import "proto/Symbol.proto";
+import "proto/Type.proto";
 
 // TODO: Add locations everywhere
 
 message TypedVariable {
     Name variable = 1;
-    // TODO: types
-    string tmp_type = 2;
+    Type type = 2;
 }
 
 message Binding {
@@ -32,10 +32,10 @@ message Block {
 
 message CFG {
     Symbol symbol = 1;
-    string tmp_return_type = 3;
+    Type returns = 3;
     message Argument {
         string name = 1;
-        string tmp_type = 2;
+        Type type = 2;
     }
     repeated Argument arguments = 4;
 

@@ -13,7 +13,7 @@ com::stripe::rubytyper::TypedVariable Proto::toProto(core::Context ctx, const Va
         *proto.mutable_variable() = core::Proto::toProto(ctx.state, vus.variable._name);
     }
     if (vus.type) {
-        proto.set_tmp_type(vus.type->show(ctx.state));
+        *proto.mutable_type() = core::Proto::toProto(ctx.state, vus.type);
     }
     return proto;
 }
@@ -55,7 +55,7 @@ com::stripe::rubytyper::CFG::Argument Proto::argumentToProto(core::Context ctx, 
     core::SymbolData s = sym.data(ctx.state);
     proto.set_name(s->argumentName(ctx.state));
     if (s->resultType) {
-        proto.set_tmp_type(s->resultType->show(ctx.state));
+        *proto.mutable_type() = core::Proto::toProto(ctx.state, s->resultType);
     }
     return proto;
 }
@@ -67,9 +67,8 @@ com::stripe::rubytyper::CFG Proto::toProto(core::Context ctx, const CFG &cfg) {
     *proto.mutable_symbol() = core::Proto::toProto(ctx, cfg.symbol);
 
     core::SymbolData sym = cfg.symbol.data(ctx.state);
-    core::TypePtr ty = sym->resultType;
-    if (ty) {
-        proto.set_tmp_return_type(ty->show(ctx.state));
+    if (sym->resultType) {
+        *proto.mutable_returns() = core::Proto::toProto(ctx.state, sym->resultType);
     }
 
     for (auto arg: sym->arguments()) {

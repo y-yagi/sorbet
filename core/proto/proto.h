@@ -18,9 +18,13 @@ public:
     Proto() = delete;
 
     static com::stripe::rubytyper::Name toProto(const GlobalState &gs, NameRef name);
+
     static com::stripe::rubytyper::Symbol toProto(const GlobalState &gs, SymbolRef sym);
+    static com::stripe::rubytyper::Symbol toProtoNoChildren(const GlobalState &gs, SymbolRef sym);
+
     static com::stripe::rubytyper::Type::Literal toProto(const GlobalState &gs, const LiteralType &lit);
     static com::stripe::rubytyper::Type toProto(const GlobalState &gs, TypePtr typ);
+
     static com::stripe::rubytyper::Loc toProto(const GlobalState &gs, Loc loc);
     static com::stripe::rubytyper::FileTable filesToProto(const GlobalState &gs);
 
