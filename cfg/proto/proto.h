@@ -10,13 +10,16 @@ namespace sorbet::cfg {
     public:
         Proto() = delete;
 
-        static com::stripe::rubytyper::OwnedSymbol ownedSymbolProto(core::Context ctx, core::SymbolRef sym);
         static com::stripe::rubytyper::TypedVariable toProto(core::Context ctx, const VariableUseSite &vus);
+
         static com::stripe::rubytyper::Binding toProto(core::Context ctx, const Binding &bnd);
-        static com::stripe::rubytyper::BlockExit toProto(core::Context ctx, const BlockExit &ex);
+
+        static com::stripe::rubytyper::Block::BlockExit toProto(core::Context ctx, const BlockExit &ex);
         static com::stripe::rubytyper::Block toProto(core::Context ctx, const BasicBlock &bb);
+
+        static com::stripe::rubytyper::CFG::Argument argumentToProto(core::Context ctx, core::SymbolRef sym);
         static com::stripe::rubytyper::CFG toProto(core::Context ctx, const CFG &cfg);
     };
-} // namespace sorbet::core
+} // namespace sorbet::cfg
 
 #endif

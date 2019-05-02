@@ -6,12 +6,6 @@ import "proto/Symbol.proto";
 
 // TODO: Add locations everywhere
 
-message OwnedSymbol {
-    // From outer to inner
-    repeated Symbol owners = 1;
-    Symbol symbol = 2;
-}
-
 message TypedVariable {
     Name variable = 1;
     // TODO: types
@@ -24,21 +18,27 @@ message Binding {
     string tmp_instruction = 2;
 }
 
-message BlockExit {
-    TypedVariable cond = 1;
-    int32 then_block = 2;
-    int32 else_block = 3;
-}
-
 message Block {
+    message BlockExit {
+        TypedVariable cond = 1;
+        int32 then_block = 2;
+        int32 else_block = 3;
+    }
+
     int32 id = 1;
     repeated Binding bindings = 2;
     BlockExit exit = 3;
 }
 
 message CFG {
-    OwnedSymbol symbol = 1;
-    repeated Block blocks = 2;
+    Symbol symbol = 1;
+    string full_path = 2; // eg: Foo::Bar#mymethod or Foo::Bar.mystatic
     string tmp_return_type = 3;
-    // TODO: argument/return types
+    message Argument {
+        string name = 1;
+        string tmp_type = 2;
+    }
+    repeated Argument arguments = 4;
+
+    repeated Block blocks = 5;
 }
