@@ -80,4 +80,4 @@ com::stripe::rubytyper::CFG Proto::toProto(core::Context ctx, const CFG &cfg) {
     return proto;
 }
 
-} // namespace sorbet::core
+} // namespace sorbet::cfg
