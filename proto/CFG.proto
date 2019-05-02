@@ -39,5 +39,6 @@ message Block {
 message CFG {
     OwnedSymbol symbol = 1;
     repeated Block blocks = 2;
+    string tmp_return_type = 3;
     // TODO: argument/return types
 }

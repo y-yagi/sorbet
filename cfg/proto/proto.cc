@@ -9,11 +9,11 @@ namespace sorbet::cfg {
 
 // TODO: We don't want to see children of our owners, that just gets silly
 static com::stripe::rubytyper::Symbol symbolNoChildren(core::Context ctx, core::SymbolRef sym) {
+    // TODO: This gives '<Class:Foo>', probably not what we want
     auto proto = core::Proto::toProto(ctx.state, sym);
     proto.clear_children();
     return proto;
 }
-
 
 static void addOwners(core::Context ctx, com::stripe::rubytyper::OwnedSymbol &proto, core::SymbolRef sym) {
     if (sym.exists() && sym != core::Symbols::root()) {
@@ -73,6 +73,14 @@ com::stripe::rubytyper::Block Proto::toProto(core::Context ctx, const BasicBlock
 
 com::stripe::rubytyper::CFG Proto::toProto(core::Context ctx, const CFG &cfg) {
     com::stripe::rubytyper::CFG proto;
+
+    core::SymbolData sym = cfg.symbol.data(ctx.state);
+    core::TypePtr ty = sym->resultType;
+    if (ty) {
+        proto.set_tmp_return_type(ty->show(ctx.state));
+    }
+    return proto;
+
     *proto.mutable_symbol() = ownedSymbolProto(ctx, cfg.symbol);
     for (auto const &block: cfg.basicBlocks) {
         *proto.add_blocks() = toProto(ctx, *block);
