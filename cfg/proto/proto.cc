@@ -24,9 +24,21 @@ com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, 
             proto.set_kind(com::stripe::rubytyper::Instruction::IDENT);
             proto.set_ident(i->what.toString(gs));
         },
-        [&](const Alias *i) { proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS); },
-        [&](const SolveConstraint *i) { proto.set_kind(com::stripe::rubytyper::Instruction::SEND); },
-        [&](const Send *i) { proto.set_kind(com::stripe::rubytyper::Instruction::SEND); },
+        [&](const Alias *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS);
+            *proto.mutable_alias() = core::Proto::toProto(gs, i->what);
+        },
+        [&](const Send *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
+            *proto.mutable_send()->mutable_receiver() = toProto(gs, i->recv);
+            *proto.mutable_send()->mutable_method() = core::Proto::toProto(gs, i->fun);
+            if (i->link) {
+                *proto.mutable_send()->mutable_block() = com::stripe::rubytyper::Instruction::Block();
+            }
+            for (const auto &a : i->args) {
+                *proto.mutable_send()->add_arguments() = toProto(gs, a);
+            }
+        },
         [&](const Return *i) { proto.set_kind(com::stripe::rubytyper::Instruction::RETURN); },
         [&](const LoadSelf *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_SELF); },
         [&](const Literal *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL); },
