@@ -49,7 +49,7 @@ public:
         if (print.CFG) {
             fmt::print("{}\n\n", cfg->toString(ctx));
         }
-        if (print.CFGProto) {
+        if (print.CFGJson) {
             // TODO: export actual proto
             auto proto = cfg::Proto::toProto(ctx.state, *cfg);
             core::Proto::toJSON(proto, std::cout);
