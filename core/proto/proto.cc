@@ -150,7 +150,7 @@ com::stripe::rubytyper::Type Proto::toProto(const GlobalState &gs, TypePtr typ) 
         [&](AppliedType *t) {
             proto.set_kind(com::stripe::rubytyper::Type::APPLIED);
             *proto.mutable_applied()->mutable_symbol() = toProtoNoChildren(gs, t->klass);
-            for (auto a: t->targs) {
+            for (auto a : t->targs) {
                 *proto.mutable_applied()->add_type_args() = toProto(gs, a);
             }
         },
@@ -158,10 +158,10 @@ com::stripe::rubytyper::Type Proto::toProto(const GlobalState &gs, TypePtr typ) 
             proto.set_kind(com::stripe::rubytyper::Type::SHAPE);
             *proto.mutable_underlying() = toProto(gs, t->underlying());
             *proto.mutable_shape()->mutable_underlying() = toProto(gs, t->underlying());
-            for (auto k: t->keys) {
+            for (auto k : t->keys) {
                 *proto.mutable_shape()->add_keys() = toProto(gs, k);
             }
-            for (auto v: t->values) {
+            for (auto v : t->values) {
                 *proto.mutable_shape()->add_values() = toProto(gs, v);
             }
         },
@@ -173,15 +173,12 @@ com::stripe::rubytyper::Type Proto::toProto(const GlobalState &gs, TypePtr typ) 
         [&](TupleType *t) {
             proto.set_kind(com::stripe::rubytyper::Type::TUPLE);
             *proto.mutable_underlying() = toProto(gs, t->underlying());
-            for (auto e: t->elems) {
+            for (auto e : t->elems) {
                 *proto.mutable_tuple()->add_elems() = toProto(gs, e);
             }
         },
         // TODO later: add more types
-        [&](Type *t) {
-            proto.set_kind(com::stripe::rubytyper::Type::UNKNOWN);
-        }
-    );
+        [&](Type *t) { proto.set_kind(com::stripe::rubytyper::Type::UNKNOWN); });
     return proto;
 }
 

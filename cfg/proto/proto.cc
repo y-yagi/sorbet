@@ -18,43 +18,23 @@ com::stripe::rubytyper::TypedVariable Proto::toProto(const core::GlobalState &gs
 
 com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, const Instruction *instr) {
     com::stripe::rubytyper::Instruction proto;
-    typecase(instr,
-         [&](const Ident *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::IDENT);
-             proto.set_ident(i->what.toString(gs));
-         },
-         [&](const Alias *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS);
-         },
-         [&](const SolveConstraint *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
-         },
-         [&](const Send *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
-         },
-         [&](const Return *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::RETURN);
-         },
-         [&](const LoadSelf *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_SELF);
-         },
-         [&](const Literal *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL);
-         },
-         [&](const Unanalyzable *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::UNANALYZABLE);
-         },
-         [&](const LoadArg *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_ARG);
-         },
-         [&](const Cast *i) {
-             proto.set_kind(com::stripe::rubytyper::Instruction::CAST);
-         },
+    typecase(
+        instr,
+        [&](const Ident *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::IDENT);
+            proto.set_ident(i->what.toString(gs));
+        },
+        [&](const Alias *i) { proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS); },
+        [&](const SolveConstraint *i) { proto.set_kind(com::stripe::rubytyper::Instruction::SEND); },
+        [&](const Send *i) { proto.set_kind(com::stripe::rubytyper::Instruction::SEND); },
+        [&](const Return *i) { proto.set_kind(com::stripe::rubytyper::Instruction::RETURN); },
+        [&](const LoadSelf *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_SELF); },
+        [&](const Literal *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL); },
+        [&](const Unanalyzable *i) { proto.set_kind(com::stripe::rubytyper::Instruction::UNANALYZABLE); },
+        [&](const LoadArg *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_ARG); },
+        [&](const Cast *i) { proto.set_kind(com::stripe::rubytyper::Instruction::CAST); },
         // TODO later: add more types
-        [&](const Instruction *i) {
-            proto.set_kind(com::stripe::rubytyper::Instruction::UNKNOWN);
-        }
-    );
+        [&](const Instruction *i) { proto.set_kind(com::stripe::rubytyper::Instruction::UNKNOWN); });
     return proto;
 }
 
@@ -82,7 +62,7 @@ com::stripe::rubytyper::Block::BlockExit Proto::toProto(const core::GlobalState 
 com::stripe::rubytyper::Block Proto::toProto(const core::GlobalState &gs, const BasicBlock &bb) {
     com::stripe::rubytyper::Block proto;
     proto.set_id(bb.id);
-    for (auto const &bnd: bb.exprs) {
+    for (auto const &bnd : bb.exprs) {
         *proto.add_bindings() = toProto(gs, bnd);
     }
     *proto.mutable_exit() = toProto(gs, bb.bexit);
@@ -100,7 +80,6 @@ com::stripe::rubytyper::CFG::Argument Proto::argumentToProto(const core::GlobalS
     return proto;
 }
 
-
 com::stripe::rubytyper::CFG Proto::toProto(const core::GlobalState &gs, const CFG &cfg) {
     com::stripe::rubytyper::CFG proto;
 
@@ -111,11 +90,11 @@ com::stripe::rubytyper::CFG Proto::toProto(const core::GlobalState &gs, const CF
         *proto.mutable_returns() = core::Proto::toProto(gs, sym->resultType);
     }
 
-    for (auto arg: sym->arguments()) {
+    for (auto arg : sym->arguments()) {
         *proto.add_arguments() = argumentToProto(gs, arg);
     }
 
-    for (auto const &block: cfg.basicBlocks) {
+    for (auto const &block : cfg.basicBlocks) {
         *proto.add_blocks() = toProto(gs, *block);
     }
     return proto;
