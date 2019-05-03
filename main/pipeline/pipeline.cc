@@ -50,8 +50,8 @@ public:
             fmt::print("{}\n\n", cfg->toString(ctx));
         }
         if (print.CFGProto) {
-            auto proto = cfg::Proto::toProto(ctx, *cfg);
             // TODO: export actual proto
+            auto proto = cfg::Proto::toProto(ctx.state, *cfg);
             core::Proto::toJSON(proto, std::cout);
         }
         return m;

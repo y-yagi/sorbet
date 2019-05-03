@@ -7,21 +7,21 @@ using namespace std;
 
 namespace sorbet::cfg {
 
-com::stripe::rubytyper::TypedVariable Proto::toProto(core::Context ctx, const VariableUseSite &vus) {
+com::stripe::rubytyper::TypedVariable Proto::toProto(const core::GlobalState &gs, const VariableUseSite &vus) {
     com::stripe::rubytyper::TypedVariable proto;
-    proto.set_name(vus.variable.toString(ctx.state));
+    proto.set_name(vus.variable.toString(gs));
     if (vus.type) {
-        *proto.mutable_type() = core::Proto::toProto(ctx.state, vus.type);
+        *proto.mutable_type() = core::Proto::toProto(gs, vus.type);
     }
     return proto;
 }
 
-com::stripe::rubytyper::Instruction Proto::toProto(core::Context ctx, const Instruction *instr) {
+com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, const Instruction *instr) {
     com::stripe::rubytyper::Instruction proto;
     typecase(instr,
          [&](const Ident *i) {
              proto.set_kind(com::stripe::rubytyper::Instruction::IDENT);
-             proto.set_ident(i->what.toString(ctx.state));
+             proto.set_ident(i->what.toString(gs));
          },
          [&](const Alias *i) {
              proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS);
@@ -58,17 +58,17 @@ com::stripe::rubytyper::Instruction Proto::toProto(core::Context ctx, const Inst
     return proto;
 }
 
-com::stripe::rubytyper::Binding Proto::toProto(core::Context ctx, const Binding &bnd) {
+com::stripe::rubytyper::Binding Proto::toProto(const core::GlobalState &gs, const Binding &bnd) {
     com::stripe::rubytyper::Binding proto;
-    *proto.mutable_bind() = toProto(ctx, bnd.bind);
-    *proto.mutable_instruction() = toProto(ctx, bnd.value.get());
+    *proto.mutable_bind() = toProto(gs, bnd.bind);
+    *proto.mutable_instruction() = toProto(gs, bnd.value.get());
     return proto;
 }
 
-com::stripe::rubytyper::Block::BlockExit Proto::toProto(core::Context ctx, const BlockExit &ex) {
+com::stripe::rubytyper::Block::BlockExit Proto::toProto(const core::GlobalState &gs, const BlockExit &ex) {
     com::stripe::rubytyper::Block::BlockExit proto;
     if (ex.cond.variable.exists()) {
-        *proto.mutable_cond() = toProto(ctx, ex.cond);
+        *proto.mutable_cond() = toProto(gs, ex.cond);
     }
     if (ex.thenb) {
         proto.set_then_block(ex.thenb->id);
@@ -79,44 +79,44 @@ com::stripe::rubytyper::Block::BlockExit Proto::toProto(core::Context ctx, const
     return proto;
 }
 
-com::stripe::rubytyper::Block Proto::toProto(core::Context ctx, const BasicBlock &bb) {
+com::stripe::rubytyper::Block Proto::toProto(const core::GlobalState &gs, const BasicBlock &bb) {
     com::stripe::rubytyper::Block proto;
     proto.set_id(bb.id);
     for (auto const &bnd: bb.exprs) {
-        *proto.add_bindings() = toProto(ctx, bnd);
+        *proto.add_bindings() = toProto(gs, bnd);
     }
-    *proto.mutable_exit() = toProto(ctx, bb.bexit);
+    *proto.mutable_exit() = toProto(gs, bb.bexit);
     return proto;
 }
 
-com::stripe::rubytyper::CFG::Argument Proto::argumentToProto(core::Context ctx, core::SymbolRef sym) {
+com::stripe::rubytyper::CFG::Argument Proto::argumentToProto(const core::GlobalState &gs, core::SymbolRef sym) {
     com::stripe::rubytyper::CFG::Argument proto;
 
-    core::SymbolData s = sym.data(ctx.state);
-    proto.set_name(s->argumentName(ctx.state));
+    core::SymbolData s = sym.data(gs);
+    proto.set_name(s->argumentName(gs));
     if (s->resultType) {
-        *proto.mutable_type() = core::Proto::toProto(ctx.state, s->resultType);
+        *proto.mutable_type() = core::Proto::toProto(gs, s->resultType);
     }
     return proto;
 }
 
 
-com::stripe::rubytyper::CFG Proto::toProto(core::Context ctx, const CFG &cfg) {
+com::stripe::rubytyper::CFG Proto::toProto(const core::GlobalState &gs, const CFG &cfg) {
     com::stripe::rubytyper::CFG proto;
 
-    *proto.mutable_symbol() = core::Proto::toProto(ctx, cfg.symbol);
+    *proto.mutable_symbol() = core::Proto::toProto(gs, cfg.symbol);
 
-    core::SymbolData sym = cfg.symbol.data(ctx.state);
+    core::SymbolData sym = cfg.symbol.data(gs);
     if (sym->resultType) {
-        *proto.mutable_returns() = core::Proto::toProto(ctx.state, sym->resultType);
+        *proto.mutable_returns() = core::Proto::toProto(gs, sym->resultType);
     }
 
     for (auto arg: sym->arguments()) {
-        *proto.add_arguments() = argumentToProto(ctx, arg);
+        *proto.add_arguments() = argumentToProto(gs, arg);
     }
 
     for (auto const &block: cfg.basicBlocks) {
-        *proto.add_blocks() = toProto(ctx, *block);
+        *proto.add_blocks() = toProto(gs, *block);
     }
     return proto;
 }
