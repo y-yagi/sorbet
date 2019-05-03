@@ -12,10 +12,52 @@ message TypedVariable {
     Type type = 2;
 }
 
+message Instruction {
+    message Block {
+        // TODO
+    }
+    message Send {
+        TypedVariable receiver = 1;
+        Name method = 2;
+        repeated TypedVariable arguments = 3;
+        Block block = 4;
+    }
+    message LoadSelf {
+        // TODO
+    }
+    message Cast {
+        TypedVariable value = 1;
+        Type type = 2;
+    }
+
+    enum Kind {
+        UNKNOWN = 0;
+        IDENT = 1;
+        ALIAS = 2;
+        SEND = 3;
+        RETURN = 4;
+        LOAD_SELF = 5;
+        LITERAL = 6;
+        LOAD_ARG = 7;
+        CAST = 8;
+    }
+
+    Kind kind = 1;
+    oneof instr {
+        Name ident = 100;
+        Symbol alias = 101;
+        Send send = 102;
+        TypedVariable return = 103;
+        LoadSelf load_self = 104;
+        Type literal = 105;
+        Symbol load_arg = 106;
+        Cast cast = 107;
+    }
+}
+
 message Binding {
     TypedVariable bind = 1;
-    // TODO: instructions
-    string tmp_instruction = 2;
+    Instruction instruction = 2;
 }
 
 message Block {

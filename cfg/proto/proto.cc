@@ -21,7 +21,7 @@ com::stripe::rubytyper::TypedVariable Proto::toProto(core::Context ctx, const Va
 com::stripe::rubytyper::Binding Proto::toProto(core::Context ctx, const Binding &bnd) {
     com::stripe::rubytyper::Binding proto;
     *proto.mutable_bind() = toProto(ctx, bnd.bind);
-    proto.set_tmp_instruction(bnd.value->toString(ctx));
+    *proto.mutable_instruction() = toProto(ctx, *bnd.value);
     return proto;
 }
 

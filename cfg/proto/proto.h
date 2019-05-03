@@ -12,6 +12,8 @@ namespace sorbet::cfg {
 
         static com::stripe::rubytyper::TypedVariable toProto(core::Context ctx, const VariableUseSite &vus);
 
+        static com::stripe::rubytyper::Instruction toProto(core::Context ctx, const Instruction &inst);
+
         static com::stripe::rubytyper::Binding toProto(core::Context ctx, const Binding &bnd);
 
         static com::stripe::rubytyper::Block::BlockExit toProto(core::Context ctx, const BlockExit &ex);

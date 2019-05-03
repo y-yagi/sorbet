@@ -1,6 +1,7 @@
 syntax = "proto3";
 
 package com.stripe.rubytyper;
+import "proto/Name.proto";
 import "proto/Symbol.proto";
 
 message Type {
@@ -29,8 +30,8 @@ message Type {
         Kind kind = 1;
         oneof type {
             int64 integer = 100;
-            string string = 101;
-            string symbol = 102;
+            Name string = 101;
+            Name symbol = 102;
             bool bool = 103;
             float float = 104;
         }
