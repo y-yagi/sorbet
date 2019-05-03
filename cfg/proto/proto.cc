@@ -7,11 +7,15 @@ using namespace std;
 
 namespace sorbet::cfg {
 
-com::stripe::rubytyper::TypedVariable Proto::toProto(const core::GlobalState &gs, const VariableUseSite &vus) {
+com::stripe::rubytyper::TypedVariable Proto::toProto(const core::GlobalState &gs, const VariableUseSite &vus,
+                                                     const core::Loc *loc) {
     com::stripe::rubytyper::TypedVariable proto;
     proto.set_name(vus.variable.toString(gs));
     if (vus.type) {
         *proto.mutable_type() = core::Proto::toProto(gs, vus.type);
+    }
+    if (loc) {
+        *proto.mutable_location() = core::Proto::toProto(gs, *loc);
     }
     return proto;
 }
@@ -30,13 +34,13 @@ com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, 
         },
         [&](const Send *i) {
             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
-            *proto.mutable_send()->mutable_receiver() = toProto(gs, i->recv);
+            *proto.mutable_send()->mutable_receiver() = toProto(gs, i->recv, &i->receiverLoc);
             *proto.mutable_send()->mutable_method() = core::Proto::toProto(gs, i->fun);
             if (i->link) {
                 *proto.mutable_send()->mutable_block() = com::stripe::rubytyper::Instruction::Block();
             }
-            for (const auto &a : i->args) {
-                *proto.mutable_send()->add_arguments() = toProto(gs, a);
+            for (size_t j = 0; j < i->args.size(); ++j) {
+                *proto.mutable_send()->add_arguments() = toProto(gs, i->args[j], &i->argLocs[j]);
             }
         },
         [&](const Return *i) {
@@ -65,7 +69,7 @@ com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, 
 
 com::stripe::rubytyper::Binding Proto::toProto(const core::GlobalState &gs, const Binding &bnd) {
     com::stripe::rubytyper::Binding proto;
-    *proto.mutable_bind() = toProto(gs, bnd.bind);
+    *proto.mutable_bind() = toProto(gs, bnd.bind, &bnd.loc);
     *proto.mutable_instruction() = toProto(gs, bnd.value.get());
     return proto;
 }
@@ -81,6 +85,7 @@ com::stripe::rubytyper::Block::BlockExit Proto::toProto(const core::GlobalState 
     if (ex.elseb) {
         proto.set_else_block(ex.elseb->id);
     }
+    *proto.mutable_location() = core::Proto::toProto(gs, ex.loc);
     return proto;
 }
 

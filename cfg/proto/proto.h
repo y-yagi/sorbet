@@ -10,7 +10,8 @@ class Proto {
 public:
     Proto() = delete;
 
-    static com::stripe::rubytyper::TypedVariable toProto(const core::GlobalState &gs, const VariableUseSite &vus);
+    static com::stripe::rubytyper::TypedVariable toProto(const core::GlobalState &gs, const VariableUseSite &vus,
+                                                         const core::Loc *loc = nullptr);
 
     static com::stripe::rubytyper::Instruction toProto(const core::GlobalState &gs, const Instruction *inst);
 

@@ -1,15 +1,17 @@
 syntax = "proto3";
 
 package com.stripe.rubytyper;
+import "proto/Loc.proto";
 import "proto/Name.proto";
 import "proto/Symbol.proto";
 import "proto/Type.proto";
 
-// TODO: Add locations everywhere
+// TODO: Symbol Loc?
 
 message TypedVariable {
     string name = 1;
     Type type = 2;
+    Loc location = 3; // optional
 }
 
 message Instruction {
@@ -20,7 +22,7 @@ message Instruction {
         TypedVariable receiver = 1;
         Name method = 2;
         repeated TypedVariable arguments = 3;
-        Block block = 4;
+        Block block = 4; // optional
     }
     message LoadArg {
         Symbol argument = 1;
@@ -62,9 +64,10 @@ message Binding {
 
 message Block {
     message BlockExit {
-        TypedVariable cond = 1;
+        TypedVariable cond = 1; // optional
         int32 then_block = 2;
         int32 else_block = 3;
+        Loc location = 4;
     }
 
     int32 id = 1;
