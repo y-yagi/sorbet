@@ -6,8 +6,6 @@ import "proto/Name.proto";
 import "proto/Symbol.proto";
 import "proto/Type.proto";
 
-// TODO: Symbol Loc?
-
 message TypedVariable {
     string name = 1;
     Type type = 2;
@@ -77,6 +75,7 @@ message Block {
 
 message CFG {
     Symbol symbol = 1;
+    Loc location = 2;
     Type returns = 3;
     message Argument {
         string name = 1;

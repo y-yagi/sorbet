@@ -112,10 +112,11 @@ com::stripe::rubytyper::CFG::Argument Proto::argumentToProto(const core::GlobalS
 
 com::stripe::rubytyper::CFG Proto::toProto(const core::GlobalState &gs, const CFG &cfg) {
     com::stripe::rubytyper::CFG proto;
+    core::SymbolData sym = cfg.symbol.data(gs);
 
     *proto.mutable_symbol() = core::Proto::toProto(gs, cfg.symbol);
+    *proto.mutable_location() = core::Proto::toProto(gs, sym->loc());
 
-    core::SymbolData sym = cfg.symbol.data(gs);
     if (sym->resultType) {
         *proto.mutable_returns() = core::Proto::toProto(gs, sym->resultType);
     }
