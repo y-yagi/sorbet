@@ -26,7 +26,7 @@ com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, 
         },
         [&](const Alias *i) {
             proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS);
-            *proto.mutable_alias() = core::Proto::toProto(gs, i->what);
+            *proto.mutable_alias() = core::Proto::toProtoNoChildren(gs, i->what);
         },
         [&](const Send *i) {
             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
