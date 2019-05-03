@@ -22,6 +22,10 @@ message Instruction {
         repeated TypedVariable arguments = 3;
         Block block = 4;
     }
+    message LoadArg {
+        Symbol argument = 1;
+        string argument_name = 2;
+    }
     message Cast {
         TypedVariable value = 1;
         Type type = 2;
@@ -46,7 +50,7 @@ message Instruction {
         Send send = 102;
         TypedVariable return = 103;
         Type literal = 104;
-        Symbol load_arg = 105;
+        LoadArg load_arg = 105;
         Cast cast = 106;
     }
 }
