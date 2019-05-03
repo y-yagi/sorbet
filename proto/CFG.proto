@@ -22,9 +22,6 @@ message Instruction {
         repeated TypedVariable arguments = 3;
         Block block = 4;
     }
-    message LoadSelf {
-        // TODO later
-    }
     message Cast {
         TypedVariable value = 1;
         Type type = 2;
@@ -36,11 +33,10 @@ message Instruction {
         ALIAS = 2;
         SEND = 3;
         RETURN = 4;
-        LOAD_SELF = 5;
-        LITERAL = 6;
-        UNANALYZABLE = 7;
-        LOAD_ARG = 8;
-        CAST = 9;
+        LITERAL = 5;
+        UNANALYZABLE = 6;
+        LOAD_ARG = 7;
+        CAST = 8;
     }
 
     Kind kind = 1;
@@ -49,10 +45,9 @@ message Instruction {
         Symbol alias = 101;
         Send send = 102;
         TypedVariable return = 103;
-        LoadSelf load_self = 104;
-        Type literal = 105;
-        Symbol load_arg = 106;
-        Cast cast = 107;
+        Type literal = 104;
+        Symbol load_arg = 105;
+        Cast cast = 106;
     }
 }
 

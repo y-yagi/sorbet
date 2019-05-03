@@ -39,12 +39,24 @@ com::stripe::rubytyper::Instruction Proto::toProto(const core::GlobalState &gs, 
                 *proto.mutable_send()->add_arguments() = toProto(gs, a);
             }
         },
-        [&](const Return *i) { proto.set_kind(com::stripe::rubytyper::Instruction::RETURN); },
-        [&](const LoadSelf *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_SELF); },
-        [&](const Literal *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL); },
+        [&](const Return *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::RETURN);
+            *proto.mutable_return_() = toProto(gs, i->what);
+        },
+        [&](const Literal *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL);
+            *proto.mutable_literal() = core::Proto::toProto(gs, i->value);
+        },
         [&](const Unanalyzable *i) { proto.set_kind(com::stripe::rubytyper::Instruction::UNANALYZABLE); },
-        [&](const LoadArg *i) { proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_ARG); },
-        [&](const Cast *i) { proto.set_kind(com::stripe::rubytyper::Instruction::CAST); },
+        [&](const LoadArg *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_ARG);
+            *proto.mutable_load_arg() = core::Proto::toProtoNoChildren(gs, i->arg);
+        },
+        [&](const Cast *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::CAST);
+            *proto.mutable_cast()->mutable_value() = toProto(gs, i->value);
+            *proto.mutable_cast()->mutable_type() = core::Proto::toProto(gs, i->type);
+        },
         // TODO later: add more types
         [&](const Instruction *i) { proto.set_kind(com::stripe::rubytyper::Instruction::UNKNOWN); });
     return proto;
