@@ -8,13 +8,13 @@ import "proto/Type.proto";
 // TODO: Add locations everywhere
 
 message TypedVariable {
-    Name variable = 1;
+    string name = 1;
     Type type = 2;
 }
 
 message Instruction {
     message Block {
-        // TODO
+        // TODO later
     }
     message Send {
         TypedVariable receiver = 1;
@@ -23,7 +23,7 @@ message Instruction {
         Block block = 4;
     }
     message LoadSelf {
-        // TODO
+        // TODO later
     }
     message Cast {
         TypedVariable value = 1;
@@ -38,13 +38,14 @@ message Instruction {
         RETURN = 4;
         LOAD_SELF = 5;
         LITERAL = 6;
-        LOAD_ARG = 7;
-        CAST = 8;
+        UNANALYZABLE = 7;
+        LOAD_ARG = 8;
+        CAST = 9;
     }
 
     Kind kind = 1;
     oneof instr {
-        Name ident = 100;
+        string ident = 100;
         Symbol alias = 101;
         Send send = 102;
         TypedVariable return = 103;

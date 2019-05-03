@@ -9,19 +9,59 @@ namespace sorbet::cfg {
 
 com::stripe::rubytyper::TypedVariable Proto::toProto(core::Context ctx, const VariableUseSite &vus) {
     com::stripe::rubytyper::TypedVariable proto;
-    if (vus.variable._name.exists()) {
-        *proto.mutable_variable() = core::Proto::toProto(ctx.state, vus.variable._name);
-    }
+    proto.set_name(vus.variable.toString(ctx.state));
     if (vus.type) {
         *proto.mutable_type() = core::Proto::toProto(ctx.state, vus.type);
     }
     return proto;
 }
 
+com::stripe::rubytyper::Instruction Proto::toProto(core::Context ctx, const Instruction *instr) {
+    com::stripe::rubytyper::Instruction proto;
+    typecase(instr,
+         [&](const Ident *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::IDENT);
+             proto.set_ident(i->what.toString(ctx.state));
+         },
+         [&](const Alias *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::ALIAS);
+         },
+         [&](const SolveConstraint *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
+         },
+         [&](const Send *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::SEND);
+         },
+         [&](const Return *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::RETURN);
+         },
+         [&](const LoadSelf *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_SELF);
+         },
+         [&](const Literal *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::LITERAL);
+         },
+         [&](const Unanalyzable *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::UNANALYZABLE);
+         },
+         [&](const LoadArg *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::LOAD_ARG);
+         },
+         [&](const Cast *i) {
+             proto.set_kind(com::stripe::rubytyper::Instruction::CAST);
+         },
+        // TODO later: add more types
+        [&](const Instruction *i) {
+            proto.set_kind(com::stripe::rubytyper::Instruction::UNKNOWN);
+        }
+    );
+    return proto;
+}
+
 com::stripe::rubytyper::Binding Proto::toProto(core::Context ctx, const Binding &bnd) {
     com::stripe::rubytyper::Binding proto;
     *proto.mutable_bind() = toProto(ctx, bnd.bind);
-    *proto.mutable_instruction() = toProto(ctx, *bnd.value);
+    *proto.mutable_instruction() = toProto(ctx, bnd.value.get());
     return proto;
 }
 

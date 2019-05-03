@@ -10,9 +10,10 @@ namespace sorbet::cfg {
     public:
         Proto() = delete;
 
+        // TODO: shouldn't need ctx in all these anymore
         static com::stripe::rubytyper::TypedVariable toProto(core::Context ctx, const VariableUseSite &vus);
 
-        static com::stripe::rubytyper::Instruction toProto(core::Context ctx, const Instruction &inst);
+        static com::stripe::rubytyper::Instruction toProto(core::Context ctx, const Instruction *inst);
 
         static com::stripe::rubytyper::Binding toProto(core::Context ctx, const Binding &bnd);
 
