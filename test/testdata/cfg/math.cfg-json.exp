@@ -1,0 +1,2638 @@
+{
+ "symbol": {
+  "id": 2651,
+  "name": {
+   "kind": "UTF8",
+   "name": "calculate"
+  },
+  "kind": "METHOD",
+  "arguments": [
+   2652,
+   2653,
+   2654,
+   2655
+  ],
+  "resolved_name": "Example.calculate"
+ },
+ "location": {
+  "path": "test/testdata/cfg/math.rb",
+  "position": {
+   "start": {
+    "line": 6,
+    "column": 3
+   },
+   "end": {
+    "line": 6,
+    "column": 35
+   }
+  }
+ },
+ "returns": {
+  "kind": "CLASS",
+  "class": {
+   "id": 7,
+   "name": {
+    "kind": "CONSTANT",
+    "name": "Integer"
+   },
+   "kind": "CLASS",
+   "superClass": 1532,
+   "resolved_name": "Integer"
+  }
+ },
+ "arguments": [
+  {
+   "name": "is_add",
+   "type": {
+    "kind": "OR",
+    "or": {
+     "left": {
+      "kind": "CLASS",
+      "class": {
+       "id": 13,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "TrueClass"
+       },
+       "kind": "CLASS",
+       "superClass": 6,
+       "resolved_name": "TrueClass"
+      }
+     },
+     "right": {
+      "kind": "CLASS",
+      "class": {
+       "id": 14,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "FalseClass"
+       },
+       "kind": "CLASS",
+       "superClass": 6,
+       "resolved_name": "FalseClass"
+      }
+     }
+    }
+   }
+  },
+  {
+   "name": "a",
+   "type": {
+    "kind": "CLASS",
+    "class": {
+     "id": 7,
+     "name": {
+      "kind": "CONSTANT",
+      "name": "Integer"
+     },
+     "kind": "CLASS",
+     "superClass": 1532,
+     "resolved_name": "Integer"
+    }
+   }
+  },
+  {
+   "name": "b",
+   "type": {
+    "kind": "CLASS",
+    "class": {
+     "id": 7,
+     "name": {
+      "kind": "CONSTANT",
+      "name": "Integer"
+     },
+     "kind": "CLASS",
+     "superClass": 1532,
+     "resolved_name": "Integer"
+    }
+   }
+  },
+  {
+   "name": "\u003cblk\u003e",
+   "type": {
+    "kind": "CLASS",
+    "class": {
+     "id": 16,
+     "name": {
+      "kind": "CONSTANT",
+      "name": "T.untyped"
+     },
+     "kind": "CLASS",
+     "superClass": 6,
+     "resolved_name": "T.untyped"
+    }
+   }
+  }
+ ],
+ "blocks": [
+  {
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003cself\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2647,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Example\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "mixins": [
+         65
+        ],
+        "resolved_name": "T.class_of(Example)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 6,
+         "column": 3
+        },
+        "end": {
+         "line": 12,
+         "column": 6
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "CAST",
+      "cast": {
+       "value": {
+        "name": "\u003cself\u003e",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 15,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "NilClass"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "NilClass"
+         }
+        }
+       },
+       "type": {
+        "kind": "CLASS",
+        "class": {
+         "id": 2647,
+         "name": {
+          "kind": "UNIQUE",
+          "name": "\u003cClass:Example\u003e"
+         },
+         "kind": "CLASS",
+         "superClass": 104,
+         "mixins": [
+          65
+         ],
+         "resolved_name": "T.class_of(Example)"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "is_add",
+      "type": {
+       "kind": "OR",
+       "or": {
+        "left": {
+         "kind": "CLASS",
+         "class": {
+          "id": 13,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "TrueClass"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "TrueClass"
+         }
+        },
+        "right": {
+         "kind": "CLASS",
+         "class": {
+          "id": 14,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "FalseClass"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "FalseClass"
+         }
+        }
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 6,
+         "column": 22
+        },
+        "end": {
+         "line": 6,
+         "column": 28
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LOAD_ARG",
+      "load_arg": {
+       "argument": {
+        "id": 2652,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003carg\u003e"
+        },
+        "kind": "ARGUMENT",
+        "resolved_name": "Example.calculate#is_add"
+       },
+       "argument_name": "is_add"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "a",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 7,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Integer"
+        },
+        "kind": "CLASS",
+        "superClass": 1532,
+        "resolved_name": "Integer"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 6,
+         "column": 30
+        },
+        "end": {
+         "line": 6,
+         "column": 31
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LOAD_ARG",
+      "load_arg": {
+       "argument": {
+        "id": 2653,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003carg\u003e"
+        },
+        "kind": "ARGUMENT",
+        "resolved_name": "Example.calculate#a"
+       },
+       "argument_name": "a"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "b",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 7,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Integer"
+        },
+        "kind": "CLASS",
+        "superClass": 1532,
+        "resolved_name": "Integer"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 6,
+         "column": 33
+        },
+        "end": {
+         "line": 6,
+         "column": 34
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LOAD_ARG",
+      "load_arg": {
+       "argument": {
+        "id": 2654,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003carg\u003e"
+        },
+        "kind": "ARGUMENT",
+        "resolved_name": "Example.calculate#b"
+       },
+       "argument_name": "b"
+      }
+     }
+    }
+   ],
+   "exit": {
+    "cond": {
+     "name": "is_add",
+     "type": {
+      "kind": "OR",
+      "or": {
+       "left": {
+        "kind": "CLASS",
+        "class": {
+         "id": 13,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "TrueClass"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "resolved_name": "TrueClass"
+        }
+       },
+       "right": {
+        "kind": "CLASS",
+        "class": {
+         "id": 14,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "FalseClass"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "resolved_name": "FalseClass"
+        }
+       }
+      }
+     }
+    },
+    "then_block": 2,
+    "else_block": 3,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 7,
+       "column": 8
+      },
+      "end": {
+       "line": 7,
+       "column": 14
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 1,
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "???",
+     "position": {
+      "start": {},
+      "end": {}
+     }
+    }
+   }
+  },
+  {
+   "id": 2,
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003creturnMethodTemp\u003e$2",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 7,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Integer"
+        },
+        "kind": "CLASS",
+        "superClass": 1532,
+        "resolved_name": "Integer"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 8,
+         "column": 7
+        },
+        "end": {
+         "line": 8,
+         "column": 12
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "a",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 7,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "Integer"
+          },
+          "kind": "CLASS",
+          "superClass": 1532,
+          "resolved_name": "Integer"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 8,
+           "column": 7
+          },
+          "end": {
+           "line": 8,
+           "column": 8
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "+"
+       },
+       "arguments": [
+        {
+         "name": "b",
+         "type": {
+          "kind": "CLASS",
+          "class": {
+           "id": 7,
+           "name": {
+            "kind": "CONSTANT",
+            "name": "Integer"
+           },
+           "kind": "CLASS",
+           "superClass": 1532,
+           "resolved_name": "Integer"
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 8,
+            "column": 11
+           },
+           "end": {
+            "line": 8,
+            "column": 12
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 4,
+    "else_block": 4,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 7,
+       "column": 5
+      },
+      "end": {
+       "line": 11,
+       "column": 8
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 3,
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003creturnMethodTemp\u003e$2",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 7,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Integer"
+        },
+        "kind": "CLASS",
+        "superClass": 1532,
+        "resolved_name": "Integer"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 10,
+         "column": 7
+        },
+        "end": {
+         "line": 10,
+         "column": 12
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "a",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 7,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "Integer"
+          },
+          "kind": "CLASS",
+          "superClass": 1532,
+          "resolved_name": "Integer"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 10,
+           "column": 7
+          },
+          "end": {
+           "line": 10,
+           "column": 8
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "-"
+       },
+       "arguments": [
+        {
+         "name": "b",
+         "type": {
+          "kind": "CLASS",
+          "class": {
+           "id": 7,
+           "name": {
+            "kind": "CONSTANT",
+            "name": "Integer"
+           },
+           "kind": "CLASS",
+           "superClass": 1532,
+           "resolved_name": "Integer"
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 10,
+            "column": 11
+           },
+           "end": {
+            "line": 10,
+            "column": 12
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 4,
+    "else_block": 4,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 7,
+       "column": 5
+      },
+      "end": {
+       "line": 11,
+       "column": 8
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 4,
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003cfinalReturn\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "T.noreturn"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T.noreturn"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 6,
+         "column": 3
+        },
+        "end": {
+         "line": 12,
+         "column": 6
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "RETURN",
+      "return": {
+       "name": "\u003creturnMethodTemp\u003e$2",
+       "type": {
+        "kind": "CLASS",
+        "class": {
+         "id": 7,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Integer"
+         },
+         "kind": "CLASS",
+         "superClass": 1532,
+         "resolved_name": "Integer"
+        }
+       }
+      }
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 6,
+       "column": 3
+      },
+      "end": {
+       "line": 12,
+       "column": 6
+      }
+     }
+    }
+   }
+  }
+ ]
+}
+{
+ "symbol": {
+  "id": 2648,
+  "name": {
+   "kind": "UTF8",
+   "name": "\u003cstatic-init\u003e"
+  },
+  "kind": "METHOD",
+  "arguments": [
+   2649
+  ],
+  "children": [
+   {
+    "id": 2650,
+    "name": {
+     "kind": "UNIQUE",
+     "name": "\u003cblock\u003e"
+    },
+    "kind": "METHOD",
+    "resolved_name": "Example.\u003cstatic-init\u003e#\u003cblock\u003e"
+   }
+  ],
+  "resolved_name": "Example.\u003cstatic-init\u003e"
+ },
+ "location": {
+  "path": "test/testdata/cfg/math.rb",
+  "position": {
+   "start": {
+    "line": 5,
+    "column": 3
+   },
+   "end": {
+    "line": 5,
+    "column": 76
+   }
+  }
+ },
+ "arguments": [
+  {
+   "name": "\u003cblk\u003e"
+  }
+ ],
+ "blocks": [
+  {
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003cself\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2647,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Example\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "mixins": [
+         65
+        ],
+        "resolved_name": "T.class_of(Example)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "CAST",
+      "cast": {
+       "value": {
+        "name": "\u003cself\u003e",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 15,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "NilClass"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "NilClass"
+         }
+        }
+       },
+       "type": {
+        "kind": "CLASS",
+        "class": {
+         "id": 2647,
+         "name": {
+          "kind": "UNIQUE",
+          "name": "\u003cClass:Example\u003e"
+         },
+         "kind": "CLASS",
+         "superClass": 104,
+         "mixins": [
+          65
+         ],
+         "resolved_name": "T.class_of(Example)"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cblock-pre-call-temp\u003e$4",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 51,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Void"
+        },
+        "kind": "CLASS",
+        "superClass": 60,
+        "resolved_name": "Sorbet::Private::Static::Void"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "\u003cself\u003e",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 2647,
+          "name": {
+           "kind": "UNIQUE",
+           "name": "\u003cClass:Example\u003e"
+          },
+          "kind": "CLASS",
+          "superClass": 104,
+          "mixins": [
+           65
+          ],
+          "resolved_name": "T.class_of(Example)"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 5,
+           "column": 3
+          },
+          "end": {
+           "line": 5,
+           "column": 76
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "sig"
+       },
+       "block": {}
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cselfRestore\u003e$5",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2647,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Example\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "mixins": [
+         65
+        ],
+        "resolved_name": "T.class_of(Example)"
+       }
+      },
+      "location": {
+       "path": "???",
+       "position": {
+        "start": {},
+        "end": {}
+       }
+      }
+     },
+     "instruction": {
+      "kind": "IDENT",
+      "ident": "\u003cself\u003e"
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 2,
+    "else_block": 2,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 5,
+       "column": 3
+      },
+      "end": {
+       "line": 5,
+       "column": 76
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 1,
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "???",
+     "position": {
+      "start": {},
+      "end": {}
+     }
+    }
+   }
+  },
+  {
+   "id": 2,
+   "exit": {
+    "cond": {
+     "name": "\u003cblock-call\u003e",
+     "type": {
+      "kind": "CLASS",
+      "class": {
+       "id": 15,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "NilClass"
+       },
+       "kind": "CLASS",
+       "superClass": 6,
+       "resolved_name": "NilClass"
+      }
+     }
+    },
+    "then_block": 5,
+    "else_block": 3,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 5,
+       "column": 3
+      },
+      "end": {
+       "line": 5,
+       "column": 76
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 3,
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003creturnMethodTemp\u003e$2",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 51,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "Void"
+        },
+        "kind": "CLASS",
+        "superClass": 60,
+        "resolved_name": "Sorbet::Private::Static::Void"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {}
+    },
+    {
+     "bind": {
+      "name": "\u003cself\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2647,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Example\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "mixins": [
+         65
+        ],
+        "resolved_name": "T.class_of(Example)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "IDENT",
+      "ident": "\u003cselfRestore\u003e$5"
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cfinalReturn\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "T.noreturn"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T.noreturn"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "RETURN",
+      "return": {
+       "name": "\u003creturnMethodTemp\u003e$2",
+       "type": {
+        "kind": "CLASS",
+        "class": {
+         "id": 51,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Void"
+         },
+         "kind": "CLASS",
+         "superClass": 60,
+         "resolved_name": "Sorbet::Private::Static::Void"
+        }
+       }
+      }
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 5,
+       "column": 3
+      },
+      "end": {
+       "line": 5,
+       "column": 76
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 5,
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003cself\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 538,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "DeclBuilder"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T::Private::Methods::DeclBuilder"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {}
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$12",
+      "type": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "is_add"
+        }
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 15
+        },
+        "end": {
+         "line": 5,
+         "column": 21
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LITERAL",
+      "literal": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "is_add"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "keep_for_ide$14",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 115,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:T\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 26,
+        "mixins": [
+         65
+        ],
+        "resolved_name": "T.class_of(T)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 23
+        },
+        "end": {
+         "line": 5,
+         "column": 24
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 18,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "T"
+       },
+       "kind": "CLASS",
+       "superClass": 60,
+       "resolved_name": "T"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$13",
+      "type": {},
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 23
+        },
+        "end": {
+         "line": 5,
+         "column": 33
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 682,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "Boolean"
+       },
+       "kind": "STATIC_FIELD",
+       "resolved_name": "T::Boolean"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$15",
+      "type": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "a"
+        }
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 35
+        },
+        "end": {
+         "line": 5,
+         "column": 36
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LITERAL",
+      "literal": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "a"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$16",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 105,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Integer\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 1533,
+        "resolved_name": "T.class_of(Integer)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 38
+        },
+        "end": {
+         "line": 5,
+         "column": 45
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 7,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "Integer"
+       },
+       "kind": "CLASS",
+       "superClass": 1532,
+       "resolved_name": "Integer"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$17",
+      "type": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "b"
+        }
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 47
+        },
+        "end": {
+         "line": 5,
+         "column": 48
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LITERAL",
+      "literal": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 10,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Symbol"
+         },
+         "kind": "CLASS",
+         "superClass": 6,
+         "mixins": [
+          683
+         ],
+         "resolved_name": "Symbol"
+        }
+       },
+       "literal": {
+        "kind": "SYMBOL",
+        "symbol": {
+         "kind": "UTF8",
+         "name": "b"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003chashTemp\u003e$18",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 105,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Integer\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 1533,
+        "resolved_name": "T.class_of(Integer)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 50
+        },
+        "end": {
+         "line": 5,
+         "column": 57
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 7,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "Integer"
+       },
+       "kind": "CLASS",
+       "superClass": 1532,
+       "resolved_name": "Integer"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cmagic\u003e$19",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 25,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:\u003cMagic\u003e\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "resolved_name": "T.class_of(\u003cMagic\u003e)"
+       }
+      },
+      "location": {
+       "path": "???",
+       "position": {
+        "start": {},
+        "end": {}
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 24,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "\u003cMagic\u003e"
+       },
+       "kind": "CLASS",
+       "superClass": 6,
+       "resolved_name": "\u003cMagic\u003e"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cstatTemp\u003e$11",
+      "type": {
+       "kind": "SHAPE",
+       "underlying": {
+        "kind": "APPLIED",
+        "applied": {
+         "symbol": {
+          "id": 12,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "Hash"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "mixins": [
+           34
+          ],
+          "resolved_name": "Hash"
+         },
+         "type_args": [
+          {
+           "kind": "CLASS",
+           "class": {
+            "id": 16,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "T.untyped"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "resolved_name": "T.untyped"
+           }
+          },
+          {
+           "kind": "CLASS",
+           "class": {
+            "id": 16,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "T.untyped"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "resolved_name": "T.untyped"
+           }
+          },
+          {
+           "kind": "CLASS",
+           "class": {
+            "id": 16,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "T.untyped"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "resolved_name": "T.untyped"
+           }
+          }
+         ]
+        }
+       },
+       "shape": {
+        "underlying": {
+         "kind": "APPLIED",
+         "applied": {
+          "symbol": {
+           "id": 12,
+           "name": {
+            "kind": "CONSTANT",
+            "name": "Hash"
+           },
+           "kind": "CLASS",
+           "superClass": 6,
+           "mixins": [
+            34
+           ],
+           "resolved_name": "Hash"
+          },
+          "type_args": [
+           {
+            "kind": "CLASS",
+            "class": {
+             "id": 16,
+             "name": {
+              "kind": "CONSTANT",
+              "name": "T.untyped"
+             },
+             "kind": "CLASS",
+             "superClass": 6,
+             "resolved_name": "T.untyped"
+            }
+           },
+           {
+            "kind": "CLASS",
+            "class": {
+             "id": 16,
+             "name": {
+              "kind": "CONSTANT",
+              "name": "T.untyped"
+             },
+             "kind": "CLASS",
+             "superClass": 6,
+             "resolved_name": "T.untyped"
+            }
+           },
+           {
+            "kind": "CLASS",
+            "class": {
+             "id": 16,
+             "name": {
+              "kind": "CONSTANT",
+              "name": "T.untyped"
+             },
+             "kind": "CLASS",
+             "superClass": 6,
+             "resolved_name": "T.untyped"
+            }
+           }
+          ]
+         }
+        },
+        "keys": [
+         {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "is_add"
+           }
+          }
+         },
+         {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "a"
+           }
+          }
+         },
+         {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "b"
+           }
+          }
+         }
+        ],
+        "values": [
+         {},
+         {
+          "kind": "CLASS",
+          "class": {
+           "id": 105,
+           "name": {
+            "kind": "UNIQUE",
+            "name": "\u003cClass:Integer\u003e"
+           },
+           "kind": "CLASS",
+           "superClass": 1533,
+           "resolved_name": "T.class_of(Integer)"
+          }
+         },
+         {
+          "kind": "CLASS",
+          "class": {
+           "id": 105,
+           "name": {
+            "kind": "UNIQUE",
+            "name": "\u003cClass:Integer\u003e"
+           },
+           "kind": "CLASS",
+           "superClass": 1533,
+           "resolved_name": "T.class_of(Integer)"
+          }
+         }
+        ]
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 15
+        },
+        "end": {
+         "line": 5,
+         "column": 57
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "\u003cmagic\u003e$19",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 25,
+          "name": {
+           "kind": "UNIQUE",
+           "name": "\u003cClass:\u003cMagic\u003e\u003e"
+          },
+          "kind": "CLASS",
+          "superClass": 104,
+          "resolved_name": "T.class_of(\u003cMagic\u003e)"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 5,
+           "column": 15
+          },
+          "end": {
+           "line": 5,
+           "column": 57
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "\u003cbuild-hash\u003e"
+       },
+       "arguments": [
+        {
+         "name": "\u003chashTemp\u003e$12",
+         "type": {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "is_add"
+           }
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 15
+           },
+           "end": {
+            "line": 5,
+            "column": 21
+           }
+          }
+         }
+        },
+        {
+         "name": "\u003chashTemp\u003e$13",
+         "type": {},
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 23
+           },
+           "end": {
+            "line": 5,
+            "column": 33
+           }
+          }
+         }
+        },
+        {
+         "name": "\u003chashTemp\u003e$15",
+         "type": {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "a"
+           }
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 35
+           },
+           "end": {
+            "line": 5,
+            "column": 36
+           }
+          }
+         }
+        },
+        {
+         "name": "\u003chashTemp\u003e$16",
+         "type": {
+          "kind": "CLASS",
+          "class": {
+           "id": 105,
+           "name": {
+            "kind": "UNIQUE",
+            "name": "\u003cClass:Integer\u003e"
+           },
+           "kind": "CLASS",
+           "superClass": 1533,
+           "resolved_name": "T.class_of(Integer)"
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 38
+           },
+           "end": {
+            "line": 5,
+            "column": 45
+           }
+          }
+         }
+        },
+        {
+         "name": "\u003chashTemp\u003e$17",
+         "type": {
+          "kind": "LITERAL",
+          "underlying": {
+           "kind": "CLASS",
+           "class": {
+            "id": 10,
+            "name": {
+             "kind": "CONSTANT",
+             "name": "Symbol"
+            },
+            "kind": "CLASS",
+            "superClass": 6,
+            "mixins": [
+             683
+            ],
+            "resolved_name": "Symbol"
+           }
+          },
+          "literal": {
+           "kind": "SYMBOL",
+           "symbol": {
+            "kind": "UTF8",
+            "name": "b"
+           }
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 47
+           },
+           "end": {
+            "line": 5,
+            "column": 48
+           }
+          }
+         }
+        },
+        {
+         "name": "\u003chashTemp\u003e$18",
+         "type": {
+          "kind": "CLASS",
+          "class": {
+           "id": 105,
+           "name": {
+            "kind": "UNIQUE",
+            "name": "\u003cClass:Integer\u003e"
+           },
+           "kind": "CLASS",
+           "superClass": 1533,
+           "resolved_name": "T.class_of(Integer)"
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 50
+           },
+           "end": {
+            "line": 5,
+            "column": 57
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cstatTemp\u003e$9",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 538,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "DeclBuilder"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T::Private::Methods::DeclBuilder"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 8
+        },
+        "end": {
+         "line": 5,
+         "column": 58
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "\u003cself\u003e",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 538,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "DeclBuilder"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "T::Private::Methods::DeclBuilder"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 5,
+           "column": 8
+          },
+          "end": {
+           "line": 5,
+           "column": 58
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "params"
+       },
+       "arguments": [
+        {
+         "name": "\u003cstatTemp\u003e$11",
+         "type": {
+          "kind": "SHAPE",
+          "underlying": {
+           "kind": "APPLIED",
+           "applied": {
+            "symbol": {
+             "id": 12,
+             "name": {
+              "kind": "CONSTANT",
+              "name": "Hash"
+             },
+             "kind": "CLASS",
+             "superClass": 6,
+             "mixins": [
+              34
+             ],
+             "resolved_name": "Hash"
+            },
+            "type_args": [
+             {
+              "kind": "CLASS",
+              "class": {
+               "id": 16,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "T.untyped"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "resolved_name": "T.untyped"
+              }
+             },
+             {
+              "kind": "CLASS",
+              "class": {
+               "id": 16,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "T.untyped"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "resolved_name": "T.untyped"
+              }
+             },
+             {
+              "kind": "CLASS",
+              "class": {
+               "id": 16,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "T.untyped"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "resolved_name": "T.untyped"
+              }
+             }
+            ]
+           }
+          },
+          "shape": {
+           "underlying": {
+            "kind": "APPLIED",
+            "applied": {
+             "symbol": {
+              "id": 12,
+              "name": {
+               "kind": "CONSTANT",
+               "name": "Hash"
+              },
+              "kind": "CLASS",
+              "superClass": 6,
+              "mixins": [
+               34
+              ],
+              "resolved_name": "Hash"
+             },
+             "type_args": [
+              {
+               "kind": "CLASS",
+               "class": {
+                "id": 16,
+                "name": {
+                 "kind": "CONSTANT",
+                 "name": "T.untyped"
+                },
+                "kind": "CLASS",
+                "superClass": 6,
+                "resolved_name": "T.untyped"
+               }
+              },
+              {
+               "kind": "CLASS",
+               "class": {
+                "id": 16,
+                "name": {
+                 "kind": "CONSTANT",
+                 "name": "T.untyped"
+                },
+                "kind": "CLASS",
+                "superClass": 6,
+                "resolved_name": "T.untyped"
+               }
+              },
+              {
+               "kind": "CLASS",
+               "class": {
+                "id": 16,
+                "name": {
+                 "kind": "CONSTANT",
+                 "name": "T.untyped"
+                },
+                "kind": "CLASS",
+                "superClass": 6,
+                "resolved_name": "T.untyped"
+               }
+              }
+             ]
+            }
+           },
+           "keys": [
+            {
+             "kind": "LITERAL",
+             "underlying": {
+              "kind": "CLASS",
+              "class": {
+               "id": 10,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "Symbol"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "mixins": [
+                683
+               ],
+               "resolved_name": "Symbol"
+              }
+             },
+             "literal": {
+              "kind": "SYMBOL",
+              "symbol": {
+               "kind": "UTF8",
+               "name": "is_add"
+              }
+             }
+            },
+            {
+             "kind": "LITERAL",
+             "underlying": {
+              "kind": "CLASS",
+              "class": {
+               "id": 10,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "Symbol"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "mixins": [
+                683
+               ],
+               "resolved_name": "Symbol"
+              }
+             },
+             "literal": {
+              "kind": "SYMBOL",
+              "symbol": {
+               "kind": "UTF8",
+               "name": "a"
+              }
+             }
+            },
+            {
+             "kind": "LITERAL",
+             "underlying": {
+              "kind": "CLASS",
+              "class": {
+               "id": 10,
+               "name": {
+                "kind": "CONSTANT",
+                "name": "Symbol"
+               },
+               "kind": "CLASS",
+               "superClass": 6,
+               "mixins": [
+                683
+               ],
+               "resolved_name": "Symbol"
+              }
+             },
+             "literal": {
+              "kind": "SYMBOL",
+              "symbol": {
+               "kind": "UTF8",
+               "name": "b"
+              }
+             }
+            }
+           ],
+           "values": [
+            {},
+            {
+             "kind": "CLASS",
+             "class": {
+              "id": 105,
+              "name": {
+               "kind": "UNIQUE",
+               "name": "\u003cClass:Integer\u003e"
+              },
+              "kind": "CLASS",
+              "superClass": 1533,
+              "resolved_name": "T.class_of(Integer)"
+             }
+            },
+            {
+             "kind": "CLASS",
+             "class": {
+              "id": 105,
+              "name": {
+               "kind": "UNIQUE",
+               "name": "\u003cClass:Integer\u003e"
+              },
+              "kind": "CLASS",
+              "superClass": 1533,
+              "resolved_name": "T.class_of(Integer)"
+             }
+            }
+           ]
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 15
+           },
+           "end": {
+            "line": 5,
+            "column": 57
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cstatTemp\u003e$20",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 105,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:Integer\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 1533,
+        "resolved_name": "T.class_of(Integer)"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 67
+        },
+        "end": {
+         "line": 5,
+         "column": 74
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "ALIAS",
+      "alias": {
+       "id": 7,
+       "name": {
+        "kind": "CONSTANT",
+        "name": "Integer"
+       },
+       "kind": "CLASS",
+       "superClass": 1532,
+       "resolved_name": "Integer"
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cblockReturnTemp\u003e$8",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 538,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "DeclBuilder"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T::Private::Methods::DeclBuilder"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 8
+        },
+        "end": {
+         "line": 5,
+         "column": 75
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "SEND",
+      "send": {
+       "receiver": {
+        "name": "\u003cstatTemp\u003e$9",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 538,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "DeclBuilder"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "T::Private::Methods::DeclBuilder"
+         }
+        },
+        "location": {
+         "path": "test/testdata/cfg/math.rb",
+         "position": {
+          "start": {
+           "line": 5,
+           "column": 8
+          },
+          "end": {
+           "line": 5,
+           "column": 58
+          }
+         }
+        }
+       },
+       "method": {
+        "kind": "UTF8",
+        "name": "returns"
+       },
+       "arguments": [
+        {
+         "name": "\u003cstatTemp\u003e$20",
+         "type": {
+          "kind": "CLASS",
+          "class": {
+           "id": 105,
+           "name": {
+            "kind": "UNIQUE",
+            "name": "\u003cClass:Integer\u003e"
+           },
+           "kind": "CLASS",
+           "superClass": 1533,
+           "resolved_name": "T.class_of(Integer)"
+          }
+         },
+         "location": {
+          "path": "test/testdata/cfg/math.rb",
+          "position": {
+           "start": {
+            "line": 5,
+            "column": 67
+           },
+           "end": {
+            "line": 5,
+            "column": 74
+           }
+          }
+         }
+        }
+       ]
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cblockReturnTemp\u003e$21",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "T.noreturn"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T.noreturn"
+       }
+      },
+      "location": {
+       "path": "test/testdata/cfg/math.rb",
+       "position": {
+        "start": {
+         "line": 5,
+         "column": 3
+        },
+        "end": {
+         "line": 5,
+         "column": 76
+        }
+       }
+      }
+     },
+     "instruction": {}
+    }
+   ],
+   "exit": {
+    "then_block": 2,
+    "else_block": 2,
+    "location": {
+     "path": "test/testdata/cfg/math.rb",
+     "position": {
+      "start": {
+       "line": 5,
+       "column": 3
+      },
+      "end": {
+       "line": 5,
+       "column": 76
+      }
+     }
+    }
+   }
+  }
+ ]
+}
