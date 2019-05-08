@@ -1,0 +1,73 @@
+digraph "math.rb" {
+subgraph "cluster_::<Class:Example>#calculate" {
+    label = "::<Class:Example>#calculate";
+    color = blue;
+    "bb::<Class:Example>#calculate_0" [shape = invhouse];
+    "bb::<Class:Example>#calculate_1" [shape = parallelogram];
+
+    "bb::<Class:Example>#calculate_0" [
+        label = "block[id=0]()\l<U <self>>: T.class_of(Example) = cast(<U <self>>: NilClass, T.class_of(Example));\l<U is_add>: T::Boolean = load_arg(Example.calculate#is_add)\l<U a>: Integer = load_arg(Example.calculate#a)\l<U b>: Integer = load_arg(Example.calculate#b)\l<U is_add>: T::Boolean\l"
+    ];
+
+    "bb::<Class:Example>#calculate_0" -> "bb::<Class:Example>#calculate_2" [style="bold"];
+    "bb::<Class:Example>#calculate_0" -> "bb::<Class:Example>#calculate_3" [style="tapered"];
+
+    "bb::<Class:Example>#calculate_1" [
+        label = "block[id=1]()\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#calculate_1" -> "bb::<Class:Example>#calculate_1" [style="bold"];
+    "bb::<Class:Example>#calculate_2" [
+        label = "block[id=2](<U b>: Integer, <U a>: Integer)\l<U <returnMethodTemp>>$2: Integer = <U a>: Integer.<U +>(<U b>: Integer)\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#calculate_2" -> "bb::<Class:Example>#calculate_4" [style="bold"];
+    "bb::<Class:Example>#calculate_3" [
+        label = "block[id=3](<U b>: Integer, <U a>: Integer)\l<U <returnMethodTemp>>$2: Integer = <U a>: Integer.<U ->(<U b>: Integer)\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#calculate_3" -> "bb::<Class:Example>#calculate_4" [style="bold"];
+    "bb::<Class:Example>#calculate_4" [
+        label = "block[id=4](<U <returnMethodTemp>>$2: Integer)\l<U <finalReturn>>: T.noreturn = return <U <returnMethodTemp>>$2: Integer\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#calculate_4" -> "bb::<Class:Example>#calculate_1" [style="bold"];
+}
+
+subgraph "cluster_::<Class:Example>#<static-init>" {
+    label = "::<Class:Example>#<static-init>";
+    color = blue;
+    "bb::<Class:Example>#<static-init>_0" [shape = invhouse];
+    "bb::<Class:Example>#<static-init>_1" [shape = parallelogram];
+
+    "bb::<Class:Example>#<static-init>_0" [
+        label = "block[id=0]()\l<U <self>>: T.class_of(Example) = cast(<U <self>>: NilClass, T.class_of(Example));\l<U <block-pre-call-temp>>$4: Sorbet::Private::Static::Void = <U <self>>: T.class_of(Example).<U sig>()\l<U <selfRestore>>$5: T.class_of(Example) = <U <self>>\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#<static-init>_0" -> "bb::<Class:Example>#<static-init>_2" [style="bold"];
+    "bb::<Class:Example>#<static-init>_1" [
+        label = "block[id=1]()\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#<static-init>_1" -> "bb::<Class:Example>#<static-init>_1" [style="bold"];
+    "bb::<Class:Example>#<static-init>_2" [
+        label = "block[id=2](<U <self>>: T.class_of(Example), <U <selfRestore>>$5: T.class_of(Example))\louterLoops: 1\l<U <block-call>>: NilClass\l"
+    ];
+
+    "bb::<Class:Example>#<static-init>_2" -> "bb::<Class:Example>#<static-init>_5" [style="bold"];
+    "bb::<Class:Example>#<static-init>_2" -> "bb::<Class:Example>#<static-init>_3" [style="tapered"];
+
+    "bb::<Class:Example>#<static-init>_3" [
+        label = "block[id=3](<U <selfRestore>>$5: T.class_of(Example))\l<U <returnMethodTemp>>$2: Sorbet::Private::Static::Void = Solve<::<Class:Example>#<static-init>#<block>>\l<U <self>>: T.class_of(Example) = <U <selfRestore>>$5\l<U <finalReturn>>: T.noreturn = return <U <returnMethodTemp>>$2: Sorbet::Private::Static::Void\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#<static-init>_3" -> "bb::<Class:Example>#<static-init>_1" [style="bold"];
+    "bb::<Class:Example>#<static-init>_5" [
+        label = "block[id=5](<U <self>>: T.class_of(Example), <U <selfRestore>>$5: T.class_of(Example))\louterLoops: 1\l<U <self>>: T::Private::Methods::DeclBuilder = loadSelf\l<U <hashTemp>>$12: Symbol(:\"is_add\") = :\"is_add\"\l<U keep_for_ide>$14: T.class_of(T) = alias <C <U T>>\l<U <hashTemp>>$13: <Type: T::Boolean> = alias <C <U Boolean>>\l<U <hashTemp>>$15: Symbol(:\"a\") = :\"a\"\l<U <hashTemp>>$16: T.class_of(Integer) = alias <C <U Integer>>\l<U <hashTemp>>$17: Symbol(:\"b\") = :\"b\"\l<U <hashTemp>>$18: T.class_of(Integer) = alias <C <U Integer>>\l<U <magic>>$19: T.class_of(<Magic>) = alias <C <U <Magic>>>\l<U <statTemp>>$11: {is_add: <Type: T::Boolean>, a: T.class_of(Integer), b: T.class_of(Integer)} = <U <magic>>$19: T.class_of(<Magic>).<U <build-hash>>(<U <hashTemp>>$12: Symbol(:\"is_add\"), <U <hashTemp>>$13: <Type: T::Boolean>, <U <hashTemp>>$15: Symbol(:\"a\"), <U <hashTemp>>$16: T.class_of(Integer), <U <hashTemp>>$17: Symbol(:\"b\"), <U <hashTemp>>$18: T.class_of(Integer))\l<U <statTemp>>$9: T::Private::Methods::DeclBuilder = <U <self>>: T::Private::Methods::DeclBuilder.<U params>(<U <statTemp>>$11: {is_add: <Type: T::Boolean>, a: T.class_of(Integer), b: T.class_of(Integer)})\l<U <statTemp>>$20: T.class_of(Integer) = alias <C <U Integer>>\l<U <blockReturnTemp>>$8: T::Private::Methods::DeclBuilder = <U <statTemp>>$9: T::Private::Methods::DeclBuilder.<U returns>(<U <statTemp>>$20: T.class_of(Integer))\l<U <blockReturnTemp>>$21: T.noreturn = blockreturn<::<Class:Example>#<static-init>#<block>> <U <blockReturnTemp>>$8: T::Private::Methods::DeclBuilder\l<unconditional>\l"
+    ];
+
+    "bb::<Class:Example>#<static-init>_5" -> "bb::<Class:Example>#<static-init>_2" [style="bold"];
+}
+
+}
+
