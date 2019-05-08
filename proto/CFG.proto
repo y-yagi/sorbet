@@ -85,3 +85,7 @@ message CFG {
 
     repeated Block blocks = 5;
 }
+
+message MultiCFG {
+    repeated CFG cfg = 1;
+}

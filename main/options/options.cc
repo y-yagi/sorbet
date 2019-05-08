@@ -42,6 +42,7 @@ const vector<PrintOptions> print_options({
     {"missing-constants", &Printers::MissingConstants, true},
     {"cfg", &Printers::CFG, true},
     {"cfg-json", &Printers::CFGJson, true},
+    {"cfg-proto", &Printers::CFGProto, true},
     {"autogen", &Printers::Autogen, true},
     {"autogen-msgpack", &Printers::AutogenMsgPack, true},
     {"plugin-generated-code", &Printers::PluginGeneratedCode, true},

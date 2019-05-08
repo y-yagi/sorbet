@@ -49,10 +49,13 @@ public:
         if (print.CFG) {
             fmt::print("{}\n\n", cfg->toString(ctx));
         }
-        if (print.CFGJson) {
-            // TODO: export actual proto
+        if (print.CFGJson || print.CFGProto) {
             auto proto = cfg::Proto::toProto(ctx.state, *cfg);
-            core::Proto::toJSON(proto, std::cout);
+            if (print.CFGJson) {
+                core::Proto::toJSON(proto, std::cout);
+            } else {
+                cfg::Proto::serializeCFGField(proto, std::cout);
+            }
         }
         return m;
     }

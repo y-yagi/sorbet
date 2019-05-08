@@ -33,6 +33,9 @@ public:
 
     static std::string toJSON(const google::protobuf::Message &message);
     static void toJSON(const google::protobuf::Message &message, std::ostream &out);
+
+    // Serialize a single proto field
+    static void serializeField(int field_number, const google::protobuf::Message &message, std::ostream &out);
 };
 } // namespace sorbet::core
 

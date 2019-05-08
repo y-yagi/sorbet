@@ -1,7 +1,9 @@
 // have to be included first as they violate our poisons
 #include "core/proto/proto.h"
+#include <google/protobuf/io/coded_stream.h>
 #include <google/protobuf/io/zero_copy_stream_impl.h>
 #include <google/protobuf/util/type_resolver_util.h>
+#include <google/protobuf/wire_format_lite.h>
 
 #include "absl/strings/str_cat.h"
 #include "common/Counters_impl.h"
@@ -359,6 +361,12 @@ void Proto::toJSON(const google::protobuf::Message &message, ostream &out) {
         cerr << "error converting to proto json: " << status.error_message() << '\n';
         abort();
     }
+}
+
+void Proto::serializeField(int field_number, const google::protobuf::Message &message, std::ostream &out) {
+    google::protobuf::io::OstreamOutputStream outputStream(&out);
+    google::protobuf::io::CodedOutputStream codedStream(&outputStream);
+    google::protobuf::internal::WireFormatLite::WriteMessage(field_number, message, &codedStream);
 }
 
 } // namespace sorbet::core

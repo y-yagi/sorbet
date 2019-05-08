@@ -22,7 +22,11 @@ public:
 
     static com::stripe::rubytyper::CFG::Argument argumentToProto(const core::GlobalState &gs, core::SymbolRef sym);
     static com::stripe::rubytyper::CFG toProto(const core::GlobalState &gs, const CFG &cfg);
+
+    // Serialize a single field of a MultiCFG
+    static void serializeCFGField(const com::stripe::rubytyper::CFG &cfg, std::ostream &out);
 };
+
 } // namespace sorbet::cfg
 
 #endif
