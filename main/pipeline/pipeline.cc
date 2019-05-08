@@ -54,7 +54,8 @@ public:
             if (print.CFGJson) {
                 core::Proto::toJSON(proto, std::cout);
             } else {
-                cfg::Proto::serializeCFGField(proto, std::cout);
+                // The proto wire format allows simply concatenating repeated message fields
+                cfg::Proto::toMulti(proto).SerializeToOstream(&std::cout);
             }
         }
         return m;

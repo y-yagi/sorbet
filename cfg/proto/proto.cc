@@ -131,8 +131,10 @@ com::stripe::rubytyper::CFG Proto::toProto(const core::GlobalState &gs, const CF
     return proto;
 }
 
-void Proto::serializeCFGField(const com::stripe::rubytyper::CFG &cfg, std::ostream &out) {
-    core::Proto::serializeField(com::stripe::rubytyper::MultiCFG::kCfgFieldNumber, cfg, out);
+com::stripe::rubytyper::MultiCFG Proto::toMulti(const com::stripe::rubytyper::CFG &cfg) {
+    com::stripe::rubytyper::MultiCFG proto;
+    *proto.add_cfg() = cfg;
+    return proto;
 }
 
 } // namespace sorbet::cfg

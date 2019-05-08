@@ -363,10 +363,4 @@ void Proto::toJSON(const google::protobuf::Message &message, ostream &out) {
     }
 }
 
-void Proto::serializeField(int field_number, const google::protobuf::Message &message, std::ostream &out) {
-    google::protobuf::io::OstreamOutputStream outputStream(&out);
-    google::protobuf::io::CodedOutputStream codedStream(&outputStream);
-    google::protobuf::internal::WireFormatLite::WriteMessage(field_number, message, &codedStream);
-}
-
 } // namespace sorbet::core
