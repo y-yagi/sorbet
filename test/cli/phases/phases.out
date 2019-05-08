@@ -709,3 +709,254 @@ subgraph "cluster_::<Class:<root>>#<static-init>" {
 }
 
 --- cfg end ---
+--- cfg-json start ---
+{
+ "symbol": {
+  "id": 26168,
+  "name": {
+   "kind": "UNIQUE",
+   "name": "\u003cstatic-init\u003e"
+  },
+  "kind": "METHOD",
+  "arguments": [
+   26169
+  ],
+  "resolved_name": "\u003croot\u003e.\u003cstatic-init\u003e"
+ },
+ "location": {
+  "path": "-e",
+  "position": {
+   "start": {
+    "line": 1,
+    "column": 1
+   },
+   "end": {
+    "line": 1,
+    "column": 2
+   }
+  }
+ },
+ "arguments": [
+  {
+   "name": "\u003cblk\u003e"
+  }
+ ],
+ "blocks": [
+  {
+   "bindings": [
+    {
+     "bind": {
+      "name": "\u003cself\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 4,
+        "name": {
+         "kind": "UNIQUE",
+         "name": "\u003cClass:\u003croot\u003e\u003e"
+        },
+        "kind": "CLASS",
+        "superClass": 104,
+        "resolved_name": "T.class_of(\u003croot\u003e)"
+       }
+      },
+      "location": {
+       "path": "-e",
+       "position": {
+        "start": {
+         "line": 1,
+         "column": 1
+        },
+        "end": {
+         "line": 1,
+         "column": 2
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "CAST",
+      "cast": {
+       "value": {
+        "name": "\u003cself\u003e",
+        "type": {
+         "kind": "CLASS",
+         "class": {
+          "id": 15,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "NilClass"
+          },
+          "kind": "CLASS",
+          "superClass": 6,
+          "resolved_name": "NilClass"
+         }
+        }
+       },
+       "type": {
+        "kind": "CLASS",
+        "class": {
+         "id": 4,
+         "name": {
+          "kind": "UNIQUE",
+          "name": "\u003cClass:\u003croot\u003e\u003e"
+         },
+         "kind": "CLASS",
+         "superClass": 104,
+         "resolved_name": "T.class_of(\u003croot\u003e)"
+        }
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003creturnMethodTemp\u003e$2",
+      "type": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 7,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Integer"
+         },
+         "kind": "CLASS",
+         "superClass": 6152,
+         "resolved_name": "Integer"
+        }
+       },
+       "literal": {
+        "integer": "1"
+       }
+      },
+      "location": {
+       "path": "-e",
+       "position": {
+        "start": {
+         "line": 1,
+         "column": 1
+        },
+        "end": {
+         "line": 1,
+         "column": 2
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "LITERAL",
+      "literal": {
+       "kind": "LITERAL",
+       "underlying": {
+        "kind": "CLASS",
+        "class": {
+         "id": 7,
+         "name": {
+          "kind": "CONSTANT",
+          "name": "Integer"
+         },
+         "kind": "CLASS",
+         "superClass": 6152,
+         "resolved_name": "Integer"
+        }
+       },
+       "literal": {
+        "integer": "1"
+       }
+      }
+     }
+    },
+    {
+     "bind": {
+      "name": "\u003cfinalReturn\u003e",
+      "type": {
+       "kind": "CLASS",
+       "class": {
+        "id": 2,
+        "name": {
+         "kind": "CONSTANT",
+         "name": "T.noreturn"
+        },
+        "kind": "CLASS",
+        "superClass": 6,
+        "resolved_name": "T.noreturn"
+       }
+      },
+      "location": {
+       "path": "-e",
+       "position": {
+        "start": {
+         "line": 1,
+         "column": 1
+        },
+        "end": {
+         "line": 1,
+         "column": 2
+        }
+       }
+      }
+     },
+     "instruction": {
+      "kind": "RETURN",
+      "return": {
+       "name": "\u003creturnMethodTemp\u003e$2",
+       "type": {
+        "kind": "LITERAL",
+        "underlying": {
+         "kind": "CLASS",
+         "class": {
+          "id": 7,
+          "name": {
+           "kind": "CONSTANT",
+           "name": "Integer"
+          },
+          "kind": "CLASS",
+          "superClass": 6152,
+          "resolved_name": "Integer"
+         }
+        },
+        "literal": {
+         "integer": "1"
+        }
+       }
+      }
+     }
+    }
+   ],
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "-e",
+     "position": {
+      "start": {
+       "line": 1,
+       "column": 1
+      },
+      "end": {
+       "line": 1,
+       "column": 2
+      }
+     }
+    }
+   }
+  },
+  {
+   "id": 1,
+   "exit": {
+    "then_block": 1,
+    "else_block": 1,
+    "location": {
+     "path": "???",
+     "position": {
+      "start": {},
+      "end": {}
+     }
+    }
+   }
+  }
+ ]
+}
+--- cfg-json end ---
