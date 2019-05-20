@@ -323,7 +323,7 @@ int realmain(int argc, char *argv[]) {
     if (opts.suggestRuntimeProfiledType) {
         gs->suggestRuntimeProfiledType = true;
     }
-    if (opts.print.Autogen.enabled || opts.print.AutogenMsgPack.enabled) {
+    if (opts.print.Autogen.enabled || opts.print.AutogenMsgPack.enabled || opts.print.AutogenClasslist.enabled) {
         gs->runningUnderAutogen = true;
     }
     if (opts.reserveMemKiB > 0) {
@@ -402,6 +402,11 @@ int realmain(int argc, char *argv[]) {
             }
 
             runAutogen(ctx, opts, workers, indexed);
+            if (opts.print.AutogenClasslist.enabled) {
+                Timer timeit(logger, "autogenClasslist");
+                vector<string> classes = autogen::Autogen::runAutogenClasslist(ctx);
+                opts.print.AutogenClasslist.fmt("{}\n", fmt::join(classes, "\n"));
+            }
         } else {
             indexed = pipeline::resolve(*gs, move(indexed), opts);
             if (opts.stressIncrementalResolver) {

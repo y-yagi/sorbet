@@ -90,6 +90,7 @@ private:
 class Autogen final {
 public:
     static ParsedFile generate(core::Context ctx, ast::ParsedFile tree);
+    static std::vector<std::string> runAutogenClasslist(core::Context ctx);
     Autogen() = delete;
 };
 } // namespace sorbet::autogen

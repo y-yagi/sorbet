@@ -61,6 +61,7 @@ struct Printers {
     PrinterConfig TypedSource;
     PrinterConfig Autogen;
     PrinterConfig AutogenMsgPack;
+    PrinterConfig AutogenClasslist;
     PrinterConfig PluginGeneratedCode;
     // Ensure everything here is in PrinterConfig::printers().
 
