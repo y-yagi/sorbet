@@ -319,12 +319,12 @@ vector<string> Autogen::runAutogenClasslist(core::Context ctx) {
     vector<string> classes;
     for (int i = 1; i < ctx.state.symbolsUsed(); ++i) {
         auto ref = core::SymbolRef(ctx, i);
-        if (!ref.exists() || !ref.data(ctx)->isClass() || !ref.data(ctx)->isClassModuleSet() || !ref.data(ctx)->isClassClass() ||
-            !ref.data(ctx)->attachedClass(ctx).exists()) {
+        if (!ref.exists() || !ref.data(ctx)->isClass() || !ref.data(ctx)->isClassModuleSet() ||
+            !ref.data(ctx)->isClassClass() || !ref.data(ctx)->attachedClass(ctx).exists()) {
             continue;
         }
         auto fileRef = ref.data(ctx)->loc().file();
-        if (!fileRef.exists() || fileRef.data(ctx).isPayload()) {
+        if (!fileRef.exists() || fileRef.data(ctx).isPayload() || fileRef.data(ctx).isRBI()) {
             continue;
         }
         classes.emplace_back(ref.data(ctx)->attachedClass(ctx).show(ctx));

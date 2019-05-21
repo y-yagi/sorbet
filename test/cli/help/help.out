@@ -112,7 +112,8 @@ Usage:
                                 symbol-table-full, symbol-table-full-raw, name-tree,
                                 name-tree-raw, file-table-json, resolve-tree,
                                 resolve-tree-raw, missing-constants, cfg, autogen,
-                                autogen-msgpack, plugin-generated-code]
+                                autogen-msgpack, autogen-classlist,
+                                plugin-generated-code]
       --stop-after phase        Stop After: [init, parser, desugarer, dsl,
                                 namer, resolver, cfg, inferencer] (default:
                                 inferencer)
