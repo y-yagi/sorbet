@@ -83,6 +83,7 @@ public:
           sections(sections) {
         ENFORCE(this->header.empty() || this->header.back() != '.');
         ENFORCE(this->header.find('\n') == std::string::npos, "{} has a newline in it", this->header);
+        ENFORCE(this->header.find("don't") == std::string::npos, "{} has the word `don't` in it. Use `do not`", this->header);
     }
 };
 
