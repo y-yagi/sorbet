@@ -32,6 +32,15 @@ constexpr auto RESET_STYLE = rang::style::reset;
  */
 constexpr string_view REVERT_COLOR_SIGIL = "@@<<``\t\v\b\r\aYOU_FORGOT_TO_CALL restoreColors"sv;
 
+Error::Error(Loc loc, ErrorClass what, std::string header, std::vector<ErrorSection> sections,
+        std::vector<AutocorrectSuggestion> autocorrects, bool isSilenced)
+    : loc(loc), what(what), header(move(header)), isSilenced(isSilenced), autocorrects(move(autocorrects)),
+    sections(sections) {
+    ENFORCE(this->header.empty() || this->header.back() != '.');
+    ENFORCE(this->header.find('\n') == std::string::npos, "{} has a newline in it", this->header);
+    ENFORCE(this->header.find("don't") == std::string::npos, "{} has the word `don't` in it. Use `do not`", this->header);
+}
+
 string _replaceAll(string_view inWhat, string_view from, string_view to) {
     return absl::StrReplaceAll(inWhat, {{from, to}});
 }

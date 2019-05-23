@@ -78,13 +78,7 @@ public:
     bool isCritical() const;
     std::string toString(const GlobalState &gs) const;
     Error(Loc loc, ErrorClass what, std::string header, std::vector<ErrorSection> sections,
-          std::vector<AutocorrectSuggestion> autocorrects, bool isSilenced)
-        : loc(loc), what(what), header(move(header)), isSilenced(isSilenced), autocorrects(move(autocorrects)),
-          sections(sections) {
-        ENFORCE(this->header.empty() || this->header.back() != '.');
-        ENFORCE(this->header.find('\n') == std::string::npos, "{} has a newline in it", this->header);
-        ENFORCE(this->header.find("don't") == std::string::npos, "{} has the word `don't` in it. Use `do not`", this->header);
-    }
+          std::vector<AutocorrectSuggestion> autocorrects, bool isSilenced);
 };
 
 /*
