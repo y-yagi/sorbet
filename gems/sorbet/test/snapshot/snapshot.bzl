@@ -7,6 +7,7 @@ def snapshot_tests(paths, test_prefix):
         test_name = 'test_{}/{}'.format(test_prefix, path)
 
         data = [
+            "@ruby_2_4_3//:ruby",
             "//main:sorbet",
             "//gems/sorbet:sorbet",
             ":logging"

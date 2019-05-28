@@ -30,7 +30,13 @@ load("@io_bazel_rules_bison//bison:bison.bzl", "bison_register_toolchains")
 
 bison_register_toolchains()
 
-load("rbenv:rbenv.bzl", "ruby_toolchain")
+load("//third_party/ruby:ruby.bzl", "ruby_toolchain")
+
+ruby_toolchain(
+    name = "ruby_2_4_3",
+    ruby_version = "2.4.3",
+    debug = True,
+)
 
 BAZEL_INSTALLER_VERSION_linux_SHA = "328d5fa87a61e1f6e674a8f88c5ae54b8987eaf5a6c944257600c5029c8feef8"
 
