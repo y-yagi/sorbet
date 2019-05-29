@@ -30,7 +30,7 @@ load("@io_bazel_rules_bison//bison:bison.bzl", "bison_register_toolchains")
 
 bison_register_toolchains()
 
-load("//third_party/ruby:ruby.bzl", "ruby_toolchain")
+load("//third_party/ruby:repository.bzl", "ruby_toolchain")
 
 ruby_toolchain(
     name = "ruby_2_4_3",

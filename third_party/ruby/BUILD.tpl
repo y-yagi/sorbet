@@ -1,12 +1,12 @@
 
-filegroup(
+genrule(
     name = "ruby",
-    srcs = glob([
-        "bin/**/*",
-        "include/**/*",
-        "lib/**/*",
-        "share/**/*",
-        "ruby_env.sh"
-    ]),
-    visibility = ["//visibility:public"],
+    tools = [":build_ruby.sh", ":ruby_env.sh", "@boringssl//:crypto"],
+    srcs =
+        glob(["source/**/*"]),
+    outs = [
+        "bin/ruby",
+        "bin/irb",
+    ],
+    cmd = "$(location build_ruby.sh)",
 )
