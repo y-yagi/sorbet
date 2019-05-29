@@ -1,12 +1,14 @@
 
-genrule(
-    name = "ruby",
-    tools = [":build_ruby.sh", ":ruby_env.sh", "@boringssl//:crypto"],
-    srcs =
-        glob(["source/**/*"]),
-    outs = [
-        "bin/ruby",
-        "bin/irb",
-    ],
-    cmd = "$(location build_ruby.sh)",
+load("@rules_foreign_cc//tools/build_defs:configure.bzl", "configure_make")
+
+filegroup(
+    name = "ruby_all",
+    srcs = glob(["**"]),
+    visibility = ["//visibility:public"],
+)
+
+configure_make(
+    name = "ruby_configure",
+    lib_source = ":ruby_all",
+    out_lib_dir = "lib",
 )

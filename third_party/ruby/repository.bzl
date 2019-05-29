@@ -35,20 +35,20 @@ def _install_scripts(repo_ctx, ruby_version):
         executable = False,
     )
 
-    # environment management
+    # top-level rules
     repo_ctx.template(
-        "ruby_env.sh",
-        Label("//third_party/ruby:ruby_env.sh.tpl"),
+        "ruby.bzl",
+        Label("//third_party/ruby:ruby.bzl"),
         substitutions = substitutions,
-        executable = True,
+        executable = False,
     )
 
-    # ruby installer
+    # ext configuration
     repo_ctx.template(
-        "build_ruby.sh",
-        Label("//third_party/ruby:build_ruby.sh.tpl"),
+        "ext/Setup",
+        Label("//third_party/ruby:Setup"),
         substitutions = substitutions,
-        executable = True,
+        executable = False,
     )
 
 def _download_ruby(repo_ctx, ruby_version):
@@ -64,7 +64,6 @@ def _download_ruby(repo_ctx, ruby_version):
 
     repo_ctx.download_and_extract(
         info["url"],
-        output = "source",
         sha256 = info["sha"],
         type = "tar.gz",
         stripPrefix = "ruby-{}".format(ruby_version),
