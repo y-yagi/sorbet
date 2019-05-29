@@ -244,15 +244,6 @@ package(default_visibility = ["//visibility:public"])
         patches = [
             "//third_party/ruby:config.h.patch",
             "//third_party/ruby:probes.h.patch",
-            "//third_party/ruby:ext.openssl.extconf.h.patch",
-            "//third_party/ruby:ext.openssl.ossl.h.patch",
         ],
         patch_args = ["-p1"],
     )
-
-    git_repository(
-        name = "boringssl",
-        commit = "70812081b52398425183b74bea64572b477001f8",
-        remote = "https://boringssl.googlesource.com/boringssl",
-    )
-

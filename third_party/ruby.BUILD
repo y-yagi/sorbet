@@ -134,11 +134,32 @@ cc_binary(
     visibility = ["//visibility:public"],
 )
 
-cc_library(
-    name = "ext_openssl",
-    hdrs = glob([ "ext/openssl/*.h" ]),
-    srcs = glob([ "ext/openssl/*.c" ]),
-    copts = [ '-DRUBY_EXTCONF_H=\\"extconf.h\\"' ],
-    deps = [ ":libminiruby", "@boringssl//:crypto", "@boringssl//:ssl" ],
-    includes = [ "ext/openssl", "include" ],
+
+filegroup(
+    name = "ruby_lib",
+    srcs = glob(["lib/**/*.rb"]),
+)
+
+
+genrule(
+    name = "ruby_script",
+    outs = [ "ruby" ],
+    cmd = """
+cat >> $(location ruby) <<EOF
+#!/bin/bash
+
+set -euo pipefail
+
+export RUBYLIB=external/ruby_2_4_3/lib
+
+exec external/ruby_2_4_3/miniruby "$$@"
+EOF
+    """,
+)
+
+
+sh_binary(
+    name = "ruby_bin",
+    data = [ ":miniruby", ":ruby_lib" ],
+    srcs = [ "ruby" ],
 )
