@@ -235,16 +235,24 @@ package(default_visibility = ["//visibility:public"])
         build_file = "//third_party:cpp_subprocess.BUILD",
     )
 
-    # needed for building ruby
+    http_archive(
+        name = "ruby_2_4_3",
+        url = "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.3.tar.gz",
+        sha256 = "fd0375582c92045aa7d31854e724471fb469e11a4b08ff334d39052ccaaa3a98",
+        strip_prefix = "ruby-2.4.3",
+        build_file = "//third_party:ruby.BUILD",
+        patches = [
+            "//third_party/ruby:config.h.patch",
+            "//third_party/ruby:probes.h.patch",
+            "//third_party/ruby:ext.openssl.extconf.h.patch",
+            "//third_party/ruby:ext.openssl.ossl.h.patch",
+        ],
+        patch_args = ["-p1"],
+    )
+
     git_repository(
         name = "boringssl",
         commit = "70812081b52398425183b74bea64572b477001f8",
         remote = "https://boringssl.googlesource.com/boringssl",
     )
 
-    # needed for building ruby
-    git_repository(
-        name="rules_foreign_cc",
-        remote="https://github.com/bazelbuild/rules_foreign_cc.git",
-        commit="a3593905f73ce19c09d21f9968f1d3f5bc115157",
-    )

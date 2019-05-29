@@ -1,0 +1,10 @@
+--- ruby-2.4.3/ext/openssl/ossl.h	2016-11-30 06:41:46.000000000 -0800
++++ ruby-2.4.3-dirty/ext/openssl/ossl.h	2019-05-29 14:08:30.000000000 -0700
+@@ -27,7 +27,6 @@
+ #include <openssl/hmac.h>
+ #include <openssl/rand.h>
+ #include <openssl/conf.h>
+-#include <openssl/conf_api.h>
+ #include <openssl/crypto.h>
+ #if !defined(OPENSSL_NO_ENGINE)
+ #  include <openssl/engine.h>
