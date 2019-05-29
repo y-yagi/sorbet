@@ -1,4 +1,6 @@
 
+load("@bazel_tools//tools/build_defs/repo:git.bzl", "git_repository", "new_git_repository")
+
 _ruby_versions = {
 
     "2.4.3": {
@@ -9,47 +11,12 @@ _ruby_versions = {
 }
 
 
-def _install_scripts(repo_ctx, ruby_version):
-
-    # TODO: there must be a better way to convert a path to a string
-    prefix = "{}".format(repo_ctx.path("."))
-
-    substitutions = {
-        "%{workspace_name}": repo_ctx.name,
-        "%{ruby_version}": ruby_version,
-    }
-
-    # WORKSPACE file
-    repo_ctx.template(
-        "WORKSPACE",
-        Label("//third_party/ruby:WORKSPACE.tpl"),
-        substitutions = substitutions,
-        executable = False,
-    )
-
+def _install_files(repo_ctx, ruby_version):
     # top-level BUILD
-    repo_ctx.template(
-        "BUILD",
-        Label("//third_party/ruby:BUILD.tpl"),
-        substitutions = substitutions,
-        executable = False,
-    )
-
-    # top-level rules
-    repo_ctx.template(
-        "ruby.bzl",
-        Label("//third_party/ruby:ruby.bzl"),
-        substitutions = substitutions,
-        executable = False,
-    )
+    repo_ctx.file("BUILD", Label("//third_party/ruby:BUILD.tpl"))
 
     # ext configuration
-    repo_ctx.template(
-        "ext/Setup",
-        Label("//third_party/ruby:Setup"),
-        substitutions = substitutions,
-        executable = False,
-    )
+    repo_ctx.file("ext/Setup", Label("//third_party/ruby:Setup"))
 
 def _download_ruby(repo_ctx, ruby_version):
     """
@@ -72,8 +39,8 @@ def _download_ruby(repo_ctx, ruby_version):
 def _ruby_toolchain_impl(repo_ctx):
     ruby_version = repo_ctx.attr.ruby_version
 
-    _install_scripts(repo_ctx, ruby_version)
     _download_ruby(repo_ctx, ruby_version)
+    _install_files(repo_ctx, ruby_version)
 
     return None
 
@@ -88,6 +55,6 @@ ruby_toolchain = repository_rule(
         "debug": attr.bool(
             default=False,
             doc="Dump output to stdout while building",
-        )
+        ),
     },
 )
