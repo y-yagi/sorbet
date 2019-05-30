@@ -152,7 +152,7 @@ set -euo pipefail
 
 export RUBYLIB=external/ruby_2_4_3/lib
 
-exec external/ruby_2_4_3/miniruby "$$@"
+exec external/ruby_2_4_3/miniruby "\$$@"
 EOF
     """,
 )
