@@ -148,9 +148,9 @@ genrule(
 cat >> $(location ruby) <<EOF
 #!/bin/bash
 
-set -euo pipefail
+set -euo pipefai
 
-export RUBYLIB=external/ruby_2_4_3/lib
+export RUBYLIB="external/ruby_2_4_3/lib:$RUBYLIB"
 
 exec external/ruby_2_4_3/miniruby "\$$@"
 EOF
