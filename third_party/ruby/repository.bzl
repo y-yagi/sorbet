@@ -24,6 +24,11 @@ def _format_package(info):
 
 
 def _parse_package(line):
+    """
+    Parse an exact package specification from a single line of a Gemfile.lock.
+    If the line did not contain an exact specification (something of the form
+    `package (version)`, return None.
+    """
 
     prefix = line[0:4]
     if not prefix.isspace():
@@ -61,12 +66,14 @@ def _parse_gemfile_lock(content):
 
 def _fetch_package(repo_ctx, info):
     """
-    Download a specific package version from rubygems.org
+    Download a specific package version from rubygems.org. Returns the formatted
+    package name, and the sha256 of the downloaded archive.
     """
 
-    output = _format_package(info)
+    package_name = _format_package(info)
+    output = "gems/{}".format(package_name)
 
-    url = "https://rubygems.org/downloads/{}.gem".format(output)
+    url = "https://rubygems.org/downloads/{}.gem".format(package_name)
 
     result = repo_ctx.download_and_extract(
         output = output,
@@ -80,26 +87,52 @@ def _fetch_package(repo_ctx, info):
         "{}/BUILD".format(output),
         Label("//third_party/ruby:gem.BUILD"),
         substitutions = {
-            "%{gem_name}": output
+            "%{gem_name}": package_name
         },
         executable = False,
     )
 
-    return result.sha256
+    return { "name": package_name, "sha": result.sha256 }
 
 
-def _gather_dependencies(repo_ctx, gemfile_lock):
-    packages = _parse_gemfile_lock(_read_file(repo_ctx, Label(gemfile_lock)))
+def _package_to_dep(info):
+    """
+    Make a downloaded gem dependency for the given package info. Returns a
+    quoted string.
+    """
+    return "\"//gems/{}\"".format(_format_package(info))
 
-    shas = []
 
-    for info in packages:
-        shas.append({
-            "name": _format_package(info),
-            "sha": _fetch_package(repo_ctx, info),
-        })
+def _package_to_path(repo_ctx, info):
+    """
+    Turn a package description into a path that can be used in an environment
+    script. Returns a string.
+    """
+    return "external/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
 
-    return shas
+
+def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
+    """
+    Generates a BUILD file in the same location as the Gemfile.lock file in the
+    original repository, 
+    """
+
+    package = Label(gemfile_lock).package
+
+    ruby_lib = ":".join([ _package_to_path(repo_ctx, info) for info in deps ])
+
+
+    env_deps = ", ".join([ _package_to_dep(info) for info in deps ])
+
+    repo_ctx.template(
+        "{}/BUILD".format(package),
+        Label("//third_party/ruby:Gemfile-env.BUILD"),
+        substitutions = {
+            "%{ruby_lib}": ruby_lib,
+            "%{env_deps}": env_deps,
+        },
+        executable = False,
+    )
 
 
 def _impl(repo_ctx):
@@ -111,13 +144,28 @@ def _impl(repo_ctx):
         executable = True,
     )
 
-    results = []
+    all_deps = {}
+    gemfile_deps = {}
 
+    # parse all gemfiles, and unique dependencies
     for gemfile_lock in repo_ctx.attr.gemfile_locks:
-        results.extend(_gather_dependencies(repo_ctx, gemfile_lock))
+        deps = _parse_gemfile_lock(_read_file(repo_ctx, Label(gemfile_lock)))
 
-    # TODO: return something else to make use of the shas collected for all of
-    # the required gems
+        gemfile_deps[gemfile_lock] = deps
+
+        for dep in deps:
+            name = dep["name"]
+            if all_deps.get(name) == None:
+                all_deps[name] = dep
+
+
+    # fetch unique dependencies
+    for key, info in all_deps.items():
+        # TODO: make use of the shas in the return value of _impl
+        _sha = _fetch_package(repo_ctx, info)
+
+    for gemfile_lock, deps in gemfile_deps.items():
+        _generate_gemfile_rules(repo_ctx, gemfile_lock, deps)
 
     return None
 
