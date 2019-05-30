@@ -2,7 +2,7 @@ load(":snapshot.bzl", "snapshot_tests")
 
 sh_library(
     name = "logging",
-    data = [":logging.sh"],
+    data = [ "logging.sh" ],
 )
 
 test_suite(

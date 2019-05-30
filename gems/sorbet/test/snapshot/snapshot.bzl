@@ -7,7 +7,8 @@ def snapshot_tests(paths, test_prefix):
         test_name = 'test_{}/{}'.format(test_prefix, path)
 
         data = [
-            "@ruby_2_4_3//:ruby",
+            "@ruby_2_4_3//:ruby_bin",
+            "@installed_gems//gems/sorbet/test/snapshot/{}/src:Gemfile.lock-env".format(path),
             "//main:sorbet",
             "//gems/sorbet:sorbet",
             ":logging"

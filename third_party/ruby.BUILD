@@ -138,6 +138,7 @@ cc_binary(
 filegroup(
     name = "ruby_lib",
     srcs = glob(["lib/**/*.rb"]),
+    visibility = ["//visibility:public"],
 )
 
 
@@ -150,7 +151,7 @@ cat >> $(location ruby) <<EOF
 
 set -euo pipefai
 
-export RUBYLIB="external/ruby_2_4_3/lib:$RUBYLIB"
+export RUBYLIB="external/ruby_2_4_3/lib:\$$RUBYLIB"
 
 exec external/ruby_2_4_3/miniruby "\$$@"
 EOF
@@ -162,4 +163,5 @@ sh_binary(
     name = "ruby_bin",
     data = [ ":miniruby", ":ruby_lib" ],
     srcs = [ "ruby" ],
+    visibility = ["//visibility:public"],
 )
