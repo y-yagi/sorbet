@@ -34,10 +34,10 @@ repo_root=$PWD
 root_dir="$repo_root/gems/sorbet"
 
 # the path to the ruby wrapper
-ruby="$repo_root/$1"
+PATH="$(dirname $repo_root/$1):$PATH"
 
 # test that ruby is working
-$ruby -e '1 + 1'
+ruby -e '1 + 1'
 
 # the second argument is the location of the Gemfile.lock_env.sh script
 source "$2"
@@ -63,7 +63,7 @@ srb="$root_dir/bin/srb"
 export SRB_SORBET_EXE="$repo_root/main/sorbet"
 
 # test that srb works
-$ruby $srb --help &> /dev/null
+$srb --help &> /dev/null
 
 if ! [ -d "$test_dir/src" ]; then
   error "└─ each test must have a src/ dirctory: $test_dir/src"
@@ -110,7 +110,7 @@ cp -r "$test_dir/src"/* "$actual"
   cd "$actual"
 
   # note: redirects stderr before the pipe
-  if ! SRB_YES=1 $ruby "$srb" init 2> "$actual/err.log" | \
+  if ! SRB_YES=1 "$srb" init 2> "$actual/err.log" | \
       sed -e 's/with [0-9]* modules and [0-9]* aliases/with X modules and Y aliases/' \
       > "$actual/out.log"; then
     error "├─ srb init failed."
