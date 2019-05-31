@@ -20,8 +20,9 @@ cc_library(
 )
 
 cc_library(
-    name = "libminiruby",
-    hdrs = glob([ "include/**/*.h" ]),
+    name = "ruby_headers",
+    srcs = glob([ "include/**/*.h" ]),
+    includes = [ "include" ],
 )
 
 cc_binary(
@@ -31,7 +32,6 @@ cc_binary(
         "main.c",
         "dmydln.c",
         "miniinit.c",
-        "dmyext.c",
         "miniprelude.c",
         "array.c",
         "bignum.c",
@@ -101,9 +101,7 @@ cc_binary(
         "missing/explicit_bzero.c",
         "missing/setproctitle.c",
 
-        # pathname
-        "ext/pathname/pathname.c",
-
+        "ext/extinit.c",
     ] + glob([
         "*.h",
         "*.inc",
@@ -112,7 +110,11 @@ cc_binary(
         "ccan/**/*.h",
     ]),
 
-    deps = [ "miniruby_private_headers" ],
+    deps = [
+        ":miniruby_private_headers",
+        ":ruby_headers",
+        "ext_pathname",
+    ],
 
     copts = [
         "-DRUBY_EXPORT",
@@ -137,14 +139,41 @@ cc_binary(
     visibility = ["//visibility:public"],
 )
 
+genrule(
+    name = "extinit",
+    outs = [ "ext/extinit.c" ],
+    cmd = """
+cat > $(location ext/extinit.c) <<EOF
+#include "ruby/ruby.h"
+
+#define init(func, name) {      \
+    extern void func(void);     \
+    ruby_init_ext(name, func);  \
+}
+
+void ruby_init_ext(const char *name, void (*init)(void));
+
+void Init_ext(void)
+{
+    init(Init_pathname, "pathname.so");
+}
+EOF
+""",
+)
+
+cc_library(
+    name = "ext_pathname",
+    srcs = [ "ext/pathname/pathname.c" ],
+    deps = [ ":ruby_headers" ],
+    linkstatic = 1,
+)
 
 genrule(
-    name = "ext_pathname",
+    name = "ext_pathname_ruby",
     srcs = [ "ext/pathname/lib/pathname.rb" ],
     outs = [ "lib/pathname.rb" ],
     cmd = "cp $(location ext/pathname/lib/pathname.rb) $(location lib/pathname.rb)",
 )
-
 
 filegroup(
     name = "ruby_lib",
