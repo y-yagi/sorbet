@@ -24,7 +24,6 @@ cc_library(
     hdrs = glob([ "include/**/*.h" ]),
 )
 
-
 cc_binary(
     name = "miniruby",
 
@@ -101,6 +100,10 @@ cc_binary(
         "enc/trans/newline.c",
         "missing/explicit_bzero.c",
         "missing/setproctitle.c",
+
+        # pathname
+        "ext/pathname/pathname.c",
+
     ] + glob([
         "*.h",
         "*.inc",
@@ -135,9 +138,19 @@ cc_binary(
 )
 
 
+genrule(
+    name = "ext_pathname",
+    srcs = [ "ext/pathname/lib/pathname.rb" ],
+    outs = [ "lib/pathname.rb" ],
+    cmd = "cp $(location ext/pathname/lib/pathname.rb) $(location lib/pathname.rb)",
+)
+
+
 filegroup(
     name = "ruby_lib",
-    srcs = glob(["lib/**/*.rb"]),
+    srcs = [
+        "lib/pathname.rb",
+    ] + glob(["lib/**/*.rb"]),
     visibility = ["//visibility:public"],
 )
 
