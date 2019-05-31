@@ -144,24 +144,26 @@ filegroup(
 
 genrule(
     name = "ruby_script",
-    outs = [ "ruby" ],
+    outs = [ "ruby.sh" ],
     cmd = """
-cat >> $(location ruby) <<EOF
+cat >> $(location ruby.sh) <<EOF
 #!/bin/bash
 
-set -euo pipefai
+set -euo pipefail
 
-export RUBYLIB="external/ruby_2_4_3/lib:\$$RUBYLIB"
+base_path="\$$(dirname \$$0)/../../"
 
-exec external/ruby_2_4_3/miniruby "\$$@"
+export RUBYLIB="\$$base_path/external/ruby_2_4_3/lib:\$${RUBYLIB:-}"
+
+exec \$$base_path/external/ruby_2_4_3/miniruby "\$$@"
 EOF
     """,
 )
 
 
 sh_binary(
-    name = "ruby_bin",
+    name = "ruby",
     data = [ ":miniruby", ":ruby_lib" ],
-    srcs = [ "ruby" ],
+    srcs = [ "ruby.sh" ],
     visibility = ["//visibility:public"],
 )

@@ -1,6 +1,6 @@
 
 filegroup(
     name = "%{gem_name}",
-    srcs = glob([ "**/*" ]),
+    srcs = glob([ "**/*" ], exclude = [ "BUILD" ]),
     visibility = ["//visibility:public"],
 )

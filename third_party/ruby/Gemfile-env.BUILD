@@ -6,12 +6,14 @@ genrule(
 cat >> $(location Gemfile.lock-env.sh) <<EOF
 #!/bin/bash
 
-export RUBYLIB="%{ruby_lib}:\$$RUBYLIB"
+base_path=\$$(pwd)
+
+export RUBYLIB="%{ruby_lib}:\$${RUBYLIB:-}"
 EOF
     """,
 )
 
-sh_library(
+sh_binary(
     name = "Gemfile.lock-env",
     data = [ %{env_deps} ],
     srcs = [ "Gemfile.lock-env.sh" ],

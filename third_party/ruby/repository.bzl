@@ -108,7 +108,7 @@ def _package_to_path(repo_ctx, info):
     Turn a package description into a path that can be used in an environment
     script. Returns a string.
     """
-    return "external/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
+    return "\\$$base_path/external/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
 
 
 def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
@@ -144,7 +144,11 @@ def _impl(repo_ctx):
         executable = True,
     )
 
-    all_deps = {}
+    # As a special case, we always install bundler into every environment
+    bundler_info = { "name": "bundler", "version": "1.17.1" }
+
+    all_deps = { "bundler": bundler_info, }
+
     gemfile_deps = {}
 
     # parse all gemfiles, and unique dependencies
@@ -165,7 +169,7 @@ def _impl(repo_ctx):
         _sha = _fetch_package(repo_ctx, info)
 
     for gemfile_lock, deps in gemfile_deps.items():
-        _generate_gemfile_rules(repo_ctx, gemfile_lock, deps)
+        _generate_gemfile_rules(repo_ctx, gemfile_lock, [bundler_info] + deps)
 
     return None
 
