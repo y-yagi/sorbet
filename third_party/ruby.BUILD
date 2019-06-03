@@ -5,6 +5,7 @@
 # Hard-coded files
 # * config.h
 # * probes.h
+# * config.status
 
 # Templated files
 # * verconf.h is just a templated version of what ruby produces
@@ -307,6 +308,7 @@ cc_binary(
         ":miniruby_private_headers",
         ":ruby_headers",
         ":ext/pathname",
+        ":ext/stringio",
     ],
 
     copts = [
@@ -351,6 +353,7 @@ void ruby_init_ext(const char *name, void (*init)(void));
 void Init_ext(void)
 {
     init(Init_pathname, "pathname.so");
+    init(Init_stringio, "stringio.so");
 }
 EOF
 """,
@@ -370,13 +373,34 @@ genrule(
     cmd = "cp $(location ext/pathname/lib/pathname.rb) $(location lib/pathname.rb)",
 )
 
+cc_library(
+    name = "ext/stringio",
+    srcs = [ "ext/stringio/stringio.c" ],
+    deps = [ ":ruby_headers" ],
+    linkstatic = 1,
+)
+
+genrule(
+    name = "ruby_ext/stringio",
+    srcs = [ "ext/stringio/lib/stringio.rb" ],
+    outs = [ "lib/stringio.rb" ],
+    cmd = "cp $(location ext/stringio/lib/stringio.rb) $(location lib/stringio.rb)",
+)
 
 # core library #################################################################
+
+genrule(
+    name = "lib/rbconfig",
+    outs = [ "lib/rbconfig.rb" ],
+    srcs = [ "rbconfig.rb" ],
+    cmd = "cp $(location rbconfig.rb) $(location lib/rbconfig.rb)",
+)
 
 filegroup(
     name = "ruby_lib",
     srcs = [
         "lib/pathname.rb",
+        "lib/rbconfig.rb",
     ] + glob([ "lib/**/*.rb" ]),
     visibility = ["//visibility:public"],
 )
@@ -394,28 +418,17 @@ cat >> $(location ruby.sh) <<EOF
 set -euo pipefail
 
 base_dir="\$$(dirname \$$0)"
-if [ ! -d "\$$base_dir/lib" ]; then
 
-  # we were invoked by bazel run
-  if [ -d external ]; then
-    base_dir=external/ruby_2_4_3
-  else
-    echo "Unable to determine location of runtime dependencies!"
-    exit 1
-  fi
+export RUBYLIB="\$$base_dir/ruby.runfiles/ruby_2_4_3/lib:\$${RUBYLIB:-}"
 
-fi
-
-export RUBYLIB="\$$base_dir/lib:\$${RUBYLIB:-}"
-
-exec "\$$base_dir/miniruby" "\$$@"
+exec "\$$base_dir/bin/ruby" "\$$@"
 EOF
     """,
 )
 
 sh_binary(
     name = "ruby",
-    data = [ ":bin/miniruby", ":ruby_lib" ],
+    data = [ ":bin/ruby", ":ruby_lib" ],
     srcs = [ "ruby.sh" ],
     visibility = ["//visibility:public"],
 )
