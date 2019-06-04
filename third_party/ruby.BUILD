@@ -419,7 +419,12 @@ set -euo pipefail
 
 base_dir="\$$(dirname \$$0)"
 
-export RUBYLIB="\$$base_dir/ruby.runfiles/ruby_2_4_3/lib:\$${RUBYLIB:-}"
+# invoked via `bazel run`?
+if [ -d "\$$base_dir/ruby.runfiles" ]; then
+  export RUBYLIB="\$$base_dir/ruby.runfiles/ruby_2_4_3/lib:\$${RUBYLIB:-}"
+else
+  export RUBYLIB="\$$base_dir/lib:\$${RUBYLIB:-}"
+fi
 
 exec "\$$base_dir/bin/ruby" "\$$@"
 EOF
