@@ -64,20 +64,24 @@ def _parse_gemfile_lock(content):
     return packages
 
 
-def _fetch_package(repo_ctx, info):
+def _fetch_package(repo_ctx, package_name, sha):
     """
     Download a specific package version from rubygems.org. Returns the formatted
     package name, and the sha256 of the downloaded archive.
     """
 
-    package_name = _format_package(info)
     output = "gems/{}".format(package_name)
 
     url = "https://rubygems.org/downloads/{}.gem".format(package_name)
 
+    # default the sha to "" when it's unknown
+    if sha == None:
+        sha = ""
+
     result = repo_ctx.download_and_extract(
         output = output,
         url = url,
+        sha256 = sha,
         type = "tar",
     )
 
@@ -100,7 +104,8 @@ def _package_to_dep(info):
     Make a downloaded gem dependency for the given package info. Returns a
     quoted string.
     """
-    return "\"//gems/{}\"".format(_format_package(info))
+    package_name = _format_package(info)
+    return "\"//gems/{}:{}\"".format(package_name, package_name)
 
 
 def _package_to_path(repo_ctx, info):
@@ -108,7 +113,7 @@ def _package_to_path(repo_ctx, info):
     Turn a package description into a path that can be used in an environment
     script. Returns a string.
     """
-    return "\\$$base_path/external/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
+    return "\$$base_dir/Gemfile.lock-env.runfiles/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
 
 
 def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
@@ -117,19 +122,23 @@ def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
     original repository, 
     """
 
+    # TODO: need to consider more than just the package when inventing the label
+    # for the environment script
     package = Label(gemfile_lock).package
 
     ruby_lib = ":".join([ _package_to_path(repo_ctx, info) for info in deps ])
 
-
     env_deps = ", ".join([ _package_to_dep(info) for info in deps ])
+
+    print('ruby_lib = {}'.format(ruby_lib))
+    print('env_deps = {}'.format(env_deps))
 
     repo_ctx.template(
         "{}/BUILD".format(package),
         Label("//third_party/ruby:Gemfile-env.BUILD"),
         substitutions = {
-            "%{ruby_lib}": ruby_lib,
             "%{env_deps}": env_deps,
+            "%{ruby_lib}": ruby_lib,
         },
         executable = False,
     )
@@ -147,7 +156,7 @@ def _impl(repo_ctx):
     # As a special case, we always install bundler into every environment
     bundler_info = { "name": "bundler", "version": "1.17.1" }
 
-    all_deps = { "bundler": bundler_info, }
+    all_deps = { "bundler-1.17.1": True }
 
     gemfile_deps = {}
 
@@ -158,20 +167,36 @@ def _impl(repo_ctx):
         gemfile_deps[gemfile_lock] = deps
 
         for dep in deps:
-            name = dep["name"]
-            if all_deps.get(name) == None:
-                all_deps[name] = dep
-
+            package_name = _format_package(dep)
+            all_deps[package_name] = True
 
     # fetch unique dependencies
-    for key, info in all_deps.items():
-        # TODO: make use of the shas in the return value of _impl
-        _sha = _fetch_package(repo_ctx, info)
+    known_shas = {}
+    fetched = False
+    for package_name in all_deps.keys():
 
+        known_sha = repo_ctx.attr.gems.get(package_name)
+        if known_sha == None:
+            fetched = True
+
+        result = _fetch_package(repo_ctx, package_name, known_sha)
+
+        known_shas[package_name] = result["sha"]
+
+    # generate gemfile environments
     for gemfile_lock, deps in gemfile_deps.items():
         _generate_gemfile_rules(repo_ctx, gemfile_lock, [bundler_info] + deps)
 
-    return None
+    # When we've fetched gems that lack sha256 value, emit attributes that would
+    # make this hermetic.
+    if fetched:
+        return {
+            "name": repo_ctx.attr.name,
+            "gemfile_locks": repo_ctx.attr.gemfile_locks,
+            "gems": known_shas,
+        }
+    else:
+        return None
 
 
 gemfile_lock_deps = repository_rule(
@@ -179,8 +204,13 @@ gemfile_lock_deps = repository_rule(
     local = True,
     attrs = {
         "gemfile_locks": attr.string_list(
-            default = [], 
+            default = [],
             doc = "Gemfile.lock files to download the dependencies of",
+        ),
+
+        "gems": attr.string_dict(
+            default = {},
+            doc = "Specific gem versions and sha256 values",
         ),
     },
 )

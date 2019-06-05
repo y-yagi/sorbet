@@ -1,16 +1,22 @@
 
 genrule(
-    name = "env_file",
+    name = "generate-Gemfile.lock-env.sh",
     outs = [ "Gemfile.lock-env.sh" ],
     cmd = """
-cat >> $(location Gemfile.lock-env.sh) <<EOF
+    cat > $(location Gemfile.lock-env.sh) <<EOF
 #!/bin/bash
 
-base_path=\$$(pwd)
+base_dir="\$$(dirname \$${BASH_SOURCE[0]})"
 
-export RUBYLIB="%{ruby_lib}:\$${RUBYLIB:-}"
+echo '%{env_deps}'
+
+if [ -d "\$$base_dir/Gemfile.lock-env.runfiles" ]; then
+  export RUBYLIB="%{ruby_lib}:\$${RUBYLIB:-}"
+else
+  export RUBYLIB="%{ruby_lib}:\$${RUBYLIB:-}"
+fi
 EOF
-    """,
+"""
 )
 
 sh_binary(

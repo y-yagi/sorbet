@@ -8,20 +8,17 @@ def snapshot_tests(paths, test_prefix):
 
         lock_env = "@installed_gems//gems/sorbet/test/snapshot/{}/src:Gemfile.lock-env".format(path)
 
-        data = [
-            "//main:sorbet",
-            "//gems/sorbet:sorbet",
-            "{}/src".format(path),
-        ]
-
         native.sh_test(
             name = test_name,
             srcs = [ "test_one_bazel.sh" ],
-            data = data,
+            data = [
+                "//main:sorbet",
+                "//gems/sorbet:sorbet",
+                lock_env,
+                "@ruby_2_4_3//:ruby",
+            ] + native.glob([ "{}/src/**/*".format(path) ]),
             deps = [
                 ":logging",
-                "@ruby_2_4_3//:ruby",
-                lock_env,
             ],
             args = [
                 "$(location @ruby_2_4_3//:ruby)",

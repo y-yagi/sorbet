@@ -34,10 +34,9 @@ load("//third_party/ruby:repository.bzl", "gemfile_lock_deps")
 
 gemfile_lock_deps(
     name = "installed_gems",
-    gemfile_locks =
-        [ "//gems/sorbet/test/snapshot/partial/{}/src:Gemfile.lock".format(path) for path in 
-            [ "stupidedi", "rspec-lots" ]
-        ],
+    gemfile_locks = [
+        "//gems/sorbet/test/snapshot/partial/stupidedi/src:Gemfile.lock",
+    ],
 )
 
 BAZEL_INSTALLER_VERSION_linux_SHA = "328d5fa87a61e1f6e674a8f88c5ae54b8987eaf5a6c944257600c5029c8feef8"
