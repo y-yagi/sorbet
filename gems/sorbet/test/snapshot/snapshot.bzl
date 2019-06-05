@@ -16,7 +16,8 @@ def snapshot_tests(paths, test_prefix):
                 "//gems/sorbet:sorbet",
                 lock_env,
                 "@ruby_2_4_3//:ruby",
-            ] + native.glob([ "{}/src/**/*".format(path) ]),
+                "{}/src".format(path),
+            ],
             deps = [
                 ":logging",
             ],

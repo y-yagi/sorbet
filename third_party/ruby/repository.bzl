@@ -113,7 +113,9 @@ def _package_to_path(repo_ctx, info):
     Turn a package description into a path that can be used in an environment
     script. Returns a string.
     """
-    return "\$$base_dir/Gemfile.lock-env.runfiles/{}/gems/{}/lib".format(repo_ctx.name, _format_package(info))
+
+    # see: https://github.com/bazelbuild/bazel/blob/master/tools/bash/runfiles/runfiles.bash
+    return "\\$$(rlocation {}/gems/{}/lib)".format(repo_ctx.name, _format_package(info))
 
 
 def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
@@ -129,9 +131,6 @@ def _generate_gemfile_rules(repo_ctx, gemfile_lock, deps):
     ruby_lib = ":".join([ _package_to_path(repo_ctx, info) for info in deps ])
 
     env_deps = ", ".join([ _package_to_dep(info) for info in deps ])
-
-    print('ruby_lib = {}'.format(ruby_lib))
-    print('env_deps = {}'.format(env_deps))
 
     repo_ctx.template(
         "{}/BUILD".format(package),

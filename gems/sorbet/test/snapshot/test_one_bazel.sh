@@ -42,26 +42,6 @@ ruby -e '1 + 1'
 # the second argument is the location of the Gemfile.lock_env.sh script
 source "$2"
 
-dbg() {
-  echo "----------"
-  echo "# $@"
-  "$@"
-}
-
-dbg ls -F .
-dbg ls -F gems
-dbg ls -F external
-dbg ls -F external/installed_gems/gems
-dbg ls -F $(dirname $2)
-echo "======="
-
-ruby -e 'puts $:'
-ruby -e 'require "json"; puts "success"'
-ruby -e 'require "cantor"; puts "success"'
-
-exit 1
-
-
 # the third argument is the path to the test, relative to
 # //gems/sorbet/test/snapshot
 test_dir=$root_dir/test/snapshot/$3
