@@ -20,6 +20,31 @@ cc_library(
     name = "ruby_headers",
     srcs = glob([ "include/**/*.h" ]),
     includes = [ "include" ],
+    visibility = [ "//visibility:public" ],
+)
+
+cc_library(
+    name = "ruby_private_headers",
+    srcs = glob([
+        "*.h",
+        "*.inc",
+        "enc/*.h",
+        "enc/trans/*.h",
+        "enc/unicode/9.0.0/*.h",
+    ]),
+    hdrs = glob([
+        "config.h",
+        "*.h",
+        "*.inc",
+        "enc/shift_jis.c",
+        "enc/jis/*.h",
+    ]),
+    includes = [
+        "enc",
+        "enc/trans",
+        "enc/unicode/9.0.0",
+    ],
+    visibility = [ "//visibility:private" ],
 )
 
 
@@ -124,16 +149,13 @@ cc_binary(
         "missing/explicit_bzero.c",
         "missing/setproctitle.c",
     ] + glob([
-        "*.h",
-        "*.inc",
-        "include/**/*.h",
-        "enc/**/*.h",
         "ccan/**/*.h",
     ]),
 
     deps = [
         ":miniruby_private_headers",
         ":ruby_headers",
+        ":ruby_private_headers",
     ],
 
     copts = [
@@ -287,29 +309,24 @@ cc_binary(
         "vm_backtrace.c",
         "vm_dump.c",
         "vm_trace.c",
-        "enc/ascii.c",
-        "enc/us_ascii.c",
-        "enc/unicode.c",
-        "enc/utf_8.c",
-        "enc/trans/newline.c",
         "missing/explicit_bzero.c",
         "missing/setproctitle.c",
     ] + glob([
-        "*.h",
-        "*.inc",
-        "include/**/*.h",
-        "enc/**/*.h",
         "ccan/**/*.h",
     ]),
 
     deps = [
         ":miniruby_private_headers",
         ":ruby_headers",
+        ":ruby_private_headers",
+        ":enc",
         ":ext/pathname",
         ":ext/stringio",
         ":ext/bigdecimal",
         ":ext/json/generator",
         ":ext/json/parser",
+        ":ext/socket",
+        ":ext/io/wait",
     ],
 
     copts = [
@@ -330,10 +347,125 @@ cc_binary(
         "-lpthread",
     ],
 
-    includes = [ "include", "enc/unicode/9.0.0" ],
-
     visibility = ["//visibility:public"],
 )
+
+genrule(
+    name = "generate-enc-headers",
+    srcs = [
+        ":ruby_lib",
+        ":bin/miniruby",
+        "tool/generic_erb.rb",
+        "tool/vpath.rb",
+        "template/encdb.h.tmpl",
+        "template/transdb.h.tmpl",
+        "lib/erb.rb",
+        "enc/ascii.c",
+        "enc/trans/transdb.c",
+    ],
+    outs = [
+        "encdb.h",
+        "transdb.h",
+    ],
+    cmd = """
+$(location bin/miniruby) \
+    -I$$(dirname $(location lib/erb.rb)) \
+    -I$$(dirname $(location tool/vpath.rb)) \
+    $(location tool/generic_erb.rb) \
+    -c -o $(location encdb.h) $(location template/encdb.h.tmpl) \
+    $$(dirname $(location enc/ascii.c)) enc
+
+$(location bin/miniruby) \
+    -I$$(dirname $(location lib/erb.rb)) \
+    -I$$(dirname $(location tool/vpath.rb)) \
+    $(location tool/generic_erb.rb) \
+    -c -o $(location transdb.h) $(location template/transdb.h.tmpl) \
+    $$(dirname $(location enc/trans/transdb.c)) enc/trans
+""",
+)
+
+cc_library(
+    name = "enc",
+    srcs = [
+        "enc/ascii.c",
+        "enc/big5.c",
+        "enc/cp949.c",
+        "enc/emacs_mule.c",
+        "enc/encdb.c",
+        "enc/euc_jp.c",
+        "enc/euc_kr.c",
+        "enc/euc_tw.c",
+        "enc/gb18030.c",
+        "enc/gb2312.c",
+        "enc/gbk.c",
+        "enc/iso_8859_1.c",
+        "enc/iso_8859_10.c",
+        "enc/iso_8859_11.c",
+        "enc/iso_8859_13.c",
+        "enc/iso_8859_14.c",
+        "enc/iso_8859_15.c",
+        "enc/iso_8859_16.c",
+        "enc/iso_8859_2.c",
+        "enc/iso_8859_3.c",
+        "enc/iso_8859_4.c",
+        "enc/iso_8859_5.c",
+        "enc/iso_8859_6.c",
+        "enc/iso_8859_7.c",
+        "enc/iso_8859_8.c",
+        "enc/iso_8859_9.c",
+        "enc/koi8_r.c",
+        "enc/koi8_u.c",
+        "enc/shift_jis.c",
+        "enc/trans/big5.c",
+        "enc/trans/chinese.c",
+        "enc/trans/ebcdic.c",
+        "enc/trans/emoji.c",
+        "enc/trans/emoji_iso2022_kddi.c",
+        "enc/trans/emoji_sjis_docomo.c",
+        "enc/trans/emoji_sjis_kddi.c",
+        "enc/trans/emoji_sjis_softbank.c",
+        "enc/trans/newline.c",
+        "enc/trans/transdb.c",
+        "enc/unicode.c",
+        "enc/us_ascii.c",
+        "enc/utf_16be.c",
+        "enc/utf_16le.c",
+        "enc/utf_32be.c",
+        "enc/utf_32le.c",
+        "enc/utf_8.c",
+        "enc/windows_1250.c",
+        "enc/windows_1251.c",
+        "enc/windows_1252.c",
+        "enc/windows_1253.c",
+        "enc/windows_1254.c",
+        "enc/windows_1257.c",
+        "enc/windows_31j.c",
+    ],
+    hdrs = [
+        "encdb.h",
+        "transdb.h",
+    ],
+    deps = [
+        ":ruby_headers",
+        ":ruby_private_headers",
+    ],
+    copts = [
+        "-DRUBY_EXPORT",
+        "-D_XOPEN_SOURCE",
+        "-Wno-constant-logical-operand",
+        "-Wno-parentheses",
+        "-D_DARWIN_C_SOURCE",
+        "-D_REENTRANT",
+
+        # TODO: is this really necessary?
+        "-Wno-string-plus-int",
+
+        # for r "enc/gb2312.c"
+        "-Wno-implicit-function-declaration",
+    ],
+)
+
+
 # extensions ###################################################################
 
 # NOTE: update `Init_ext` below if you add a new extension.
@@ -358,6 +490,8 @@ void Init_ext(void)
     init(Init_bigdecimal, "bigdecimal.so");
     init(Init_parser, "json/ext/parser");
     init(Init_generator, "json/ext/generator");
+    init(Init_socket, "socket.so");
+    init(Init_wait, "io/wait");
 }
 EOF
 """,
@@ -424,6 +558,141 @@ cc_library(
     linkstatic = 1,
 )
 
+genrule(
+    name = "generate-ext/socket-constants",
+    srcs = [
+        ":bin/miniruby",
+        ":ruby_lib",
+        "lib/optparse.rb",
+        "ext/socket/mkconstants.rb",
+    ],
+    outs = [
+        "ext/socket/constdefs.h",
+        "ext/socket/constdefs.c",
+    ],
+    cmd = """
+$(location bin/miniruby) \
+    -I $$(dirname $(location lib/optparse.rb)) \
+    $(location ext/socket/mkconstants.rb) \
+    -H $(location ext/socket/constdefs.h) \
+    -o $(location ext/socket/constdefs.c)
+""",
+)
+
+cc_library(
+    name = "ext/socket",
+    includes = [
+        "ext/socket"
+    ],
+    hdrs = [
+        "ext/socket/constdefs.h",
+        "ext/socket/constdefs.c",
+        "ext/socket/sockport.h",
+        "ext/socket/rubysocket.h",
+        "ext/socket/addrinfo.h",
+    ],
+    srcs = [
+        "ext/socket/ancdata.c",
+        "ext/socket/basicsocket.c",
+        "ext/socket/constants.c",
+        "ext/socket/getaddrinfo.c",
+        "ext/socket/getnameinfo.c",
+        "ext/socket/ifaddr.c",
+        "ext/socket/init.c",
+        "ext/socket/ipsocket.c",
+        "ext/socket/option.c",
+        "ext/socket/raddrinfo.c",
+        "ext/socket/socket.c",
+        "ext/socket/sockssocket.c",
+        "ext/socket/tcpserver.c",
+        "ext/socket/tcpsocket.c",
+        "ext/socket/udpsocket.c",
+        "ext/socket/unixserver.c",
+        "ext/socket/unixsocket.c",
+    ],
+    copts = [
+        "-DHAVE_SYS_UIO_H",
+        "-DHAVE_NETINET_IN_SYSTM_H",
+        "-DHAVE_NETINET_TCP_H",
+        "-DHAVE_NETINET_TCP_FSM_H",
+        "-DHAVE_NETINET_UDP_H",
+        "-DHAVE_ARPA_INET_H",
+        "-DHAVE_NET_ETHERNET_H",
+        "-DHAVE_SYS_UN_H",
+        "-DHAVE_IFADDRS_H",
+        "-DHAVE_SYS_IOCTL_H",
+        "-DHAVE_SYS_SOCKIO_H",
+        "-DHAVE_NET_IF_H",
+        "-DHAVE_SYS_PARAM_H",
+        "-DHAVE_SYS_UCRED_H",
+        "-DHAVE_NET_IF_DL_H",
+        "-DHAVE_ARPA_NAMESER_H",
+        "-DHAVE_RESOLV_H",
+        "-DHAVE_STRUCT_SOCKADDR_SA_LEN",
+        "-DHAVE_ST_SA_LEN",
+        "-DHAVE_STRUCT_SOCKADDR_IN_SIN_LEN",
+        "-DHAVE_ST_SIN_LEN",
+        "-DHAVE_STRUCT_SOCKADDR_IN6_SIN6_LEN",
+        "-DHAVE_ST_SIN6_LEN",
+        "-DHAVE_TYPE_STRUCT_SOCKADDR_UN",
+        "-DHAVE_STRUCT_SOCKADDR_UN_SUN_LEN",
+        "-DHAVE_ST_SUN_LEN",
+        "-DHAVE_TYPE_STRUCT_SOCKADDR_DL",
+        "-DHAVE_TYPE_STRUCT_SOCKADDR_STORAGE",
+        "-DHAVE_TYPE_STRUCT_ADDRINFO",
+        "-DHAVE_TYPE_SOCKLEN_T",
+        "-DHAVE_TYPE_STRUCT_IN_PKTINFO",
+        "-DHAVE_STRUCT_IN_PKTINFO_IPI_SPEC_DST",
+        "-DHAVE_ST_IPI_SPEC_DST",
+        "-DHAVE_TYPE_STRUCT_IN6_PKTINFO",
+        "-DHAVE_TYPE_STRUCT_IP_MREQ",
+        "-DHAVE_TYPE_STRUCT_IP_MREQN",
+        "-DHAVE_TYPE_STRUCT_IPV6_MREQ",
+        "-DHAVE_STRUCT_MSGHDR_MSG_CONTROL",
+        "-DHAVE_ST_MSG_CONTROL",
+        "-DHAVE_SOCKET",
+        "-DHAVE_SENDMSG",
+        "-DHAVE_RECVMSG",
+        "-DHAVE_FREEHOSTENT",
+        "-DHAVE_FREEADDRINFO",
+        "-DHAVE_GAI_STRERROR",
+        "-DGAI_STRERROR_CONST",
+        "-DHAVE_INET_NTOP",
+        "-DHAVE_INET_PTON",
+        "-DHAVE_GETSERVBYPORT",
+        "-DHAVE_GETIFADDRS",
+        "-DHAVE_GETPEEREID",
+        "-DHAVE_IF_INDEXTONAME",
+        "-DNEED_IF_INDEXTONAME_DECL",
+        "-DHAVE_IF_NAMETOINDEX",
+        "-DNEED_IF_NAMETOINDEX_DECL",
+        "-DHAVE_GETIPNODEBYNAME",
+        "-DHAVE_GETHOSTBYNAME2",
+        "-DHAVE_SOCKETPAIR",
+        "-DHAVE_GETHOSTNAME",
+        "-DENABLE_IPV6",
+        "-DINET6",
+        "-DHAVE_CONST_AF_UNIX",
+        "-DHAVE_CONST_SCM_RIGHTS",
+        "-DHAVE_GETNAMEINFO",
+        "-DHAVE_GETADDRINFO",
+        "-Wno-dangling-else",
+        "-Wno-unused-const-variable",
+    ],
+    deps = [ ":ruby_headers", ":ruby_private_headers" ],
+    linkstatic = 1,
+)
+
+cc_library(
+    name = "ext/io/wait",
+    srcs = [ "ext/io/wait/wait.c" ],
+    deps = [ ":ruby_headers" ],
+    copts = [
+        '-DHAVE_SYS_IOCTL_H',
+        '-DFIONREAD_HEADER="<sys/ioctl.h>"',
+    ],
+    linkstatic = 1,
+)
 
 
 # core library #################################################################
@@ -532,6 +801,13 @@ cp $(location ext/json/lib/json/version.rb)        $(location lib/json/version.r
 """
 )
 
+genrule(
+    name = "ruby_ext/socket",
+    srcs = [ "ext/socket/lib/socket.rb" ],
+    outs = [ "lib/socket.rb" ],
+    cmd = "cp $< $@",
+)
+
 filegroup(
     name = "ruby_lib",
     srcs = [
@@ -560,6 +836,7 @@ filegroup(
         "lib/json/ext.rb",
         "lib/json/generic_object.rb",
         "lib/json/version.rb",
+        "lib/socket.rb",
     ] + glob([ "lib/**/*.rb" ]),
     visibility = ["//visibility:public"],
 )

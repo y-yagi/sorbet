@@ -33,18 +33,18 @@ repo_root=$PWD
 
 root_dir="$repo_root/gems/sorbet"
 
-# the path to the ruby wrapper
-PATH="$(dirname $repo_root/$1):$PATH"
+# the path to the ruby wrapper and bundle wrapper
+PATH="$(dirname $repo_root/$1):$(dirname $repo_root/$2):$PATH"
 
 # test that ruby is working
 ruby -e '1 + 1'
 
-# the second argument is the location of the Gemfile.lock_env.sh script
-source "$2"
+# the third argument is the location of the bundle vendor cache
+vendor_cache=$repo_root/$(dirname $3)
 
-# the third argument is the path to the test, relative to
+# the fourth argument is the path to the test, relative to
 # //gems/sorbet/test/snapshot
-test_dir=$root_dir/test/snapshot/$3
+test_dir=$root_dir/test/snapshot/$4
 
 VERBOSE=1
 
@@ -108,6 +108,15 @@ cp -r "$test_dir/src"/* "$actual"
   # Only cd because `srb init` needs to be run from the folder with a Gemfile,
   # not because this test driver needs to refer to files with relative paths.
   cd "$actual"
+
+  export GEM_HOME=$(rlocation installed_gems/gems)
+  export HOME=$actual
+  export XDG_CACHE_HOME="$actual/.cache"
+  export LC_CTYPE=en_US.UTF-8
+
+  bundle install --local --path "$vendor_cache"
+
+  exit 1
 
   # note: redirects stderr before the pipe
   if ! SRB_YES=1 "$srb" init 2> "$actual/err.log" | \
