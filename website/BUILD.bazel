@@ -1,0 +1,24 @@
+genrule(
+    name = "generate_website",
+    srcs = [
+        "yarn.lock",
+        ] +
+        glob([
+        "**/*.md",
+        "**/*.txt",
+        "**/*.html",
+        "**/*.css",
+        "**/*.js",
+        "**/*.json",
+        "**/*.gif",
+        "**/*.png",
+        "**/*.jpg",
+        "**/*.jpeg",
+        "**/*.svg",
+        "**/*.ico",
+        ],
+             exclude = ["i18n/*.json"]
+             ),
+    outs = ["website.tar.bz2"],
+    cmd = "export PATH=\"$$PATH:/usr/local/bin\" && cd website && yarn && yarn build && tar -cjf $(location website.tar.bz2) -C build/sorbet .",
+)
