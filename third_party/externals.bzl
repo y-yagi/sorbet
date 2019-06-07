@@ -245,6 +245,7 @@ package(default_visibility = ["//visibility:public"])
             "//third_party/ruby:config.h.patch",
             "//third_party/ruby:probes.h.patch",
             "//third_party/ruby:rbconfig.rb.patch",
+            "//third_party/ruby:enc.encinit.c.patch",
         ],
         patch_args = ["-p1"],
     )

@@ -243,12 +243,18 @@ cc_binary(
         "prelude.c",
         "verconf.h",
 
-        "main.c",
         "ext/extinit.c",
+
+        "enc/encinit.c",
+        "enc/ascii.c",
+        "enc/us_ascii.c",
+        "enc/unicode.c",
+        "enc/utf_8.c",
+
+        "main.c",
         "dln.c",
         "localeinit.c",
         "loadpath.c",
-        "dmyenc.c",
         "array.c",
         "bignum.c",
         "class.c",
@@ -320,6 +326,7 @@ cc_binary(
         ":ruby_headers",
         ":ruby_private_headers",
         ":enc",
+        ":trans",
         ":ext/pathname",
         ":ext/stringio",
         ":ext/bigdecimal",
@@ -337,6 +344,8 @@ cc_binary(
         "-D_DARWIN_C_SOURCE",
         "-D_REENTRANT",
 
+        "-DRUBY",
+
         # TODO: is this really necessary?
         "-Wno-string-plus-int",
     ],
@@ -351,18 +360,22 @@ cc_binary(
 )
 
 genrule(
-    name = "generate-enc-headers",
+    name = "enc-generated-deps",
     srcs = [
-        ":ruby_lib",
-        ":bin/miniruby",
+        "bin/miniruby",
         "tool/generic_erb.rb",
         "tool/vpath.rb",
+        "enc/make_encmake.rb",
         "template/encdb.h.tmpl",
         "template/transdb.h.tmpl",
         "lib/erb.rb",
-        "enc/ascii.c",
-        "enc/trans/transdb.c",
-    ],
+        "lib/cgi/util.rb",
+        "lib/optparse.rb",
+        "lib/fileutils.rb",
+    ] +
+    # NOTE: this glob determines the encodings that are available in encdb.h, as
+    # encdb.h.tmpl reads this directory to determine encodings to use
+    glob([ "enc/**/*.h", "enc/**/*.c" ]),
     outs = [
         "encdb.h",
         "transdb.h",
@@ -385,9 +398,60 @@ $(location bin/miniruby) \
 )
 
 cc_library(
+    name = "trans",
+    srcs = [
+        "enc/trans/big5.c",
+        "enc/trans/chinese.c",
+        "enc/trans/ebcdic.c",
+        "enc/trans/emoji.c",
+        "enc/trans/emoji_iso2022_kddi.c",
+        "enc/trans/emoji_sjis_docomo.c",
+        "enc/trans/emoji_sjis_kddi.c",
+        "enc/trans/emoji_sjis_softbank.c",
+        "enc/trans/escape.c",
+        "enc/trans/gb18030.c",
+        "enc/trans/gbk.c",
+        "enc/trans/iso2022.c",
+        "enc/trans/japanese.c",
+        "enc/trans/japanese_euc.c",
+        "enc/trans/japanese_sjis.c",
+        "enc/trans/korean.c",
+        "enc/trans/newline.c",
+        "enc/trans/single_byte.c",
+        "enc/trans/transdb.c",
+        "enc/trans/utf8_mac.c",
+        "enc/trans/utf_16_32.c",
+    ],
+    hdrs = [
+        "transdb.h",
+    ],
+    deps = [
+        ":ruby_headers",
+        ":ruby_private_headers",
+    ],
+    copts = [
+        "-DRUBY_EXPORT",
+        "-D_XOPEN_SOURCE",
+        "-Wno-constant-logical-operand",
+        "-Wno-parentheses",
+        "-D_DARWIN_C_SOURCE",
+        "-D_REENTRANT",
+
+        # IMPORTANT: without this no Init functions are generated
+        "-DEXTSTATIC=1",
+
+        # TODO: is this really necessary?
+        "-Wno-string-plus-int",
+
+        # for r "enc/gb2312.c"
+        "-Wno-implicit-function-declaration",
+    ],
+    linkstatic = 1,
+)
+
+cc_library(
     name = "enc",
     srcs = [
-        "enc/ascii.c",
         "enc/big5.c",
         "enc/cp949.c",
         "enc/emacs_mule.c",
@@ -416,23 +480,10 @@ cc_library(
         "enc/koi8_r.c",
         "enc/koi8_u.c",
         "enc/shift_jis.c",
-        "enc/trans/big5.c",
-        "enc/trans/chinese.c",
-        "enc/trans/ebcdic.c",
-        "enc/trans/emoji.c",
-        "enc/trans/emoji_iso2022_kddi.c",
-        "enc/trans/emoji_sjis_docomo.c",
-        "enc/trans/emoji_sjis_kddi.c",
-        "enc/trans/emoji_sjis_softbank.c",
-        "enc/trans/newline.c",
-        "enc/trans/transdb.c",
-        "enc/unicode.c",
-        "enc/us_ascii.c",
         "enc/utf_16be.c",
         "enc/utf_16le.c",
         "enc/utf_32be.c",
         "enc/utf_32le.c",
-        "enc/utf_8.c",
         "enc/windows_1250.c",
         "enc/windows_1251.c",
         "enc/windows_1252.c",
@@ -443,19 +494,20 @@ cc_library(
     ],
     hdrs = [
         "encdb.h",
-        "transdb.h",
     ],
     deps = [
         ":ruby_headers",
         ":ruby_private_headers",
     ],
     copts = [
-        "-DRUBY_EXPORT",
         "-D_XOPEN_SOURCE",
         "-Wno-constant-logical-operand",
         "-Wno-parentheses",
         "-D_DARWIN_C_SOURCE",
         "-D_REENTRANT",
+
+        # IMPORTANT: without this no Init functions are generated
+        "-DRUBY", "-DONIG_ENC_REGISTER=rb_enc_register",
 
         # TODO: is this really necessary?
         "-Wno-string-plus-int",
@@ -463,6 +515,7 @@ cc_library(
         # for r "enc/gb2312.c"
         "-Wno-implicit-function-declaration",
     ],
+    linkstatic = 1,
 )
 
 
