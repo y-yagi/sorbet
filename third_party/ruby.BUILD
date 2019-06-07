@@ -335,6 +335,7 @@ cc_binary(
         ":ext/socket",
         ":ext/io/wait",
         ":ext/zlib",
+        ":ext/date",
     ],
 
     copts = [
@@ -547,6 +548,7 @@ void Init_ext(void)
     init(Init_socket, "socket.so");
     init(Init_wait, "io/wait");
     init(Init_zlib, "zlib");
+    init(Init_date_core, "date_core");
 }
 EOF
 """,
@@ -761,10 +763,30 @@ cc_library(
     ],
     copts = [
         "-DHAVE_ZLIB_H",
-        " -DOS_CODE=OS_UNIX",
+        "-DOS_CODE=OS_UNIX",
         "-DHAVE_CRC32_COMBINE",
         "-DHAVE_ADLER32_COMBINE",
         "-DHAVE_TYPE_Z_CRC_T",
+    ],
+    linkstatic = 1,
+)
+
+cc_library(
+    name = "ext/date",
+    srcs = [
+        "ext/date/date_core.c",
+        "ext/date/date_parse.c",
+        "ext/date/date_strftime.c",
+        "ext/date/date_strptime.c",
+    ],
+    hdrs = [
+        "ext/date/date_tmx.h",
+        "ext/date/zonetab.h",
+    ],
+    deps = [
+        ":ruby_headers",
+    ],
+    copts = [
     ],
     linkstatic = 1,
 )
@@ -883,6 +905,13 @@ genrule(
     cmd = "cp $< $@",
 )
 
+genrule(
+    name = "ruby_ext/date",
+    srcs = [ "ext/date/lib/date.rb" ],
+    outs = [ "lib/date.rb" ],
+    cmd = "cp $< $@",
+)
+
 filegroup(
     name = "ruby_lib",
     srcs = [
@@ -912,6 +941,7 @@ filegroup(
         "lib/json/generic_object.rb",
         "lib/json/version.rb",
         "lib/socket.rb",
+        "lib/date.rb",
     ] + glob([ "lib/**/*.rb" ]),
     visibility = ["//visibility:public"],
 )
