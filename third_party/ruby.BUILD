@@ -334,6 +334,7 @@ cc_binary(
         ":ext/json/parser",
         ":ext/socket",
         ":ext/io/wait",
+        ":ext/zlib",
     ],
 
     copts = [
@@ -545,6 +546,7 @@ void Init_ext(void)
     init(Init_generator, "json/ext/generator");
     init(Init_socket, "socket.so");
     init(Init_wait, "io/wait");
+    init(Init_zlib, "zlib");
 }
 EOF
 """,
@@ -743,6 +745,26 @@ cc_library(
     copts = [
         '-DHAVE_SYS_IOCTL_H',
         '-DFIONREAD_HEADER="<sys/ioctl.h>"',
+    ],
+    linkstatic = 1,
+)
+
+cc_library(
+    name = "ext/zlib",
+    srcs = [ "ext/zlib/zlib.c" ],
+    deps = [
+        ":ruby_headers",
+
+        # NOTE: this is a way to refer to deps back in the
+        # @com_stripe_ruby_typer workspace
+        "@//third_party/zlib",
+    ],
+    copts = [
+        "-DHAVE_ZLIB_H",
+        " -DOS_CODE=OS_UNIX",
+        "-DHAVE_CRC32_COMBINE",
+        "-DHAVE_ADLER32_COMBINE",
+        "-DHAVE_TYPE_Z_CRC_T",
     ],
     linkstatic = 1,
 )
