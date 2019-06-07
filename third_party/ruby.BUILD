@@ -336,6 +336,7 @@ cc_binary(
         ":ext/io/wait",
         ":ext/zlib",
         ":ext/date",
+        ":ext/digest",
     ],
 
     copts = [
@@ -549,6 +550,12 @@ void Init_ext(void)
     init(Init_wait, "io/wait");
     init(Init_zlib, "zlib");
     init(Init_date_core, "date_core");
+    init(Init_bubblebabble, "digest/bubblebabble");
+    init(Init_sha1, "digest/sha1");
+    init(Init_sha1, "digest/sha2.so");
+    init(Init_rmd160, "digest/rmd160");
+    init(Init_md5, "digest/md5");
+    init(Init_digest, "digest.so");
 }
 EOF
 """,
@@ -791,6 +798,37 @@ cc_library(
     linkstatic = 1,
 )
 
+cc_library(
+    name = "ext/digest",
+    srcs = [
+        "ext/digest/digest.c",
+        "ext/digest/bubblebabble/bubblebabble.c",
+        "ext/digest/sha1/sha1.c",
+        "ext/digest/sha1/sha1init.c",
+        "ext/digest/sha2/sha2.c",
+        "ext/digest/sha2/sha2init.c",
+        "ext/digest/rmd160/rmd160.c",
+        "ext/digest/rmd160/rmd160init.c",
+        "ext/digest/md5/md5.c",
+        "ext/digest/md5/md5init.c",
+    ],
+    hdrs = [
+        "ext/digest/defs.h",
+        "ext/digest/digest.h",
+        "ext/digest/sha1/sha1.h",
+        "ext/digest/sha1/sha1cc.h",
+        "ext/digest/sha2/sha2.h",
+        "ext/digest/sha2/sha2cc.h",
+        "ext/digest/rmd160/rmd160.h",
+        "ext/digest/md5/md5.h",
+        "ext/digest/md5/md5cc.h",
+    ],
+    deps = [
+        ":ruby_headers",
+    ],
+    linkstatic = 1,
+)
+
 
 # core library #################################################################
 
@@ -912,6 +950,22 @@ genrule(
     cmd = "cp $< $@",
 )
 
+genrule(
+    name = "ruby_ext/digest",
+    srcs = [
+        "ext/digest/lib/digest.rb",
+        "ext/digest/sha2/lib/sha2.rb",
+    ],
+    outs = [
+        "lib/digest.rb",
+        "lib/digest/sha2.rb",
+    ],
+    cmd = """
+cp $(location ext/digest/lib/digest.rb) $(location lib/digest.rb)
+cp $(location ext/digest/sha2/lib/sha2.rb) $(location lib/digest/sha2.rb)
+""",
+)
+
 filegroup(
     name = "ruby_lib",
     srcs = [
@@ -942,6 +996,7 @@ filegroup(
         "lib/json/version.rb",
         "lib/socket.rb",
         "lib/date.rb",
+        "lib/digest.rb",
     ] + glob([ "lib/**/*.rb" ]),
     visibility = ["//visibility:public"],
 )
