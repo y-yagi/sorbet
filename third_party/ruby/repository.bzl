@@ -159,6 +159,13 @@ def _setup_bundler(repo_ctx):
         substitutions = substitutions,
     )
 
+    repo_ctx.template(
+        "bundler/bundle-env.sh",
+        Label("//third_party/ruby:bundle-env.sh"),
+        executable = True,
+        substitutions = substitutions,
+    )
+
 
 def _impl(repo_ctx):
 

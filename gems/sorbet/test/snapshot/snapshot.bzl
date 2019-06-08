@@ -19,6 +19,7 @@ def snapshot_tests(paths, test_prefix):
                 "{}:token".format(vendor_cache),
                 "@ruby_2_4_3//:ruby",
                 "@installed_gems//bundler:bundle",
+                "@installed_gems//bundler:bundle-env",
             ],
             deps = [
                 ":logging",
@@ -29,6 +30,7 @@ def snapshot_tests(paths, test_prefix):
                 "$(location {}:token)".format(vendor_cache),
                 path,
             ],
+            timeout = "short",
         )
 
         tests.append(test_name)

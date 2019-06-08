@@ -36,6 +36,7 @@ gemfile_lock_deps(
     name = "installed_gems",
     gemfile_locks = [
         "//gems/sorbet/test/snapshot/partial/stupidedi/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/bad-hash/src:Gemfile.lock",
     ],
 )
 

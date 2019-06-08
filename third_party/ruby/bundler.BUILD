@@ -14,3 +14,13 @@ sh_binary(
     srcs = [ "bundle.sh" ],
     visibility = [ "//visibility:public" ],
 )
+
+sh_binary(
+    name = "bundle-env",
+    data = [
+        ":runtime_deps",
+        "@bazel_tools//tools/bash/runfiles",
+    ],
+    srcs = [ "bundle-env.sh" ],
+    visibility = [ "//visibility:public" ],
+)
