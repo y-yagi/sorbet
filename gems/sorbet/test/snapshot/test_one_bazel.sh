@@ -105,7 +105,8 @@ cp -r "$test_dir/src"/* "$actual"
   cd "$actual"
 
   export HOME=$actual
-  export XDG_CACHE_HOME="$actual/.cache"
+  export GEM_HOME="$HOME/.gems"
+  export XDG_CACHE_HOME="$HOME/.cache"
   export LC_CTYPE=en_US.UTF-8
 
   bundle install --verbose --local --path "$vendor_cache"
