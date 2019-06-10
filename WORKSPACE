@@ -35,8 +35,18 @@ load("//third_party/ruby:repository.bzl", "gemfile_lock_deps")
 gemfile_lock_deps(
     name = "installed_gems",
     gemfile_locks = [
-        "//gems/sorbet/test/snapshot/partial/stupidedi/src:Gemfile.lock",
         "//gems/sorbet/test/snapshot/partial/bad-hash/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/bad-t/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/create-config/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/explosive-object/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/fake-object/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/fake-rails/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/non-utf-8-file/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/real_singleton_class/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/require_relative/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/stack_master/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/partial/typed-ignore/src:Gemfile.lock",
+        "//gems/sorbet/test/snapshot/total/empty/src:Gemfile.lock",
     ],
 )
 
