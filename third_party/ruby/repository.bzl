@@ -7,6 +7,9 @@ def _read_file(repo_ctx, label):
     the symlink.
     """
 
+    if repo_ctx.attr.debug:
+        print("Reading {}".format(label))
+
     repo_ctx.symlink(label, "tmp")
 
     result = repo_ctx.execute(["cat", "tmp"])
@@ -231,5 +234,10 @@ gemfile_lock_deps = repository_rule(
             default = "2.0.1",
             doc = "The version of bundler to install",
         ),
+
+        "debug": attr.bool(
+            default = False,
+            doc = "Emit debug prints",
+        )
     },
 )
