@@ -148,18 +148,34 @@ def _setup_bundler(repo_ctx):
 
     sha256 = bundler_info.get("sha256", "")
 
+    bundler = "bundler"
+
     repo_ctx.download_and_extract(
-        output = "bundler",
+        output = "{}/extracted".format(bundler),
         url = "https://rubygems.org/downloads/bundler-{}.gem".format(bundler_version),
         sha256 = sha256,
         type = "tar",
     )
 
-    repo_ctx.execute([ "./setup_gem.sh", "bundler" ])
+    # hard coded as 2.4.0 for now
+    site_ruby = "lib/ruby/site_ruby/2.4.0"
+    site_bin = "bin"
 
     substitutions = {
         "%{workspace}": repo_ctx.name,
+        "%{bundler}": bundler,
+        "%{site_ruby}": site_ruby,
+        "%{site_bin}": site_bin,
     }
+
+    repo_ctx.template(
+        "setup_bundler.sh",
+        Label("//third_party/ruby:setup_bundler.sh"),
+        executable = True,
+        substitutions = substitutions,
+    )
+
+    repo_ctx.execute([ "./setup_bundler.sh" ])
 
     repo_ctx.template(
         "bundler/BUILD",
@@ -184,13 +200,6 @@ def _setup_bundler(repo_ctx):
 
 
 def _impl(repo_ctx):
-
-    # used for setting up individual gems
-    repo_ctx.template(
-        "setup_gem.sh",
-        Label("//third_party/ruby:setup_gem.sh"),
-        executable = True,
-    )
 
     known_shas = {}
     fetched = False

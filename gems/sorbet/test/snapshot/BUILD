@@ -13,9 +13,9 @@ test_suite(
     tests = snapshot_tests(glob(
         [ "partial/*", "total/*" ],
         exclude = [
-        # Unknown
-        # -------
-        "total/empty",
+        # Bundler gem path problem with tracepoint
+        # ----------------------------------------
+        # "total/empty",
 
         # Gem dependency failures
         # -----------------------

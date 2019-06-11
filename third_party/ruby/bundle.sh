@@ -4,4 +4,6 @@ base_dir=$(dirname ${BASH_SOURCE[0]})
 
 source "$base_dir/bundle-env"
 
-exec "${BUNDLER_ROOT}/exe/bundler" "$@"
+BUNDLER_BIN=$(rlocation %{workspace}/%{bundler}/%{site_bin})
+
+exec "${BUNDLER_BIN}/bundler" "$@"

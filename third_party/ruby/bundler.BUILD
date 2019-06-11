@@ -2,9 +2,9 @@
 filegroup(
     name = "runtime_deps",
     srcs = [
-        "exe/bundle",
-        "exe/bundler",
-    ] + glob([ "lib/**/*.rb" ]),
+        "%{site_bin}/bundle",
+        "%{site_bin}/bundler",
+    ] + glob([ "%{site_ruby}/**/*.rb" ]),
     visibility = [ "//visibility:public" ],
 )
 

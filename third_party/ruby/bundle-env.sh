@@ -11,5 +11,5 @@ source "${RUNFILES_DIR:-/dev/null}/$f" 2>/dev/null || \
   { echo>&2 "ERROR: cannot find $f"; exit 1; }; f=; set -e
 # --- end runfiles.bash initialization v2 ---
 
-export BUNDLER_ROOT=$(rlocation %{workspace}/bundler)
+export BUNDLER_ROOT=$(rlocation %{workspace}/%{bundler}/%{site_ruby})
 export RUBYLIB="${BUNDLER_ROOT}/lib:${RUBYLIB:-}"
