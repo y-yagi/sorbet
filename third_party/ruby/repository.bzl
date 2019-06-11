@@ -1,3 +1,18 @@
+def _label_to_path(label):
+    """
+    Given a Label, turn it into a path by keeping the directory part of the
+    name, and attaching that to the package path.
+    """
+
+    base = label.package
+
+    name = label.name
+
+    last_slash = name.rfind("/")
+    if last_slash >= 0:
+        base = "{}/{}".format(base, name[0:last_slash])
+
+    return base
 
 
 def _read_file(repo_ctx, label):
@@ -94,9 +109,7 @@ def _generate_vendor_cache(repo_ctx, gemfile_lock, deps):
     directory.
     """
 
-    # TODO: need to consider more than just the package when inventing the label
-    # for the environment script
-    package = Label(gemfile_lock).package
+    package = _label_to_path(Label(gemfile_lock))
 
     # the name of all the gems in the vendor/cache tree
     gemfiles = ", ".join([ "\"{}.gem\"".format(_format_package(dep)) for dep in deps ])

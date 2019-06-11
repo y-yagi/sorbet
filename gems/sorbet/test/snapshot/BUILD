@@ -25,7 +25,7 @@ test_suite(
 
         # Unknown
         # -------
-        # "total/empty",
+        "total/empty",
 
         # Gem dependency failures
         # -----------------------

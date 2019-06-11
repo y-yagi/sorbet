@@ -35,7 +35,7 @@ load("//third_party/ruby:repository.bzl", "gemfile_lock_deps")
 gemfile_lock_deps(
     name = "installed_gems",
     gemfile_locks = [
-        "//gems/sorbet/test/snapshot/{}/src:Gemfile.lock".format(test) for test in [
+        "//gems/sorbet/test/snapshot:{}/src/Gemfile.lock".format(test) for test in [
             "partial/bad-hash",
             "partial/bad-t",
             "partial/codecov",

@@ -1,22 +1,25 @@
 
-def snapshot_tests(paths, test_prefix="snapshot"):
+def snapshot_tests(test_paths):
+    test_names = []
 
-    tests = []
+    for test_path in test_paths:
+        test_names.append(snapshot_test(test_path))
 
-    for path in paths:
-        test_name = snapshot_test(path, test_prefix)
-        tests.append(test_name)
+    return test_names
 
-    return tests
-
-def snapshot_test(path, test_prefix="snapshot"):
+def snapshot_test(test_path):
     """
-    Path is something of the form `partial/foo` or `total/foo`.
+    test_path is of the form `total/test` or `partial/test`.
     """
 
-    test_name = 'test_{}/{}'.format(test_prefix, path)
+    test_name = 'test_{}'.format(test_path)
 
-    vendor_cache = "@installed_gems//gems/sorbet/test/snapshot/{}/src/vendor/cache".format(path)
+    vendor_cache = "@installed_gems//gems/sorbet/test/snapshot/{}/src/vendor/cache".format(test_path)
+
+    expected_dep = []
+    expected = native.glob([ "{}/expected" ])
+    if len(expected) > 0:
+        expected_dep = [ "{}/expected".format(test_path) ]
 
     native.sh_test(
         name = test_name,
@@ -24,13 +27,13 @@ def snapshot_test(path, test_prefix="snapshot"):
         data = [
             "//main:sorbet",
             "//gems/sorbet:sorbet",
-            "{}/src".format(path),
+            "{}/src".format(test_path),
             vendor_cache,
             "{}:token".format(vendor_cache),
             "@ruby_2_4_3//:ruby",
             "@installed_gems//bundler:bundle",
             "@installed_gems//bundler:bundle-env",
-        ],
+        ] + expected_dep,
         deps = [
             ":logging",
         ],
@@ -38,7 +41,7 @@ def snapshot_test(path, test_prefix="snapshot"):
             "$(location @ruby_2_4_3//:ruby)",
             "$(location @installed_gems//bundler:bundle)",
             "$(location {}:token)".format(vendor_cache),
-            path,
+            test_path,
         ],
         timeout = "short",
     )
