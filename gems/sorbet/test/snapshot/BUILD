@@ -15,7 +15,7 @@ test_suite(
         exclude = [
         # Bundler gem path problem with tracepoint
         # ----------------------------------------
-        # "total/empty",
+        "total/empty",
 
         # Gem dependency failures
         # -----------------------
