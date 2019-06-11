@@ -1,5 +1,10 @@
 
 def snapshot_tests(test_paths):
+    """
+    Define a bunch of snapshot tests all at once. The paths must all conform to
+    the format expected by test_path.
+    """
+
     test_names = []
 
     for test_path in test_paths:
@@ -14,12 +19,8 @@ def snapshot_test(test_path):
 
     test_name = 'test_{}'.format(test_path)
 
+    # The vendor/cache tree sits in a mirrored path to the Gemfile.lock
     vendor_cache = "@installed_gems//gems/sorbet/test/snapshot/{}/src/vendor/cache".format(test_path)
-
-    expected_dep = []
-    expected = native.glob([ "{}/expected" ])
-    if len(expected) > 0:
-        expected_dep = [ "{}/expected".format(test_path) ]
 
     native.sh_test(
         name = test_name,
@@ -27,13 +28,15 @@ def snapshot_test(test_path):
         data = [
             "//main:sorbet",
             "//gems/sorbet:sorbet",
-            "{}/src".format(test_path),
             vendor_cache,
             "{}:token".format(vendor_cache),
             "@ruby_2_4_3//:ruby",
+
             "@installed_gems//bundler:bundle",
             "@installed_gems//bundler:bundle-env",
-        ] + expected_dep,
+
+            "{}".format(test_path),
+        ],
         deps = [
             ":logging",
         ],
