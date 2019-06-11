@@ -74,10 +74,9 @@ steps:
   - wait: ~
 
 # Deploy Phase - Send the artifacts to the world
-  - label: ":linux: publish.sh"
+  - label: ":linux::cloud: publish.sh"
     command: .buildkite/publish.sh
-    agents:
-      os: linux
+    <<: *elastic
   - wait: ~
 
 # Success Phase - Allow the PR to be merged
