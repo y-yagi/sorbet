@@ -19,34 +19,19 @@ module T::Props::Serializable
     decorator = self.class.decorator
     h = {}
 
-    decorator.props.keys.each do |prop|
-      rules = decorator.prop_rules(prop)
+    decorator.props.each do |prop, rules|
       hkey = rules[:serialized_form]
 
-      val = decorator.get(self, prop)
+      val = decorator.get(self, prop, rules)
 
-      if strict && val.nil? && T::Props::Utils.need_nil_write_check?(rules)
+      if val.nil? && strict && !rules[:fully_optional]
         # If the prop was already missing during deserialization, that means the application
         # code already had to deal with a nil value, which means we wouldn't be accomplishing
         # much by raising here (other than causing an unnecessary breakage).
         if self.required_prop_missing_from_deserialize?(prop)
-          Opus::Log.info("chalk-odm: missing required property in serialize",
-            prop: prop, class: self.class.name, id: decorator.get_id(self))
-        elsif rules[:notify_on_nil_write]
-          to_notify =
-            if rules[:notify_on_nil_write].is_a?(String)
-              Opus::Project::Instance.fetch(rules[:notify_on_nil_write].to_sym)
-            else
-              rules[:notify_on_nil_write]
-            end
-          Opus::Error.soft(
-            'nil value written to prop with :notify_on_nil_write set',
-            notify: to_notify,
-            storytime: {
-              klass: self.class.name,
-              prop: prop,
-              type: rules[:type],
-            },
+          T::Configuration.log_info_handler(
+            "chalk-odm: missing required property in serialize",
+            prop: prop, class: self.class.name, id: decorator.get_id(self)
           )
         else
           raise T::Props::InvalidValueError.new("#{self.class.name}.#{prop} not set for non-optional prop")
@@ -56,39 +41,41 @@ module T::Props::Serializable
       # Don't serialize values that are nil to save space (both the
       # nil value itself and the field name in the serialized BSON
       # document)
-      next if decorator.prop_dont_store?(prop) || val.nil?
+      next if rules[:dont_store] || val.nil?
 
-      if rules[:type_is_serializable]
-        val = val.serialize(strict)
-      elsif rules[:type_is_array_of_serializable]
-        if (subtype = rules[:serializable_subtype]).is_a?(T::Props::CustomType)
-          val = val.map {|el| el && subtype.serialize(el)}
-        else
-          val = val.map {|el| el && el.serialize(strict)}
-        end
-      elsif rules[:type_is_hash_of_serializable_values] && rules[:type_is_hash_of_custom_type_keys]
-        key_subtype = rules[:serializable_subtype][:keys]
-        value_subtype = rules[:serializable_subtype][:values]
-        if value_subtype.is_a?(T::Props::CustomType)
-          val = val.each_with_object({}) do |(key, value), result|
-            result[key_subtype.serialize(key)] = value && value_subtype.serialize(value)
+      if rules[:serializable_subtype]
+        if rules[:type_is_serializable]
+          val = val.serialize(strict)
+        elsif rules[:type_is_array_of_serializable]
+          if (subtype = rules[:serializable_subtype]).is_a?(T::Props::CustomType)
+            val = val.map {|el| el && subtype.serialize(el)}
+          else
+            val = val.map {|el| el && el.serialize(strict)}
           end
-        else
-          val = val.each_with_object({}) do |(key, value), result|
-            result[key_subtype.serialize(key)] = value && value.serialize(strict)
+        elsif rules[:type_is_hash_of_serializable_values] && rules[:type_is_hash_of_custom_type_keys]
+          key_subtype = rules[:serializable_subtype][:keys]
+          value_subtype = rules[:serializable_subtype][:values]
+          if value_subtype.is_a?(T::Props::CustomType)
+            val = val.each_with_object({}) do |(key, value), result|
+              result[key_subtype.serialize(key)] = value && value_subtype.serialize(value)
+            end
+          else
+            val = val.each_with_object({}) do |(key, value), result|
+              result[key_subtype.serialize(key)] = value && value.serialize(strict)
+            end
           end
-        end
-      elsif rules[:type_is_hash_of_serializable_values]
-        value_subtype = rules[:serializable_subtype]
-        if value_subtype.is_a?(T::Props::CustomType)
-          val = val.transform_values {|v| v && value_subtype.serialize(v)}
-        else
-          val = val.transform_values {|v| v && v.serialize(strict)}
-        end
-      elsif rules[:type_is_hash_of_custom_type_keys]
-        key_subtype = rules[:serializable_subtype]
-        val = val.each_with_object({}) do |(key, value), result|
-          result[key_subtype.serialize(key)] = value
+        elsif rules[:type_is_hash_of_serializable_values]
+          value_subtype = rules[:serializable_subtype]
+          if value_subtype.is_a?(T::Props::CustomType)
+            val = val.transform_values {|v| v && value_subtype.serialize(v)}
+          else
+            val = val.transform_values {|v| v && v.serialize(strict)}
+          end
+        elsif rules[:type_is_hash_of_custom_type_keys]
+          key_subtype = rules[:serializable_subtype]
+          val = val.each_with_object({}) do |(key, value), result|
+            result[key_subtype.serialize(key)] = value
+          end
         end
       elsif rules[:type_is_custom_type]
         val = rules[:type].serialize(val)
@@ -102,11 +89,19 @@ module T::Props::Serializable
         end
       end
 
-      h[hkey] = T::Props::Utils.deep_clone_object(val)
+      needs_clone = rules[:type_needs_clone]
+      if needs_clone
+        if needs_clone == :shallow
+          val = val.dup
+        else
+          val = T::Props::Utils.deep_clone_object(val)
+        end
+      end
+
+      h[hkey] = val
     end
 
-    extra_props = decorator.extra_props(self)
-    h.merge!(extra_props) if extra_props
+    h.merge!(@_extra_props) if @_extra_props
 
     h
   end
@@ -130,7 +125,7 @@ module T::Props::Serializable
       hkey = rules[:serialized_form]
       val = hash[hkey]
       if val.nil?
-        if T::Utils::Props.required_prop?(rules)
+        if T::Props::Utils.required_prop?(rules)
           val = decorator.get_default(rules, self.class)
           if val.nil?
             msg = "Tried to deserialize a required prop from a nil value. It's "\
@@ -143,14 +138,18 @@ module T::Props::Serializable
 
             # Notify the model owner if it exists, and always notify the API owner.
             begin
-              if decorator.decorated_class < Opus::Ownership
-                Opus::Error.hard(msg, storytime: storytime, project: decorator.decorated_class.get_owner)
+              if defined?(Opus) && defined?(Opus::Ownership) && decorator.decorated_class < Opus::Ownership
+                T::Configuration.hard_assert_handler(
+                  msg,
+                  storytime: storytime,
+                  project: decorator.decorated_class.get_owner
+                )
               end
             ensure
-              Opus::Error.hard(msg, storytime: storytime)
+              T::Configuration.hard_assert_handler(msg, storytime: storytime)
             end
           end
-        elsif T::Props::Utils.need_nil_read_check?(rules)
+        elsif rules[:need_nil_read_check]
           self.required_prop_missing_from_deserialize(p)
         end
 
@@ -224,9 +223,23 @@ module T::Props::Serializable
     with_existing_hash(changed_props, existing_hash: self.serialize)
   end
 
+  private def recursive_stringify_keys(obj)
+    if obj.is_a?(Hash)
+      new_obj = obj.class.new
+      obj.each do |k, v|
+        new_obj[k.to_s] = recursive_stringify_keys(v)
+      end
+    elsif obj.is_a?(Array)
+      new_obj = obj.map {|v| recursive_stringify_keys(v)}
+    else
+      new_obj = obj
+    end
+    new_obj
+  end
+
   private def with_existing_hash(changed_props, existing_hash:)
     serialized = existing_hash
-    new_val = self.class.from_hash(serialized.merge(Opus::HashUtils.recursive_stringify_keys(changed_props)))
+    new_val = self.class.from_hash(serialized.merge(recursive_stringify_keys(changed_props)))
     old_extra = self.instance_variable_get(:@_extra_props) # rubocop:disable PrisonGuard/NoLurkyInstanceVariableAccess
     new_extra = new_val.instance_variable_get(:@_extra_props) # rubocop:disable PrisonGuard/NoLurkyInstanceVariableAccess
     if old_extra != new_extra
@@ -265,13 +278,12 @@ module T::Props::Serializable::DecoratorMethods
     super + [
       :dont_store,
       :name,
-      :notify_on_nil_write,
       :raise_on_nil_write,
     ]
   end
 
   def required_props
-    @class.props.select {|_, v| T::Utils::Props.required_prop?(v)}.keys
+    @class.props.select {|_, v| T::Props::Utils.required_prop?(v)}.keys
   end
 
   def prop_dont_store?(prop); prop_rules(prop)[:dont_store]; end
@@ -314,16 +326,6 @@ module T::Props::Serializable::DecoratorMethods
 
     if !rules[:raise_on_nil_write].nil? && rules[:raise_on_nil_write] != true
         raise ArgumentError.new("The value of `raise_on_nil_write` if specified must be `true` (given: #{rules[:raise_on_nil_write]}).")
-    end
-
-    if (to_notify = rules[:notify_on_nil_write])
-      if !(to_notify.is_a?(String) || to_notify.is_a?(Opus::Project::Instance))
-        raise ArgumentError.new("The value of `notify_on_nil_write` must be a string or project (given: #{to_notify.class}).")
-      end
-    end
-
-    if rules[:raise_on_nil_write] && rules[:notify_on_nil_write]
-      raise ArgumentError.new("You can only specify one of `raise_on_nil_write` and `notify_on_nil_write`")
     end
 
     result

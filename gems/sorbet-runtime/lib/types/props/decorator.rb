@@ -27,7 +27,7 @@ class T::Props::Decorator
   end
 
   # prop stuff
-  sig {returns(T::Hash[Symbol, Rules])}
+  sig {returns(T::Hash[Symbol, Rules]).checked(:never)}
   def props
     @props ||= {}.freeze
   end
@@ -44,7 +44,7 @@ class T::Props::Decorator
   sig {returns(T::Array[Symbol])}
   def all_props; props.keys; end
 
-  sig {params(prop: T.any(Symbol, String)).returns(Rules)}
+  sig {params(prop: T.any(Symbol, String)).returns(Rules).checked(:never)}
   def prop_rules(prop); props[prop.to_sym] || raise("No such prop: #{prop.inspect}"); end
 
   sig {params(prop: Symbol, rules: Rules).void}
@@ -80,7 +80,7 @@ class T::Props::Decorator
     }
   end
 
-  sig {returns(DecoratedClass)}
+  sig {returns(DecoratedClass).checked(:never)}
   def decorated_class; @class; end
 
   # Accessors
@@ -94,6 +94,7 @@ class T::Props::Decorator
       rules: T.nilable(Rules)
     )
     .returns(T.untyped)
+    .checked(:never)
   end
   def get(instance, prop, rules=props[prop.to_sym])
     # For backwards compatibility, fall back to reconstructing the accessor key
@@ -111,6 +112,7 @@ class T::Props::Decorator
       rules: T.nilable(Rules)
     )
     .void
+    .checked(:never)
   end
   def set(instance, prop, value, rules=props[prop.to_sym])
     # For backwards compatibility, fall back to reconstructing the accessor key
@@ -119,7 +121,7 @@ class T::Props::Decorator
   end
 
   # Use this to validate that a value will validate for a given prop. Useful for knowing whether a value can be set on a model without setting it.
-  sig {params(prop: Symbol, val: T.untyped).void}
+  sig {params(prop: Symbol, val: T.untyped).void.checked(:never)}
   def validate_prop_value(prop, val)
     # This implements a 'public api' on document so that we don't allow callers to pass in rules
     # Rules seem like an implementation detail so it seems good to now allow people to specify them manually.
@@ -127,7 +129,7 @@ class T::Props::Decorator
   end
 
   # Passing in rules here is purely a performance optimization.
-  sig {params(prop: Symbol, val: T.untyped, rules: Rules).void}
+  sig {params(prop: Symbol, val: T.untyped, rules: Rules).void.checked(:never)}
   private def check_prop_type(prop, val, rules=prop_rules(prop))
     type_object = rules.fetch(:type_object)
     type = rules.fetch(:type)
@@ -140,20 +142,6 @@ class T::Props::Decorator
         return
       end
 
-      # If nil write check is needed, we check at prop set time, not at serialization time. We have to do the
-      # separate check here because the later check uses T.nilable type for the check.
-      if rules[:notify_on_nil_write]
-        Opus::Error.soft(
-          'nil value written to prop with :notify_on_nil_write set',
-          notify: rules[:notify_on_nil_write],
-          storytime: {
-            klass: self.class.name,
-            prop: prop,
-            type: rules[:type],
-            type_object: rules[:type_object],
-          },
-        )
-      end
       if rules[:raise_on_nil_write]
         raise T::Props::InvalidValueError.new("Can't set #{@class.name}.#{prop} to #{val.inspect} " \
         "(instance of #{val.class}) - need a #{type}")
@@ -163,7 +151,7 @@ class T::Props::Decorator
     # T::Props::CustomType is not a real object based class so that we can not run real type check call.
     # T::Props::CustomType.valid?() is only a helper function call.
     valid =
-      if type.is_a?(T::Props::CustomType) && T::Utils::Props.optional_prop?(rules)
+      if type.is_a?(T::Props::CustomType) && T::Props::Utils.optional_prop?(rules)
         type.valid?(val)
       else
         type_object.valid?(val)
@@ -187,6 +175,7 @@ class T::Props::Decorator
       rules: T.nilable(Rules)
     )
     .void
+    .checked(:never)
   end
   def prop_set(instance, prop, val, rules=prop_rules(prop))
     check_prop_type(prop, val, T.must(rules))
@@ -202,6 +191,7 @@ class T::Props::Decorator
       rules: T.nilable(Rules)
     )
     .returns(T.untyped)
+    .checked(:never)
   end
   def prop_get(instance, prop, rules=props[prop.to_sym])
     val = get(instance, prop, rules)
@@ -236,6 +226,7 @@ class T::Props::Decorator
       opts: Hash
     )
     .returns(T.untyped)
+    .checked(:never)
   end
   def foreign_prop_get(instance, prop, foreign_class, rules=props[prop.to_sym], opts={})
     return if !(value = prop_get(instance, prop, rules))
@@ -341,7 +332,7 @@ class T::Props::Decorator
   def prop_defined(name, cls, rules={})
     # TODO(jerry): Create similar soft assertions against false
     if rules[:optional] == true
-      Opus::Error.hard(
+      T::Configuration.hard_assert_handler(
         'Use of `optional: true` is deprecated, please use `T.nilable(...)` instead.',
         storytime: {
           name: name,
@@ -351,7 +342,7 @@ class T::Props::Decorator
         },
       )
     elsif rules[:optional] == false
-      Opus::Error.hard(
+      T::Configuration.hard_assert_handler(
         'Use of `optional: :false` is deprecated as it\'s the default value.',
         storytime: {
           name: name,
@@ -361,7 +352,7 @@ class T::Props::Decorator
         },
       )
     elsif rules[:optional] == :on_load
-      Opus::Error.hard(
+      T::Configuration.hard_assert_handler(
         'Use of `optional: :on_load` is deprecated. You probably want `T.nilable(...)` with :raise_on_nil_write instead.',
         storytime: {
           name: name,
@@ -371,7 +362,7 @@ class T::Props::Decorator
         },
       )
     elsif rules[:optional] == :existing
-      Opus::Error.hard(
+      T::Configuration.hard_assert_handler(
         'Use of `optional: :existing` is not allowed: you should use use T.nilable (http://go/optional)',
         storytime: {
           name: name,
@@ -385,8 +376,8 @@ class T::Props::Decorator
     if T::Utils::Nilable.is_union_with_nilclass(cls)
       # :_tnilable is introduced internally for performance purpose so that clients do not need to call
       # T::Utils::Nilable.is_tnilable(cls) again.
-      # It is strictly internal: clients should always use T::Utils::Props.required_prop?() or
-      # T::Utils::Props.optional_prop?() for checking whether a field is required or optional.
+      # It is strictly internal: clients should always use T::Props::Utils.required_prop?() or
+      # T::Props::Utils.optional_prop?() for checking whether a field is required or optional.
       rules[:_tnilable] = true
     end
 
@@ -419,11 +410,12 @@ class T::Props::Decorator
     # specify their PII nature, as long as every class into which they
     # are ultimately included does.
     #
-    # TODO This is broken because `contains_pii?` is only defined on Opus::Sensitivity::PIIable
-    if sensitivity_and_pii[:pii] && @class.is_a?(Class) && !@class.contains_pii?
-      raise ArgumentError.new(
-        'Cannot include a pii prop in a class that declares `contains_no_pii`'
-      )
+    if defined?(Opus) && defined?(Opus::Sensitivity) && defined?(Opus::Sensitivity::PIIable)
+      if sensitivity_and_pii[:pii] && @class.is_a?(Class) && !@class.contains_pii?
+        raise ArgumentError.new(
+          'Cannot include a pii prop in a class that declares `contains_no_pii`'
+        )
+      end
     end
 
     needs_clone =
@@ -613,22 +605,26 @@ class T::Props::Decorator
   private def validate_not_missing_sensitivity(prop_name, rules)
     if rules[:sensitivity].nil?
       if rules[:redaction]
-        Opus::Error.hard("#{@class}##{prop_name} has a 'redaction:' annotation but no " \
+        T::Configuration.hard_assert_handler(
+          "#{@class}##{prop_name} has a 'redaction:' annotation but no " \
           "'sensitivity:' annotation. This is probably wrong, because if a " \
           "prop needs redaction then it is probably sensitive. Add a " \
           "sensitivity annotation like 'sensitivity: Opus::Sensitivity::PII." \
-          "whatever', or explicitly override this check with 'sensitivity: []'.")
+          "whatever', or explicitly override this check with 'sensitivity: []'."
+        )
       end
       # TODO(PRIVACYENG-982) Ideally we'd also check for 'password' and possibly
       # other terms, but this interacts badly with ProtoDefinedDocument because
       # the proto syntax currently can't declare "sensitivity: []"
       if prop_name =~ /\bsecret\b/
-        Opus::Error.hard("#{@class}##{prop_name} has the word 'secret' in its name, but no " \
+        T::Configuration.hard_assert_handler(
+          "#{@class}##{prop_name} has the word 'secret' in its name, but no " \
           "'sensitivity:' annotation. This is probably wrong, because if a " \
           "prop is named 'secret' then it is probably sensitive. Add a " \
           "sensitivity annotation like 'sensitivity: Opus::Sensitivity::NonPII." \
           "security_token', or explicitly override this check with " \
-          "'sensitivity: []'.")
+          "'sensitivity: []'."
+        )
       end
     end
   end
@@ -733,14 +729,19 @@ class T::Props::Decorator
     @class.send(:define_method, force_fk_method) do |allow_direct_mutation: nil|
       loaded_foreign = send(fk_method, allow_direct_mutation: allow_direct_mutation)
       if !loaded_foreign
-        Opus::Error.hard('Failed to load foreign model', storytime: {method: force_fk_method, class: self.class})
+        T::Configuration.hard_assert_handler(
+          'Failed to load foreign model',
+          storytime: {method: force_fk_method, class: self.class}
+        )
       end
       T.must(loaded_foreign)
     end
 
     @class.send(:define_method, "#{prop_name}_record") do |allow_direct_mutation: nil|
-      Opus::Error.soft("Using deprecated 'model.#{prop_name}_record' foreign key syntax. You should replace this with 'model.#{prop_name}_'",
-        notify: 'vasi')
+      T::Configuration.soft_assert_handler(
+        "Using deprecated 'model.#{prop_name}_record' foreign key syntax. You should replace this with 'model.#{prop_name}_'",
+        notify: 'vasi'
+      )
       send(fk_method, allow_direct_mutation: allow_direct_mutation)
     end
   end
