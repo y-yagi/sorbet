@@ -1,8 +1,6 @@
 # NOTE: this build file was taken from:
 # https://github.com/bazelbuild/bazel/blob/707fbb67e92a5067107a71bf2d4e8baeeade33b2/third_party/BUILD
 
-licenses(["notice"])  #  BSD/MIT-like license
-
 filegroup(
     name = "srcs",
     srcs = glob(["**"]),

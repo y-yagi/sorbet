@@ -763,10 +763,7 @@ cc_library(
     srcs = [ "ext/zlib/zlib.c" ],
     deps = [
         ":ruby_headers",
-
-        # NOTE: this is a way to refer to deps back in the
-        # @com_stripe_ruby_typer workspace
-        "@//third_party/zlib",
+        "@zlib//:zlib",
     ],
     copts = [
         "-DHAVE_ZLIB_H",
