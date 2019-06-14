@@ -9,9 +9,18 @@ filegroup(
 )
 
 sh_binary(
-    name = "bundle",
-    data = [ ":runtime_deps" ],
+    name = "bundler",
+    data = [ ":runtime_deps", ":bundle-env" ],
     srcs = [ "bundle.sh" ],
+    deps = [ "@bazel_tools//tools/bash/runfiles" ],
+    visibility = [ "//visibility:public" ],
+)
+
+sh_binary(
+    name = "bundle",
+    data = [ ":runtime_deps", ":bundle-env" ],
+    srcs = [ "bundle.sh" ],
+    deps = [ "@bazel_tools//tools/bash/runfiles" ],
     visibility = [ "//visibility:public" ],
 )
 

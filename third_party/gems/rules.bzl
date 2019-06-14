@@ -118,7 +118,7 @@ def _generate_vendor_cache(repo_ctx, gemfile_lock, deps):
 
     repo_ctx.template(
         "{}/BUILD".format(cache_dir),
-        Label("//third_party/ruby:vendor_cache.BUILD"),
+        Label("//third_party/gems:vendor_cache.BUILD"),
         substitutions = {
             "%{gemfiles}": gemfiles,
         },
@@ -170,7 +170,7 @@ def _setup_bundler(repo_ctx):
 
     repo_ctx.template(
         "setup_bundler.sh",
-        Label("//third_party/ruby:setup_bundler.sh"),
+        Label("//third_party/gems:setup_bundler.sh"),
         executable = True,
         substitutions = substitutions,
     )
@@ -179,21 +179,21 @@ def _setup_bundler(repo_ctx):
 
     repo_ctx.template(
         "bundler/BUILD",
-        Label("//third_party/ruby:bundler.BUILD"),
+        Label("//third_party/gems:bundler.BUILD"),
         executable = False,
         substitutions = substitutions,
     )
 
     repo_ctx.template(
         "bundler/bundle.sh",
-        Label("//third_party/ruby:bundle.sh"),
+        Label("//third_party/gems:bundle.sh"),
         executable = True,
         substitutions = substitutions,
     )
 
     repo_ctx.template(
         "bundler/bundle-env.sh",
-        Label("//third_party/ruby:bundle-env.sh"),
+        Label("//third_party/gems:bundle-env.sh"),
         executable = True,
         substitutions = substitutions,
     )

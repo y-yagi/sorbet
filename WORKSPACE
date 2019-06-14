@@ -30,10 +30,10 @@ load("@io_bazel_rules_bison//bison:bison.bzl", "bison_register_toolchains")
 
 bison_register_toolchains()
 
-load("//third_party/ruby:repository.bzl", "gemfile_lock_deps")
+load("//third_party/gems:rules.bzl", "gemfile_lock_deps")
 
 gemfile_lock_deps(
-    name = "installed_gems",
+    name = "gems",
     gemfile_locks = [
         "//gems/sorbet/test/snapshot:{}/src/Gemfile.lock".format(test) for test in [
             "partial/bad-hash",

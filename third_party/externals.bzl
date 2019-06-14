@@ -240,7 +240,7 @@ package(default_visibility = ["//visibility:public"])
         url = "https://cache.ruby-lang.org/pub/ruby/2.4/ruby-2.4.3.tar.gz",
         sha256 = "fd0375582c92045aa7d31854e724471fb469e11a4b08ff334d39052ccaaa3a98",
         strip_prefix = "ruby-2.4.3",
-        build_file = "//third_party:ruby.BUILD",
+        build_file = "//third_party/ruby:ruby-2.4.BUILD",
         patches = [
             "//third_party/ruby:config.h.patch",
             "//third_party/ruby:probes.h.patch",
