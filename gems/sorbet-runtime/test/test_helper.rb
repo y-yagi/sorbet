@@ -22,14 +22,6 @@ module Critic::Extensions::TypeExt
 end
 
 module Opus; end
-module Opus::Sensitivity; end
-module Opus::Sensitivity::Utils
-  def self.normalize_sensitivity_and_pii_annotation(value)
-    value
-  end
-end
-class Opus::Ownership; end
-class Opus::Enum; end
 
 module Chalk; end
 module Chalk::Tools; end
