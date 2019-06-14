@@ -1033,3 +1033,37 @@ sh_binary(
     srcs = [ "ruby.sh" ],
     visibility = ["//visibility:public"],
 )
+
+
+# tests ########################################################################
+
+genrule(
+    name = "generate_test_puts",
+    outs = [ "test_puts.sh" ],
+    cmd = """
+cat > $(location test_puts.sh) <<EOF
+#!/bin/bash
+
+export PATH="\$$(dirname \$$1):\$$PATH"
+
+# Simple smoke-test
+ruby -e '1 + 1'
+
+# Require something from the stdlib
+ruby -e 'require "set"'
+
+EOF
+""",
+)
+
+sh_test(
+    name = "test_puts",
+    deps = [ ":ruby", "@bazel_tools//tools/bash/runfiles" ],
+    srcs = [ "test_puts.sh" ],
+    args = [ "$(location :ruby)" ],
+)
+
+test_suite(
+    name = "ruby-2.4",
+    tests = [ ":test_puts" ],
+)
