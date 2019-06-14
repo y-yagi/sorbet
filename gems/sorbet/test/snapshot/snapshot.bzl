@@ -20,7 +20,7 @@ def snapshot_test(test_path):
     test_name = 'test_{}'.format(test_path)
 
     # The vendor/cache tree sits in a mirrored path to the Gemfile.lock
-    vendor_cache = "@installed_gems//gems/sorbet/test/snapshot/{}/src/vendor/cache".format(test_path)
+    vendor_cache = "@gems//gems/sorbet/test/snapshot/{}/src/vendor/cache".format(test_path)
 
     native.sh_test(
         name = test_name,
@@ -32,8 +32,9 @@ def snapshot_test(test_path):
             "{}:token".format(vendor_cache),
             "@ruby_2_4_3//:ruby",
 
-            "@installed_gems//bundler:bundle",
-            "@installed_gems//bundler:bundle-env",
+            "@gems//bundler:bundle",
+            "@gems//bundler:bundler",
+            "@gems//bundler:bundle-env",
 
             "{}".format(test_path),
         ],
@@ -42,7 +43,7 @@ def snapshot_test(test_path):
         ],
         args = [
             "$(location @ruby_2_4_3//:ruby)",
-            "$(location @installed_gems//bundler:bundle)",
+            "$(location @gems//bundler:bundle)",
             "$(location {}:token)".format(vendor_cache),
             test_path,
         ],
