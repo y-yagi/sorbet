@@ -175,6 +175,7 @@ bool sorbet::FileOps::isFileIgnored(string_view basePath, string_view filePath,
     string_view relative_path = filePath.substr(basePath.length());
     for (auto &p : absoluteIgnorePatterns) {
         if (relative_path.substr(0, p.length()) == p && matchIsFolderOrFile(relative_path, p, 0)) {
+            fmt::print("GWU IGNORING ABS: {} with {}", relative_path, p);
             return true;
         }
     }
@@ -186,6 +187,7 @@ bool sorbet::FileOps::isFileIgnored(string_view basePath, string_view filePath,
             if (pos == string_view::npos) {
                 break;
             } else if (matchIsFolderOrFile(relative_path, p, pos)) {
+                fmt::print("GWU IGNORING REL: {} with {}", relative_path, p);
                 return true;
             }
             pos += p.length();

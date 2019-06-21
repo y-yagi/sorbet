@@ -204,7 +204,8 @@ void runAutogen(core::Context ctx, options::Options &opts, WorkerPool &workers, 
                 }
                 if (opts.print.AutogenSubclasses.enabled) {
                     Timer timeit(logger, "autogenSubclasses");
-                    pf.subclasses(ctx, serialized.subclasses);
+                    pf.subclasses(ctx, opts.autogenSubclassesParents, opts.autogenSubclassesAbsoluteIgnorePatterns,
+                                  opts.autogenSubclassesRelativeIgnorePatterns, serialized.subclasses);
                 }
                 out.prints.emplace_back(make_pair(idx, serialized));
             }
@@ -267,6 +268,9 @@ void runAutogen(core::Context ctx, options::Options &opts, WorkerPool &workers, 
                 mergedSubclasseslist.insert(mergedSubclasseslist.end(), fmt::format(" {}", child));
             }
         }
+        // TODO(gwu) manual_patch
+        // TODO(gwu) descendants_of for each class passed in at the CLI
+        // port descendants_of(klass, out) and call in a loop
         opts.print.AutogenSubclasses.fmt("{}\n",
                                          fmt::join(mergedSubclasseslist.begin(), mergedSubclasseslist.end(), "\n"));
     }
