@@ -868,10 +868,8 @@ bool DefTree::root() const {
 
 void DefTree::writeAutoloads(core::Context ctx, const AutoloaderConfig &alCfg, std::string path) {
     // fmt::print("writeAutoloads {} '{}'\n", name, path);
-    if (!name.empty()) {
-        FileOps::write(join(path, fmt::format("{}.rb", name)), autoloads(ctx, alCfg));
-    }
-    // fmt::print("write {} {} {}\n", name, needsChildAutoloads(), file().id());
+    string filename = root() ? "root.rb" : fmt::format("{}.rb", name);
+    FileOps::write(join(path, filename), autoloads(ctx, alCfg));
     if (!children.empty()) {
         auto subdir = join(path, name);
         if (!name.empty()) {
@@ -942,8 +940,10 @@ string DefTree::autoloads(core::Context ctx, const AutoloaderConfig &alCfg) {
     if (type == Definition::Module || type == Definition::Class) {
         fullName =
             fmt::format("{}", fmt::map_join(nameParts, "::", [&](const auto &nr) -> string { return nr.show(ctx); }));
-        fmt::format_to(buf, "Opus::Require.on_autoload('{}')\n", fullName);
-        predeclare(ctx, fullName, buf);
+        if (!root()) {
+            fmt::format_to(buf, "Opus::Require.on_autoload('{}')\n", fullName);
+            predeclare(ctx, fullName, buf);
+        }
         if (!children.empty()) {
             fmt::format_to(buf, "\nOpus::Require.autoload_map({}, {{\n", fullName);
             vector<string> childNames;
