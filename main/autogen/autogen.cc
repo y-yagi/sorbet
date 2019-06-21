@@ -840,7 +840,6 @@ bool DefTree::prunable(core::Context ctx, const AutoloaderConfig &alCfg) const {
             }
         }
         if (match) {
-            fmt::print("HEYO match!!!\n");
             return false;
         }
     }
@@ -938,8 +937,9 @@ string DefTree::autoloads(core::Context ctx, const AutoloaderConfig &alCfg) {
     string fullName = "nil";
     auto type = definitionType();
     if (type == Definition::Module || type == Definition::Class) {
-        fullName =
-            fmt::format("{}", fmt::map_join(nameParts, "::", [&](const auto &nr) -> string { return nr.show(ctx); }));
+        fullName = root() ? "Object" : fmt::format("{}", fmt::map_join(nameParts, "::", [&](const auto &nr) -> string {
+                                                       return nr.show(ctx);
+                                                   }));
         if (!root()) {
             fmt::format_to(buf, "Opus::Require.on_autoload('{}')\n", fullName);
             predeclare(ctx, fullName, buf);
