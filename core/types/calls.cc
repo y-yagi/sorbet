@@ -29,13 +29,8 @@ DispatchResult OrType::dispatchCall(Context ctx, DispatchArgs args) {
     categoryCounterInc("dispatch_call", "ortype");
     auto leftRet = left->dispatchCall(ctx, args.withSelfRef(left));
     auto rightRet = right->dispatchCall(ctx, args.withSelfRef(right));
-    DispatchResult::ComponentVec components = std::move(leftRet.components);
-    components.insert(components.end(), make_move_iterator(rightRet.components.begin()),
-                      make_move_iterator(rightRet.components.end()));
-    DispatchResult ret{
-        Types::any(ctx, leftRet.returnType, rightRet.returnType),
-        std::move(components),
-    };
+    DispatchResult ret{Types::any(ctx, leftRet.returnType, rightRet.returnType), move(left), move(right),
+                       DispatchResult::Combinator::OR};
     return ret;
 }
 
@@ -55,22 +50,17 @@ DispatchResult AndType::dispatchCall(Context ctx, DispatchArgs args) {
     auto rightRet = right->dispatchCall(ctx, args);
 
     // If either side is missing the method, dispatch to the other.
-    auto leftOk = absl::c_all_of(leftRet.components, [&](auto &comp) { return comp.method.exists(); });
-    auto rightOk = absl::c_all_of(rightRet.components, [&](auto &comp) { return comp.method.exists(); });
+    auto leftOk = leftRet.main.method.exists();
+    auto rightOk = rightRet.main.method.exists();
     if (leftOk && !rightOk) {
         return leftRet;
     }
     if (rightOk && !leftOk) {
         return rightRet;
     }
+    DispatchResult ret{Types::all(ctx, leftRet.returnType, rightRet.returnType), move(left), move(right),
+                       DispatchResult::Combinator::AND};
 
-    DispatchResult::ComponentVec components = std::move(leftRet.components);
-    components.insert(components.end(), make_move_iterator(rightRet.components.begin()),
-                      make_move_iterator(rightRet.components.end()));
-    DispatchResult ret{
-        Types::all(ctx, leftRet.returnType, rightRet.returnType),
-        std::move(components),
-    };
     return ret;
 }
 
@@ -512,7 +502,9 @@ DispatchResult dispatchCallSymbol(Context ctx, DispatchArgs args,
                            : mayBeOverloaded;
 
     DispatchResult result;
-    result.components.emplace_back(DispatchComponent{args.selfType, method, vector<unique_ptr<Error>>()});
+    auto &component = result.components.emplace_back();
+    component.receiver = args.selfType;
+    component.method = method;
 
     const SymbolData data = method.data(ctx);
     unique_ptr<TypeConstraint> maybeConstraint;
@@ -751,12 +743,11 @@ DispatchResult dispatchCallSymbol(Context ctx, DispatchArgs args,
             blockType = Types::untyped(ctx, method);
         }
 
-        args.block->returnTp = Types::getProcReturnType(ctx, blockType);
+        component.blockReturnType = Types::getProcReturnType(ctx, blockType);
         blockType = constr->isSolved() ? Types::instantiate(ctx, blockType, *constr)
                                        : Types::approximate(ctx, blockType, *constr);
-
-        args.block->blockPreType = blockType;
-        args.block->blockSpec = bspec.deepCopy();
+        component.blockPreType = blockType;
+        component.blockSpec = bspec.deepCopy();
     }
 
     TypePtr resultType = nullptr;
@@ -805,7 +796,7 @@ DispatchResult dispatchCallSymbol(Context ctx, DispatchArgs args,
     resultType = Types::replaceSelfType(ctx, resultType, args.selfType);
 
     if (args.block != nullptr) {
-        args.block->sendTp = resultType;
+        component.sendTp = resultType;
     }
     result.returnType = std::move(resultType);
     return result;

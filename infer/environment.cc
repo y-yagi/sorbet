@@ -832,11 +832,8 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
                 }
 
                 if (lspQueryMatch) {
-                    core::DispatchResult::ComponentVec components;
-                    components.emplace_back(core::DispatchComponent{tp.type, symbol, {}});
                     core::lsp::QueryResponse::pushQueryResponse(
-                        ctx,
-                        core::lsp::ConstantResponse(ctx.owner, std::move(components), bind.loc, data->name, tp, tp));
+                        ctx, core::lsp::ConstantResponse(ctx.owner, symbol, bind.loc, data->name, tp, tp));
                 }
                 pinnedTypes[bind.bind.variable] = tp;
             },

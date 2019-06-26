@@ -733,9 +733,13 @@ TypeSyntax::ResultType TypeSyntax::getResultTypeAndBind(core::MutableContext ctx
             };
             core::DispatchArgs dispatchArgs{core::Names::squareBrackets(), locs, targs, ctype, ctype, nullptr};
             auto dispatched = ctype->dispatchCall(ctx, dispatchArgs);
-            for (auto &comp : dispatched.components) {
-                for (auto &err : comp.errors) {
-                    ctx.state._error(move(err));
+            {
+                auto link = &dispatched;
+                while (link != nullptr) {
+                    for (auto &err : link->main.errors) {
+                        ctx.state._error(move(err));
+                    }
+                    link = link->secondary.get();
                 }
             }
             auto out = dispatched.returnType;
@@ -773,7 +777,7 @@ TypeSyntax::ResultType TypeSyntax::getResultTypeAndBind(core::MutableContext ctx
     ENFORCE(result.type.get() != nullptr);
     result.type->sanityCheck(ctx);
     return result;
-}
+} // namespace sorbet::resolver
 
 ParsedSig::TypeArgSpec &ParsedSig::enterTypeArgByName(core::NameRef name) {
     for (auto &current : typeArgs) {

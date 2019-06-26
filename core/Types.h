@@ -5,10 +5,10 @@
 #include "core/Context.h"
 #include "core/Error.h"
 #include "core/SymbolRef.h"
+#include "core/TypeConstraint.h"
 #include <memory>
 #include <optional>
 #include <string>
-
 namespace sorbet::core {
 /** Dmitry: unlike in Dotty, those types are always dealiased. For now */
 class Type;
@@ -23,49 +23,6 @@ class Symbol;
 class TypeVar;
 class SendAndBlockLink;
 class TypeAndOrigins;
-// using TypePtr = std::shared_ptr<Type>;
-
-class TypePtr {
-    std::shared_ptr<Type> store;
-    TypePtr(std::shared_ptr<Type> &&store);
-
-public:
-    TypePtr() = default;
-    TypePtr(TypePtr &&other) = default;
-    TypePtr(const TypePtr &other) = default;
-    TypePtr &operator=(TypePtr &&other) = default;
-    TypePtr &operator=(const TypePtr &other) = default;
-    explicit TypePtr(Type *ptr) : store(ptr) {}
-    TypePtr(std::nullptr_t n) : store(nullptr) {}
-    operator bool() const {
-        return (bool)store;
-    }
-    Type *get() const {
-        return store.get();
-    }
-    Type *operator->() const {
-        return get();
-    }
-    Type &operator*() const {
-        return *get();
-    }
-    bool operator!=(const TypePtr &other) const {
-        return store != other.store;
-    }
-    bool operator==(const TypePtr &other) const {
-        return store == other.store;
-    }
-    bool operator!=(std::nullptr_t n) const {
-        return store != nullptr;
-    }
-    bool operator==(std::nullptr_t n) const {
-        return store == nullptr;
-    }
-    friend class Symbol;
-
-    template <class T, class... Args> friend TypePtr make_type(Args &&... args);
-};
-CheckSize(TypePtr, 16, 8);
 
 class ArgInfo {
 public:
@@ -647,18 +604,13 @@ CheckSize(MetaType, 24, 8);
 
 class SendAndBlockLink {
     SendAndBlockLink(const SendAndBlockLink &);
-
+    
 public:
     SendAndBlockLink(SendAndBlockLink &&) = default;
-    TypePtr receiver;
-    NameRef fun;
     std::vector<ArgInfo::ArgFlags> argFlags;
-    std::shared_ptr<TypeConstraint> constr;
-    TypePtr returnTp;
-    TypePtr blockPreType;
-    ArgInfo blockSpec; // used only by LoadSelf to change type of self inside method.
-    TypePtr sendTp;
-
+    core::NameRef fun;
+    std::shared_ptr<DispatchResult> result;
+    
     SendAndBlockLink(NameRef fun, std::vector<ArgInfo::ArgFlags> &&argFlags);
     std::optional<int> fixedArity() const;
     std::shared_ptr<SendAndBlockLink> duplicate();
@@ -717,21 +669,23 @@ struct DispatchComponent {
     TypePtr receiver;
     SymbolRef method;
     std::vector<std::unique_ptr<Error>> errors;
+    TypePtr sendTp;
+    TypePtr blockReturnType;
+    TypePtr blockPreType;
+    ArgInfo blockSpec; // used only by LoadSelf to change type of self inside method.
+    std::unique_ptr<TypeConstraint> constr;
 };
 
 struct DispatchResult {
-    using ComponentVec = InlinedVector<DispatchComponent, 1>;
-
+    enum class Combinator { OR, AND };
     TypePtr returnType;
-    ComponentVec components;
+    DispatchComponent main;
+    std::unique_ptr<DispatchResult> secondary;
+    Combinator secondaryKind;
 
     DispatchResult() = default;
-    DispatchResult(TypePtr returnType, ComponentVec components)
-        : returnType(std::move(returnType)), components(std::move(components)){};
-
-    DispatchResult(TypePtr returnType, TypePtr receiver, SymbolRef method) : returnType(std::move(returnType)) {
-        components.emplace_back(DispatchComponent{std::move(receiver), method, std::vector<std::unique_ptr<Error>>()});
-    }
+    DispatchResult(TypePtr returnType, DispatchComponent comp)
+        : returnType(std::move(returnType)), main(std::move(comp)){};
 };
 
 class BlamedUntyped final : public ClassType {
