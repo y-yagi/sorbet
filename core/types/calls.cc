@@ -40,7 +40,9 @@ DispatchResult OrType::dispatchCall(Context ctx, DispatchArgs args) {
 }
 
 TypePtr OrType::getCallArguments(Context ctx, NameRef name) {
-    return left->getCallArguments(ctx, name); // TODO: should glb with right
+    auto largs = left->getCallArguments(ctx, name); // TODO: should glb with right
+    auto rargs = right->getCallArguments(ctx, name);
+    return Types::glb(ctx, largs, rargs);
 }
 
 DispatchResult TypeVar::dispatchCall(Context ctx, DispatchArgs args) {
