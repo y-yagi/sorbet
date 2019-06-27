@@ -732,7 +732,7 @@ TypeSyntax::ResultType TypeSyntax::getResultTypeAndBind(core::MutableContext ctx
                 argLocs,
             };
             core::DispatchArgs dispatchArgs{core::Names::squareBrackets(), locs, targs, ctype, ctype, nullptr};
-            auto dispatched = ctype->dispatchCall(ctx, dispatchArgs);
+            auto dispatched = core::Types::dispatchCallWithoutBlock(ctx, ctype, dispatchArgs);
             {
                 auto link = &dispatched;
                 while (link != nullptr) {

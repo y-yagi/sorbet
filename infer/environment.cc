@@ -718,11 +718,11 @@ core::TypePtr flattenArrays(core::Context ctx, core::TypePtr type) {
     return result;
 }
 
-core::TypePtr flatmapHack(core::Context ctx, const shared_ptr<core::SendAndBlockLink> &link, core::TypePtr returnType) {
-    if (link->fun != core::Names::flatMap()) {
+core::TypePtr flatmapHack(core::Context ctx, core::TypePtr receiver, core::TypePtr returnType, core::NameRef fun) {
+    if (fun != core::Names::flatMap()) {
         return returnType;
     }
-    if (!link->receiver->derivesFrom(ctx, core::Symbols::Enumerable())) {
+    if (receiver->derivesFrom(ctx, core::Symbols::Enumerable())) {
         return returnType;
     }
 
@@ -754,10 +754,6 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
 
                 const core::TypeAndOrigins &recvType = getAndFillTypeAndOrigin(ctx, send->recv);
                 if (send->link) {
-                    send->link->receiver = recvType.type;
-                    send->link->returnTp = core::Types::untypedUntracked();
-                    send->link->blockPreType = core::Types::untypedUntracked();
-                    send->link->sendTp = core::Types::untypedUntracked();
                     checkFullyDefined = false;
                 }
                 core::CallLocs locs{
@@ -766,7 +762,7 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
                     send->argLocs,
                 };
                 core::DispatchArgs dispatchArgs{send->fun, locs, args, recvType.type, recvType.type, send->link};
-                auto dispatched = recvType.type->dispatchCall(ctx, dispatchArgs);
+                auto dispatched = core::Types::dispatchCallWithBlock(ctx, recvType.type, dispatchArgs, send->link);
 
                 histogramInc("dispatchCall.components", dispatched.components.size());
                 tp.type = dispatched.returnType;
@@ -845,7 +841,7 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
                 }
 
                 auto type = core::Types::instantiate(ctx, i->link->sendTp, *i->link->constr);
-                type = flatmapHack(ctx, i->link, type);
+                type = flatmapHack(ctx, i->link->result.main.receiver,i->link.fun, type);
                 tp.type = std::move(type);
                 tp.origins.emplace_back(bind.loc);
             },

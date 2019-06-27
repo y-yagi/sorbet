@@ -1163,7 +1163,7 @@ class Magic_expandSplat : public IntrinsicMethod {
         }
 
         auto *tuple = cast_type<TupleType>(type.get());
-        if (tuple == nullptr && core::Types::approximate(ctx, type, constr)->derivesFrom(ctx, Symbols::Array())) {
+        if (tuple == nullptr && core::Types::approximate(ctx, type, core::TypeConstraint::EmptyFrozenConstraint)->derivesFrom(ctx, Symbols::Array())) {
             // If this is an array and not a tuple, just pass it through. We
             // can't say anything about the elements.
             return type;
@@ -1195,7 +1195,7 @@ public:
         }
         int before = (int)beforeLit->value;
         int after = (int)afterLit->value;
-        return expandArray(ctx, val, before + after, args.constraint());
+        return expandArray(ctx, val, before + after);
     }
 } Magic_expandSplat;
 

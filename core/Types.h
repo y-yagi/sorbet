@@ -130,7 +130,8 @@ public:
      * tc.solve(). If the constraint has already been solved, use `instantiate` instead.
      */
     static TypePtr approximate(Context ctx, const TypePtr &what, const TypeConstraint &tc);
-
+    static TypePtr dispatchCallWithoutBlock(Context ctx, const TypePtr &recv, DispatchArgs args);
+    static TypePtr dispatchCallWithBlock(Context ctx, const TypePtr &recv, DispatchArgs args, SendAndBlockLink &link);
     static TypePtr dropLiteral(const TypePtr &tp);
 
     /** Internal implementation. You should probably use all(). */
@@ -603,7 +604,7 @@ public:
 CheckSize(MetaType, 24, 8);
 
 class SendAndBlockLink {
-    SendAndBlockLink(const SendAndBlockLink &);
+    SendAndBlockLink(const SendAndBlockLink &) = default;
     
 public:
     SendAndBlockLink(SendAndBlockLink &&) = default;
@@ -662,7 +663,6 @@ struct DispatchArgs {
     const std::shared_ptr<const SendAndBlockLink> &block;
 
     DispatchArgs withSelfRef(const TypePtr &newSelfRef);
-    core::TypeConstraint &constraint();
 };
 
 struct DispatchComponent {
@@ -686,6 +686,7 @@ struct DispatchResult {
     DispatchResult() = default;
     DispatchResult(TypePtr returnType, DispatchComponent comp)
         : returnType(std::move(returnType)), main(std::move(comp)){};
+    DispatchResult(TypePtr returnType, DispatchComponent comp, std::unique_ptr<DispatchResult> secondary, Combinator secondaryKind): returnType(std::move(returnType)), main(std::move(comp)), secondary(std::move(secondary)), secondaryKind(secondaryKind){};
 };
 
 class BlamedUntyped final : public ClassType {
