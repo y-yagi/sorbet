@@ -182,7 +182,8 @@ void validateOverriding(const core::GlobalState &gs, core::SymbolRef method) {
             !method.data(gs)->isIncompatibleOverride()) {
             if (!method.data(gs)->isOverride()) {
                 if (auto e = gs.beginError(method.data(gs)->loc(), core::errors::Resolver::MissingOverride)) {
-                    e.setHeader("Method `{}` overrides `{}` but lacks an explicit `{}`", method.data(gs)->show(gs), overridenMethod.data(gs)->show(gs), "override");
+                    e.setHeader("Method `{}` overrides `{}` but lacks an explicit `{}`", method.data(gs)->show(gs),
+                                overridenMethod.data(gs)->show(gs), "override");
                     e.addErrorLine(overridenMethod.data(gs)->loc(), "defined here");
                 }
             }
@@ -192,7 +193,8 @@ void validateOverriding(const core::GlobalState &gs, core::SymbolRef method) {
 
     if (overridenMethods.size() == 0 && method.data(gs)->isOverride()) {
         if (auto e = gs.beginError(method.data(gs)->loc(), core::errors::Resolver::BadMethodOverride)) {
-            e.setHeader("Method `{}` is declared `{}` but does not override a method", method.data(gs)->show(gs), "override");
+            e.setHeader("Method `{}` is declared `{}` but does not override a method", method.data(gs)->show(gs),
+                        "override");
         }
     }
 }
