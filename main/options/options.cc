@@ -517,7 +517,7 @@ void readOptions(Options &opts, int argc, char *argv[],
                 if (p.at(0) == '/') {
                     opts.absoluteIgnorePatterns.emplace_back(pNormalized);
                 } else {
-                    opts.relativeIgnorePatterns.push_back(fmt::format("/{}", pNormalized));
+                    opts.relativeIgnorePatterns.emplace_back(fmt::format("/{}", pNormalized));
                 }
             }
         }
@@ -619,7 +619,7 @@ void readOptions(Options &opts, int argc, char *argv[],
                 throw EarlyReturnWithCode(1);
             }
             for (string parentClassName : raw["autogen-subclasses-parent"].as<vector<string>>()) {
-                opts.autogenSubclassesParents.push_back(parentClassName);
+                opts.autogenSubclassesParents.emplace_back(parentClassName);
             }
         }
 
@@ -630,7 +630,7 @@ void readOptions(Options &opts, int argc, char *argv[],
                 if (p.at(0) == '/') {
                     opts.autogenSubclassesAbsoluteIgnorePatterns.emplace_back(pNormalized);
                 } else {
-                    opts.autogenSubclassesRelativeIgnorePatterns.push_back(fmt::format("/{}", pNormalized));
+                    opts.autogenSubclassesRelativeIgnorePatterns.emplace_back(fmt::format("/{}", pNormalized));
                 }
             }
         }
