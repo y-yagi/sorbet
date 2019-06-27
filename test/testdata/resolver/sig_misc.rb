@@ -84,7 +84,7 @@ class A
   end
 
   sig {override.returns(T1)}
-  def test_override;
+  def test_override; # error: Method `A#test_override` is declared `override` but does not override a method
     T1.new
   end
 

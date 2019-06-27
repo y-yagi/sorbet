@@ -189,6 +189,12 @@ void validateOverriding(const core::GlobalState &gs, core::SymbolRef method) {
             validateCompatibleOverride(gs, overridenMethod, method);
         }
     }
+
+    if (overridenMethods.size() == 0 && method.data(gs)->isOverride()) {
+        if (auto e = gs.beginError(method.data(gs)->loc(), core::errors::Resolver::BadMethodOverride)) {
+            e.setHeader("Method `{}` is declared `{}` but does not override a method", method.data(gs)->show(gs), "override");
+        }
+    }
 }
 
 class ValidateWalk {
