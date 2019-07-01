@@ -131,8 +131,7 @@ void extractSendArgumentKnowledge(core::Context ctx, core::Loc bindLoc, cfg::Sen
         snd->argLocs,
     };
     core::DispatchArgs dispatchArgs{snd->fun, locs, args, snd->recv.type, snd->recv.type, snd->link};
-    shared_ptr<core::SendAndBlockLink> link = snd->link->duplicate();
-    auto dispatchInfo = core::Types::dispatchCallWithBlock(ctx, snd->recv.type, dispatchArgs, *link);
+    auto dispatchInfo = snd->recv.type->dispatchCall(ctx, dispatchArgs);
 
     int i = -1;
 

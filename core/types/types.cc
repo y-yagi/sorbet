@@ -6,6 +6,7 @@
 #include "core/Names.h"
 #include "core/Symbols.h"
 #include "core/TypeConstraint.h"
+#include "core/GlobalState.h"
 #include <utility>
 
 #include "core/Types.h"
@@ -19,6 +20,18 @@ template class std::vector<sorbet::core::Loc>;
 namespace sorbet::core {
 
 using namespace std;
+
+TypePtr Types::dispatchCallWithoutBlock(Context ctx, const TypePtr &recv, DispatchArgs args) {
+    auto dispatched = recv->dispatchCall(ctx, move(args));
+                auto link = &dispatched;
+                while (link != nullptr) {
+                    for (auto &err : link->main.errors) {
+                        ctx.state._error(move(err));
+                    }
+                    link = link->secondary.get();
+                }
+  return move(dispatched.returnType);
+}
 
 TypePtr::TypePtr(shared_ptr<Type> &&store) : store(move(store)){};
 

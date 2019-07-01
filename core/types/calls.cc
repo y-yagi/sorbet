@@ -18,6 +18,7 @@ namespace sorbet::core {
 DispatchResult ProxyType::dispatchCall(Context ctx, DispatchArgs args) {
     categoryCounterInc("dispatch_call", "proxytype");
     auto und = underlying();
+    und->_replaceSelfType(  );
     return und->dispatchCall(ctx, args);
 }
 
@@ -1163,7 +1164,8 @@ class Magic_expandSplat : public IntrinsicMethod {
         }
 
         auto *tuple = cast_type<TupleType>(type.get());
-        if (tuple == nullptr && core::Types::approximate(ctx, type, core::TypeConstraint::EmptyFrozenConstraint)->derivesFrom(ctx, Symbols::Array())) {
+        if (tuple == nullptr && core::Types::approximate(ctx, type, core::TypeConstraint::EmptyFrozenConstraint)
+                                    ->derivesFrom(ctx, Symbols::Array())) {
             // If this is an array and not a tuple, just pass it through. We
             // can't say anything about the elements.
             return type;
