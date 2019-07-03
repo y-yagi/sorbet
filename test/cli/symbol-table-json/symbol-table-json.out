@@ -17,7 +17,7 @@
    "superClass": 96,
    "children": [
     {
-     "id": 10933,
+     "id": 10934,
      "name": {
       "kind": "UNIQUE",
       "name": "\u003cstatic-init\u003e"
@@ -36,7 +36,7 @@
    ]
   },
   {
-   "id": 10929,
+   "id": 10930,
    "name": {
     "kind": "CONSTANT",
     "name": "A"
@@ -45,7 +45,7 @@
    "superClass": 6
   },
   {
-   "id": 10930,
+   "id": 10931,
    "name": {
     "kind": "UNIQUE",
     "name": "\u003cClass:A\u003e"
@@ -54,7 +54,7 @@
    "superClass": 96,
    "children": [
     {
-     "id": 10931,
+     "id": 10932,
      "name": {
       "kind": "UTF8",
       "name": "\u003cstatic-init\u003e"
@@ -73,13 +73,13 @@
    ]
   },
   {
-   "id": 10932,
+   "id": 10933,
    "name": {
     "kind": "CONSTANT",
     "name": "B"
    },
    "kind": "STATIC_FIELD",
-   "aliasTo": 10929
+   "aliasTo": 10930
   }
  ]
 }
