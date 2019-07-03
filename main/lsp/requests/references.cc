@@ -32,7 +32,7 @@ LSPResult LSPLoop::handleTextDocumentReferences(unique_ptr<core::GlobalState> gs
 
             auto &dispatchComponents = resp->getDispatchComponents();
             if (!dispatchComponents.empty() && dispatchComponents[0].method.exists() &&
-                !dispatchComponents[0].receiver->isUntyped()) {
+                dispatchComponents[0].receiver != nullptr && !dispatchComponents[0].receiver->isUntyped()) {
                 auto symRef = dispatchComponents[0].method;
                 auto run2 = setupLSPQueryBySymbol(move(gs), symRef);
                 gs = move(run2.gs);
