@@ -156,38 +156,47 @@ unique_ptr<cfg::CFG> Inference::run(core::Context ctx, unique_ptr<cfg::CFG> cfg)
         core::Loc madeBlockDead;
         int i = 0;
         for (cfg::Binding &bind : bb->exprs) {
-            i++;
-            if (!current.isDead) {
-                current.ensureGoodAssignTarget(ctx, bind.bind.variable);
-                bind.bind.type = current.processBinding(ctx, bind, bb->outerLoops, cfg->minLoops[bind.bind.variable],
-                                                        knowledgeFilter, *constr, methodReturnType);
-                if (cfg::isa_instruction<cfg::Send>(bind.value.get())) {
-                    totalSendCount++;
-                    if (bind.bind.type && !bind.bind.type->isUntyped()) {
-                        typedSendCount++;
-                    } else if (bind.bind.type->hasUntyped()) {
-                        DEBUG_ONLY(histogramInc("untyped.sources", bind.bind.type->untypedBlame()._id););
-                        if (auto e = ctx.state.beginError(bind.loc, core::errors::Infer::UntypedValue)) {
-                            e.setHeader("This code is untyped");
+            try {
+                i++;
+                if (!current.isDead) {
+                    current.ensureGoodAssignTarget(ctx, bind.bind.variable);
+                    bind.bind.type =
+                        current.processBinding(ctx, bind, bb->outerLoops, cfg->minLoops[bind.bind.variable],
+                                               knowledgeFilter, *constr, methodReturnType);
+                    if (cfg::isa_instruction<cfg::Send>(bind.value.get())) {
+                        totalSendCount++;
+                        if (bind.bind.type && !bind.bind.type->isUntyped()) {
+                            typedSendCount++;
+                        } else if (bind.bind.type->hasUntyped()) {
+                            DEBUG_ONLY(histogramInc("untyped.sources", bind.bind.type->untypedBlame()._id););
+                            if (auto e = ctx.state.beginError(bind.loc, core::errors::Infer::UntypedValue)) {
+                                e.setHeader("This code is untyped");
+                            }
                         }
                     }
+                    ENFORCE(bind.bind.type);
+                    bind.bind.type->sanityCheck(ctx);
+                    if (bind.bind.type->isBottom()) {
+                        current.isDead = true;
+                        madeBlockDead = bind.loc;
+                    }
+                    if (current.isDead) {
+                        // this can also be result of evaluating an instruction, e.g. an always false hard_assert
+                        bb->firstDeadInstructionIdx = i;
+                    }
+                } else if (current.isDead && !bind.value->isSynthetic) {
+                    if (auto e = ctx.state.beginError(bind.loc, core::errors::Infer::DeadBranchInferencer)) {
+                        e.setHeader("This code is unreachable");
+                        e.addErrorLine(madeBlockDead, "This expression can never be computed");
+                    }
+                    break;
                 }
-                ENFORCE(bind.bind.type);
-                bind.bind.type->sanityCheck(ctx);
-                if (bind.bind.type->isBottom()) {
-                    current.isDead = true;
-                    madeBlockDead = bind.loc;
+            } catch (SorbetException &exception) {
+                Exception::failInFuzzer();
+                if (auto e = ctx.state.beginError(bind.loc, core::errors::Internal::InternalError)) {
+                    e.setHeader("Failed to process instruction (backtrace is above)");
                 }
-                if (current.isDead) {
-                    // this can also be result of evaluating an instruction, e.g. an always false hard_assert
-                    bb->firstDeadInstructionIdx = i;
-                }
-            } else if (current.isDead && !bind.value->isSynthetic) {
-                if (auto e = ctx.state.beginError(bind.loc, core::errors::Infer::DeadBranchInferencer)) {
-                    e.setHeader("This code is unreachable");
-                    e.addErrorLine(madeBlockDead, "This expression can never be computed");
-                }
-                break;
+                throw;
             }
         }
         if (!current.isDead) {

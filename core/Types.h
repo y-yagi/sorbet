@@ -605,13 +605,13 @@ CheckSize(MetaType, 24, 8);
 
 class SendAndBlockLink {
     SendAndBlockLink(const SendAndBlockLink &) = default;
-    
+
 public:
     SendAndBlockLink(SendAndBlockLink &&) = default;
     std::vector<ArgInfo::ArgFlags> argFlags;
     core::NameRef fun;
     std::shared_ptr<DispatchResult> result;
-    
+
     SendAndBlockLink(NameRef fun, std::vector<ArgInfo::ArgFlags> &&argFlags);
     std::optional<int> fixedArity() const;
     std::shared_ptr<SendAndBlockLink> duplicate();
@@ -684,9 +684,16 @@ struct DispatchResult {
     Combinator secondaryKind;
 
     DispatchResult() = default;
+    DispatchResult(TypePtr returnType, TypePtr recieverType, core::SymbolRef method)
+        : returnType(returnType),
+          main(DispatchComponent{
+              recieverType, method, {}, std::move(returnType), nullptr, nullptr, ArgInfo{}, nullptr}){};
     DispatchResult(TypePtr returnType, DispatchComponent comp)
         : returnType(std::move(returnType)), main(std::move(comp)){};
-    DispatchResult(TypePtr returnType, DispatchComponent comp, std::unique_ptr<DispatchResult> secondary, Combinator secondaryKind): returnType(std::move(returnType)), main(std::move(comp)), secondary(std::move(secondary)), secondaryKind(secondaryKind){};
+    DispatchResult(TypePtr returnType, DispatchComponent comp, std::unique_ptr<DispatchResult> secondary,
+                   Combinator secondaryKind)
+        : returnType(std::move(returnType)), main(std::move(comp)), secondary(std::move(secondary)),
+          secondaryKind(secondaryKind){};
 };
 
 class BlamedUntyped final : public ClassType {

@@ -10,7 +10,8 @@ class TypeConstraint;
 
 class SendResponse final {
 public:
-    SendResponse(core::Loc termLoc, std::shared_ptr<core::DispatchResult> dispatchResult, core::NameRef callerSideName): dispatchResult(std::move(dispatchResult)), callerSideName(callerSideName), termLoc(termLoc){};
+    SendResponse(core::Loc termLoc, std::shared_ptr<core::DispatchResult> dispatchResult, core::NameRef callerSideName)
+        : dispatchResult(std::move(dispatchResult)), callerSideName(callerSideName), termLoc(termLoc){};
     const std::shared_ptr<core::DispatchResult> dispatchResult;
     const core::NameRef callerSideName;
     const core::Loc termLoc;
@@ -18,7 +19,8 @@ public:
 
 class IdentResponse final {
 public:
-    IdentResponse(core::SymbolRef owner, core::Loc termLoc, core::LocalVariable variable, core::TypeAndOrigins retType): owner(owner), termLoc(termLoc), variable(variable), retType(std::move(retType)){};
+    IdentResponse(core::SymbolRef owner, core::Loc termLoc, core::LocalVariable variable, core::TypeAndOrigins retType)
+        : owner(owner), termLoc(termLoc), variable(variable), retType(std::move(retType)){};
     const core::SymbolRef owner;
     const core::Loc termLoc;
     const core::LocalVariable variable;
@@ -27,7 +29,8 @@ public:
 
 class LiteralResponse final {
 public:
-    LiteralResponse(core::SymbolRef owner, core::Loc termLoc, core::TypeAndOrigins retType): owner(owner), termLoc(termLoc), retType(std::move(retType)){};
+    LiteralResponse(core::SymbolRef owner, core::Loc termLoc, core::TypeAndOrigins retType)
+        : owner(owner), termLoc(termLoc), retType(std::move(retType)){};
     const core::SymbolRef owner;
     const core::Loc termLoc;
     const core::TypeAndOrigins retType;
@@ -36,7 +39,8 @@ public:
 class ConstantResponse final {
 public:
     ConstantResponse(core::SymbolRef owner, core::SymbolRef symbol, core::Loc termLoc, core::NameRef name,
-                     core::TypeAndOrigins receiver, core::TypeAndOrigins retType): owner(owner), symbol(symbol), termLoc(termLoc), name(name), retType(std::move(retType)){};
+                     core::TypeAndOrigins receiver, core::TypeAndOrigins retType)
+        : owner(owner), symbol(symbol), termLoc(termLoc), name(name), retType(std::move(retType)){};
     const core::SymbolRef owner;
     const core::SymbolRef symbol;
     const core::Loc termLoc;
@@ -46,7 +50,8 @@ public:
 
 class DefinitionResponse final {
 public:
-    DefinitionResponse(core::SymbolRef symbol, core::Loc termLoc, core::NameRef name, core::TypeAndOrigins retType);
+    DefinitionResponse(core::SymbolRef symbol, core::Loc termLoc, core::NameRef name, core::TypeAndOrigins retType)
+        : symbol(symbol), termLoc(termLoc), name(name), retType(std::move(retType)){};
     const core::SymbolRef symbol;
     const core::Loc termLoc;
     const core::NameRef name;
