@@ -49,12 +49,6 @@ LSPResult LSPLoop::handleTextDocumentHover(unique_ptr<core::GlobalState> gs, con
 
         auto resp = move(queryResponses[0]);
         if (auto sendResp = resp->isSend()) {
-            if (!sendResp->dispatchResult->main.method.exists()) {
-                response->error = make_unique<ResponseError>(
-                    (int)LSPErrorCodes::InvalidParams,
-                    "Did not find any dispatchComponents for a SEND QueryResponse in textDocument/hover");
-                return LSPResult::make(move(gs), move(response));
-            }
             auto retType = sendResp->dispatchResult->returnType;
             auto &constraint = sendResp->dispatchResult->main.constr;
             if (constraint) {
