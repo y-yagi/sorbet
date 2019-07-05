@@ -38,10 +38,11 @@ LSPResult LSPLoop::handleTextDocumentDefinition(unique_ptr<core::GlobalState> gs
                 result.push_back(loc2Location(*gs, defResp->termLoc));
             } else if (auto sendResp = resp->isSend()) {
                 auto start = sendResp->dispatchResult.get();
-                while(start != nullptr) {
+                while (start != nullptr) {
                     if (start->main.method.exists() && !start->main.receiver->isUntyped()) {
                         addLocIfExists(*gs, result, start->main.method.data(*gs)->loc());
                     }
+                    start = start->secondary.get();
                 }
             }
         }

@@ -773,10 +773,13 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
                     it = it->secondary.get();
                 }
                 shared_ptr<core::DispatchResult> retainedResult;
+                if (send->link) {
+                    // this type should never be used, thus we put a useless type
+                    tp.type = core::Types::void_();
+                } else {
+                    tp.type = dispatched.returnType;
+                }
                 if (send->link || lspQueryMatch) {
-                    if (send->link) {
-                        tp.type = core::Types::void_(); // todo: this value should NEVER be used
-                    }
                     retainedResult = make_shared<core::DispatchResult>(std::move(dispatched));
                 }
                 if (lspQueryMatch) {
@@ -791,12 +794,10 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
                     if (!retainedResult->main.blockPreType) {
                         retainedResult->main.blockPreType = core::Types::untyped(ctx, retainedResult->main.method);
                     }
+                    ENFORCE(retainedResult->main.sendTp);
 
                     send->link->result = move(retainedResult);
-                } else {
-                    tp.type = move(dispatched.returnType);
                 }
-
                 tp.origins.emplace_back(bind.loc);
             },
             [&](cfg::Ident *i) {
@@ -859,7 +860,8 @@ core::TypePtr Environment::processBinding(core::Context ctx, cfg::Binding &bind,
 
                 core::TypePtr type;
                 if (i->link->result->main.constr) {
-                    type = core::Types::instantiate(ctx, i->link->result->returnType, *i->link->result->main.constr);
+                    // TODO: this should repeat the same dance with Or and And components that dispatchCall does
+                    type = core::Types::instantiate(ctx, i->link->result->main.sendTp, *i->link->result->main.constr);
                 } else {
                     type = i->link->result->returnType;
                 }

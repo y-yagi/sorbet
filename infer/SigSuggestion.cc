@@ -105,7 +105,7 @@ core::TypePtr extractArgType(core::Context ctx, cfg::Send &send, core::DispatchC
         return nullptr;
     }
     const auto &to = args[argId].type;
-    if (!to->isFullyDefined()) {
+    if (!to || !to->isFullyDefined()) {
         return nullptr;
     }
     return to;

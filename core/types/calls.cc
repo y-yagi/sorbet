@@ -44,14 +44,24 @@ DispatchResult TypeVar::dispatchCall(Context ctx, DispatchArgs args) {
     Exception::raise("should never happen");
 }
 
+bool allComponentsPresent(DispatchResult &res) {
+    if (!res.main.method.exists()) {
+        return false;
+    }
+    if (!res.secondary || res.secondaryKind == DispatchResult::Combinator::AND) {
+        return true;
+    }
+    return allComponentsPresent(*res.secondary);
+}
+
 DispatchResult AndType::dispatchCall(Context ctx, DispatchArgs args) {
     categoryCounterInc("dispatch_call", "andtype");
     auto leftRet = left->dispatchCall(ctx, args);
     auto rightRet = right->dispatchCall(ctx, args);
 
     // If either side is missing the method, dispatch to the other.
-    auto leftOk = leftRet.main.method.exists();
-    auto rightOk = rightRet.main.method.exists();
+    auto leftOk = allComponentsPresent(leftRet);
+    auto rightOk = allComponentsPresent(rightRet);
     if (leftOk && !rightOk) {
         return leftRet;
     }
@@ -752,6 +762,13 @@ DispatchResult dispatchCallSymbol(Context ctx, DispatchArgs args,
 
     if (method.data(ctx)->intrinsic != nullptr) {
         method.data(ctx)->intrinsic->apply(ctx, args, thisType, result);
+        // the call could have overriden constraint
+        if (result.main.constr || constr != &core::TypeConstraint::EmptyFrozenConstraint) {
+            constr = result.main.constr.get();
+        }
+        if (constr == nullptr) {
+            constr = &core::TypeConstraint::EmptyFrozenConstraint;
+        }
     }
 
     if (resultType == nullptr) {
@@ -860,6 +877,7 @@ DispatchResult MetaType::dispatchCall(Context ctx, DispatchArgs args) {
             auto innerArgs = DispatchArgs{Names::initialize(), args.locs, args.args, wrapped, wrapped, args.block};
             auto original = wrapped->dispatchCall(ctx, innerArgs);
             original.returnType = wrapped;
+            original.main.sendTp = wrapped;
             return original;
         }
         default:
@@ -1024,6 +1042,7 @@ public:
         }
         res.returnType = instanceTy;
         res.main = move(dispatched.main);
+        res.main.sendTp = instanceTy;
     }
 } Class_new;
 
